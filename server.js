@@ -1,6 +1,7 @@
 var childProcess = require('child_process');
 var spawn = childProcess.spawn;
 var exec = childProcess.exec;
+var os = require('os');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
@@ -14,25 +15,20 @@ var env = Object.create(process.env);
 env.PORT = serverPort;
 env.DEBUG = "tour";
 
-var ls = spawn('node', ['./bin/www'], {
-	env: env
-});
-
-ls.stdout.on('data', function (data) {
-  console.log(data.toString());
-});
-
-ls.stderr.on('data', function (data) {
-    console.log(data.toString());
-});
-
-ls.on('close', function (code) {
-  console.log('子进程退出码：' + code.toString());
-});
-
+var ls = null;
+var isWin = os.platform().toLowerCase().indexOf('win32') > -1;
 
 // 开发环境
 if(ENV == 'dev') {
+    var cmd = 'supervisor';
+
+    if(isWin) {
+        cmd = 'supervisor.cmd'
+    }
+    ls = spawn(cmd, ['-w', 'bin,lib,middlewares,models,routes,app.js', './bin/www'], {
+        env: env
+    });
+
 	var proxy= {
 		"*": "http://localhost:" + serverPort
 	};
@@ -54,7 +50,18 @@ if(ENV == 'dev') {
 		console.log('dev server on http://127.0.0.1:'+ devPort);
 	})
 } else {
-	var cmdStr = 'webpack';
+
+    var cmd = 'forever';
+
+    if(isWin) {
+        cmd = 'forever.cmd'
+    }
+
+    ls = spawn(cmd, ['start', './bin/www'], {
+        env: env
+    });
+
+	var cmdStr = 'webpack --progress';
 	exec(cmdStr, function(err, stdout, stderr) {
 		if(err) {
 			console.error(err);
@@ -63,5 +70,16 @@ if(ENV == 'dev') {
 			console.log(stderr);
 		}
 	});
-
 }
+
+ls.stdout.on('data', function (data) {
+    console.log(data.toString());
+});
+
+ls.stderr.on('data', function (data) {
+    console.log(data.toString());
+});
+
+ls.on('close', function (code) {
+    console.log('exit:' + code.toString());
+});

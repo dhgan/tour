@@ -72,7 +72,7 @@ var config = {
             }
 		]
     }
-}
+};
 
 pages.forEach(function(page) {
 	var conf = {
