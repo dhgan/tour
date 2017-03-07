@@ -5,7 +5,7 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 
-var ENV = process.env.ENV
+var ENV = process.env.NODE_ENV;
 
 var devPort = 8888,
 	serverPort = 8000;
@@ -18,16 +18,16 @@ var ls = spawn('node', ['./bin/www'], {
 	env: env
 });
 
-ls.stdout.on('data', (data) => {
-  console.log(`${data}`);
+ls.stdout.on('data', function (data) {
+  console.log(data.toString());
 });
 
-ls.stderr.on('data', (data) => {
-  console.log(`${data}`);
+ls.stderr.on('data', function (data) {
+    console.log(data.toString());
 });
 
-ls.on('close', (code) => {
-  console.log(`子进程退出码：${code}`);
+ls.on('close', function (code) {
+  console.log('子进程退出码：' + code.toString());
 });
 
 
@@ -60,6 +60,7 @@ if(ENV == 'dev') {
 			console.error(err);
 		} else {
 			console.log(stdout);
+			console.log(stderr);
 		}
 	});
 

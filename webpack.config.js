@@ -8,7 +8,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 var ENV = process.env.ENV;
-var isDev = ENV === 'dev'
+var isDev = ENV === 'dev';
 
 var pages = fs.readdirSync(path.join(__dirname, './src/pages'));
 
