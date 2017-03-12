@@ -7,7 +7,7 @@ var HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
-var ENV = process.env.ENV;
+var ENV = process.env.NODE_ENV;
 var isDev = ENV === 'dev';
 
 var pages = fs.readdirSync(path.join(__dirname, './src/pages'));
@@ -84,17 +84,18 @@ pages.forEach(function(page) {
 	config.plugins.push(new HtmlWebpackPlugin(conf));
 });
 
-// build环境
-if(ENV === 'build') {
-	config.plugins.push(new webpack.optimize.UglifyJsPlugin({
+if(ENV === 'dev') {
+    // dev环境
+    config.plugins.push(new HtmlWebpackHarddiskPlugin());
+} else {
+    // build环境
+    config.plugins.push(new webpack.optimize.UglifyJsPlugin({
         compress: {
             warnings: false
         },
         minimize: true,
         sourceMap: true
     }));
-} else {
-	config.plugins.push(new HtmlWebpackHarddiskPlugin());
 }
 
 module.exports = config;

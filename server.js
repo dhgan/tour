@@ -1,7 +1,6 @@
 var childProcess = require('child_process');
 var spawn = childProcess.spawn;
 var exec = childProcess.exec;
-var os = require('os');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
@@ -16,11 +15,12 @@ env.PORT = serverPort;
 env.DEBUG = "tour";
 
 var ls = null;
-var isWin = os.platform().toLowerCase().indexOf('win32') > -1;
+var isWin = process.platform === 'win32';
+var cmd = '';
 
 // 开发环境
 if(ENV == 'dev') {
-    var cmd = 'supervisor';
+    cmd = 'supervisor';
 
     if(isWin) {
         cmd = 'supervisor.cmd'
@@ -51,7 +51,7 @@ if(ENV == 'dev') {
 	})
 } else {
 
-    var cmd = 'forever';
+    cmd = 'forever';
 
     if(isWin) {
         cmd = 'forever.cmd'
