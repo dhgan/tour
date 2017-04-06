@@ -3,12 +3,12 @@ var spawn = childProcess.spawn;
 var exec = childProcess.exec;
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
-var config = require('./webpack.config');
+var configArr = require('./webpack.config.js');
 
 var ENV = process.env.NODE_ENV;
 
-var devPort = 8888,
-	serverPort = 8000;
+var devPort = 8000,
+	serverPort = 8888;
 
 var env = Object.create(process.env);
 env.PORT = serverPort;
@@ -33,11 +33,13 @@ if(ENV == 'dev') {
 		"*": "http://localhost:" + serverPort
 	};
 
-	config.entry.unshift("webpack-dev-server/client?http://localhost:"+ devPort, "webpack/hot/dev-server");
-	config.plugins.push(new webpack.HotModuleReplacementPlugin());
+	configArr.forEach(function(config) {
+        config.entry.unshift('webpack-dev-server/client?http://localhost:' + devPort, "webpack/hot/dev-server")
+        config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    });
 
 	//启动服务
-	var app = new WebpackDevServer(webpack(config), {
+	var app = new WebpackDevServer(webpack(configArr), {
 		hot: true,
 		proxy: proxy,
 		compress: true,
@@ -47,7 +49,7 @@ if(ENV == 'dev') {
 	});
 
 	app.listen(devPort, function() {
-		console.log('dev server on http://127.0.0.1:'+ devPort);
+		console.log('dev server on http://127.0.0.1:' + devPort);
 	})
 } else {
 

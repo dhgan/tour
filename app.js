@@ -54,11 +54,14 @@ Test.find(function(err, test) {
 });
 
 
-var pages = require('./routes/pages');
+var tourist = require('./routes/tourist');
+var admin = require('./routes/admin');
 var api = require('./routes/api');
 
 // 页面路由
-app.use('/', pages);
+app.use('/', tourist);
+app.use('/admin', admin);
+
 // api
 app.use('/api', api);
 

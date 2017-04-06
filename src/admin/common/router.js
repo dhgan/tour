@@ -14,7 +14,7 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
 	})
 	.state('page1', {
 		url: '/page1',
-		templateUrl: './page1',
+		templateUrl: '/page1.html',
 		resolve: {
 			foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
 				var deferred = $q.defer();
@@ -31,7 +31,7 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
 	})
 	.state('page2', {
 		url: '/page2',
-		templateUrl: './page2',
+		templateUrl: './page2.html',
 		resolve: {
 			foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
 				var deferred = $q.defer();
