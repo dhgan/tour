@@ -7,7 +7,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var session = require('express-session');
-var mongoose = require('mongoose');
 var log = require('./middlewares/log');
 
 var app = express();
@@ -29,29 +28,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     name: 'tour.sid',
     resave: true,
-    saveUninitialized: false,
+    saveUninitialized: true,
     secret: 'tour',
     cookie: {
-        maxAge: 1000 * 60 * 1
+        maxAge: 1000 * 60 * 10
     }
 }));
 
-mongoose.connect('mongodb://localhost/test');
-
-// mock数据
-var Test = require('./models/test');
-Test.find(function(err, test) {
-    if(test.length) return ;
-    new Test({
-        name: 'gdh',
-        sex: 'man'
-    }).save();
-
-    new Test({
-        name: 'yj',
-        sex: 'woman'
-    }).save();
-});
+var mongoose = require('./config/mongoose.js');
+var db = mongoose();
 
 
 var tourist = require('./routes/tourist');

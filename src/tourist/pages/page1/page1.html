@@ -1,6 +1,8 @@
 <div ng-controller='Page1' class='test'>
 	<form name='loginForm' ng-submit='login()' >
 		<input type='text' name='name' ng-model='name'>
+		<input type='text' name='captcha' ng-model='captcha'>
+        <img ng-src="{{captchaSrc}}" ng-click="refresh()">
 		<input type="submit" value="login">
 	</form>
 	It's tourist's page1. {{result}}
