@@ -20,7 +20,7 @@ addConfig(aPages, 'admin');
 
 function addConfig(arr, dir) {
     var config = {
-        devtool: ENV == 'dev' ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',
+        devtool: isDev ? 'cheap-module-eval-source-map' : 'cheap-module-source-map',
         entry: [path.join(__dirname, './src/'+ dir +'/main.js')],
         output: {
             path: path.join(__dirname, 'public/'+ dir),
@@ -66,6 +66,12 @@ function addConfig(arr, dir) {
                 }, {
                     test: /\.(png|jpg)$/,
                     use: 'url-loader?limit=8192&name=imgs/[name].[hash:8].[ext]'
+                }, {
+                    test: /\.(woff2?|svg)$/,
+                    loader: 'url-loader?limit=10000&name=fonts/[name].[hash:8].[ext]'
+                }, {
+                    test: /\.(ttf|eot)$/,
+                    loader: 'file-loader?name=fonts/[name].[hash:8].[ext]'
                 }
             ]
         }

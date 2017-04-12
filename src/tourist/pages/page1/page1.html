@@ -2,10 +2,21 @@
 	<form name='loginForm' ng-submit='login()' >
 		<input type='text' name='name' ng-model='name'>
 		<input type='text' name='captcha' ng-model='captcha'>
-        <img ng-src="{{captchaSrc}}" ng-click="refresh()">
+        <img ng-src="{{captchaSrc}}" ng-click="refresh()" >
 		<input type="submit" value="login">
 	</form>
 	It's tourist's page1. {{result}}
-	<img src='../../imgs/2.jpg'>
+	<img src='../../imgs/2.jpg' style="width: 200px; display: block">
 	<div class='img1'></div>
+
+    <div>
+        <script type="text/ng-template" id="alert.html">
+            <div ng-transclude></div>
+        </script>
+
+        <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
+        <div uib-alert template-url="alert.html" style="background-color:#fa39c3;color:white">A happy alert!</div>
+        <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button>
+    </div>
+
 </div>
