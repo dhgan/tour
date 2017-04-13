@@ -9,7 +9,7 @@ app.service('commonService', ['$http', '$httpParamSerializer', function($http, $
 	this.Login = function(data) {
 		return $http({
 			method: 'post',
-			url: '/api/login',
+			url: '/api/tourist/login',
 			data: data
 		});
 	};
@@ -20,7 +20,7 @@ app.service('commonService', ['$http', '$httpParamSerializer', function($http, $
 	this.CheckLogin = function() {
 		return $http({
 			method: 'post',
-			url: '/api/checkLogin'
+			url: '/api/tourist/checkLogin'
 		});
 	};
 }]);

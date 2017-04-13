@@ -1,10 +1,10 @@
-var app = require('../../common/app.js');
+var app = require("../../common/app.js");
 
 app.controller("Page2", ["$scope", "$log", function($scope, $log) {
     $scope.items = [
-        'The first choice!',
-        'And another choice for you.',
-        'but wait! A third!'
+        "The first choice!",
+        "And another choice for you.",
+        "but wait! A third!"
     ];
 
     $scope.status = {
@@ -12,7 +12,7 @@ app.controller("Page2", ["$scope", "$log", function($scope, $log) {
     };
 
     $scope.toggled = function(open) {
-        $log.log('Dropdown is now: ', open);
+        $log.log("Dropdown is now: ", open);
     };
 
     $scope.toggleDropdown = function($event) {
@@ -21,5 +21,5 @@ app.controller("Page2", ["$scope", "$log", function($scope, $log) {
         $scope.status.isopen = !$scope.status.isopen;
     };
 
-    $scope.appendToEl = angular.element(document.querySelector('#dropdown-long-content'));
+    $scope.appendToEl = angular.element(document.querySelector("#dropdown-long-content"));
 }]);

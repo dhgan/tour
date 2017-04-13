@@ -3,10 +3,10 @@ require('../../common/commonService.js');
 
 app.controller('Page1', ['$scope', 'commonService', function($scope, commonService) {
 
-    $scope.captchaSrc = 'api/captcha';
+    $scope.captchaSrc = 'api/common/captcha';
 
     $scope.refresh = function() {
-      $scope.captchaSrc = 'api/captcha?d='+ Math.random();
+      $scope.captchaSrc = 'api/common/captcha?d='+ Math.random();
     };
 
 	commonService.CheckLogin().then(function(res){

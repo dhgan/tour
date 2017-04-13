@@ -8,7 +8,7 @@ app.service('commonService', ['$http', function($http) {
 	this.Login = function(data) {
 		return $http({
 			method: 'post',
-			url: '/api/login',
+			url: '/api/admin/login',
 			data: data
 		});
 	};
@@ -19,7 +19,7 @@ app.service('commonService', ['$http', function($http) {
 	this.CheckLogin = function() {
 		return $http({
 			method: 'post',
-			url: '/api/checkLogin'
+			url: '/api/admin/checkLogin'
 		});
 	};
 }]);

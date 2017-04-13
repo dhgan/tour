@@ -7,7 +7,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var ejs = require('ejs');
 var session = require('express-session');
-var log = require('./middlewares/log');
+var log = require('./lib/log');
 
 var app = express();
 
@@ -39,16 +39,18 @@ var mongoose = require('./config/mongoose.js');
 var db = mongoose();
 
 
-var tourist = require('./routes/tourist');
-var admin = require('./routes/admin');
-var api = require('./routes/api');
+var pages = require('./routes/pages');
+var commonApi = require('./routes/api/common');
+var adminApi = require('./routes/api/admin');
+var touristApi = require('./routes/api/tourist');
 
 // 页面路由
-app.use('/', tourist);
-app.use('/admin', admin);
+app.use('/', pages);
 
 // api
-app.use('/api', api);
+app.use('/api/common', commonApi);
+app.use('/api/admin', adminApi);
+app.use('/api/tourist', touristApi);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
