@@ -2,3 +2,18 @@
 body {
     font-family: Tahoma,Arial,Roboto,"Droid Sans","Helvetica Neue","Droid Sans Fallback","Heiti SC","Hiragino Sans GB",Simsun,sans-self;
 }*/
+
+body {
+    min-width: 300px;
+}
+
+.form-group {
+    &.has-error {
+        .help-block {
+            display: block;
+        }
+    }
+    .help-block {
+        display: none;
+    }
+}

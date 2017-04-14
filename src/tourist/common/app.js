@@ -2,7 +2,7 @@ var angular = require('angular');
 
 require('angular-animate');
 require('angular-touch');
-require('font-awesome/css/font-awesome.min.css');
+//require('font-awesome/css/font-awesome.min.css');
 require('bootstrap-loader');
 
 

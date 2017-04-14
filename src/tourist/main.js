@@ -5,3 +5,5 @@ if(ENV == 'dev') {
 require('./main.scss');
 
 require('./common/router.js');
+
+require('./common/commonService.js');

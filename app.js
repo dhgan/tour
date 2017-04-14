@@ -35,9 +35,9 @@ app.use(session({
     }
 }));
 
+// 数据库
 var mongoose = require('./config/mongoose.js');
 var db = mongoose();
-
 
 var pages = require('./routes/pages');
 var commonApi = require('./routes/api/common');
