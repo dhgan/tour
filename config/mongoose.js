@@ -1,8 +1,10 @@
 var mongoose = require('mongoose');
 var config = require('./db_url');
+var Q = require('q');
 
 module.exports = function() {
     var db = mongoose.connect(config.mongodb);
+    mongoose.Promise = Q.Promise;
     require('../models/test');
     require('../models/eCode');
     require('../models/user');

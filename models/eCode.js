@@ -11,8 +11,8 @@ var eCodeSchema = new mongoose.Schema({
         enum: ['100']
     },
     eCode: String,
-    expired: Date
+    expires: Date
 });
 
-var eCode = mongoose.model('eCode', eCodeSchema);
-module.exports = eCode;
+var ECode = mongoose.model('eCodes', eCodeSchema);
+module.exports = ECode;

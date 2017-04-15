@@ -25,7 +25,7 @@ if(ENV == 'dev') {
     if(isWin) {
         cmd = 'supervisor.cmd'
     }
-    ls = spawn(cmd, ['-w', 'bin,lib,middlewares,models,routes,app.js', './bin/www'], {
+    ls = spawn(cmd, ['-w', 'bin,config,lib,middlewares,models,routes,app.js', './bin/www'], {
         env: env
     });
 

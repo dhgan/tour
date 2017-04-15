@@ -5,7 +5,8 @@ var userSchema = new mongoose.Schema({
         type: String,
         index: true,
         unique: true,
-        required: true
+        required: true,
+        maxlength: 20
     },
     email: {
         type: String,
@@ -15,7 +16,10 @@ var userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tel: String,
+    tel: {
+        type: String,
+        maxlength: 11
+    },
     createDate: {
         type: Date,
         required: true
@@ -30,5 +34,5 @@ var userSchema = new mongoose.Schema({
 
 });
 
-var user = mongoose.model('user', userSchema);
-module.exports = user;
+var User = mongoose.model('users', userSchema);
+module.exports = User;

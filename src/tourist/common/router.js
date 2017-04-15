@@ -40,7 +40,7 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
 
 
         .state('register', {
-            url: '/register',
+            url: '/register?redirect',
             templateUrl: './register.html',
             resolve: getResolve('register')
         })
