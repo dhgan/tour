@@ -11,7 +11,7 @@ app.directive('showTips', function() {
             });
         }
     }
-}).directive('showTime',['$interval', function($interval) {
+}).directive('showTime',['$interval', 'commonService', function($interval, commonService) {
     return {
         restrict: 'A',
         link: function($scope, elem, attr, ctrl) {
@@ -35,6 +35,35 @@ app.directive('showTips', function() {
                     $interval.cancel(timer);
                 }
             });
+
+            $scope.sendCode = function(rForm) {
+                // 防多次点击
+                if($scope.sending) return;
+
+                // 邮件格式错误或邮件为空
+                if(rForm.email.$invalid) {
+                    rForm.email.$touched = true;
+                    return;
+                }
+
+                $scope.sending = true;
+
+                var req = {
+                    email: $scope.user.email,
+                    eType: '100'
+                };
+
+                commonService.getECode(req).then(function(res) {
+                    var data = res.data,
+                        status = data.status;
+                    if(status === '300') {
+                        rForm.email.$invalid = true;
+                    }
+                }, function() {
+                    $scope.sending = false;
+                    alert('网络错误');
+                });
+            };
 
             function showLeftTime(leftTime) {
                 $scope.leftTime = leftTime + '秒';
