@@ -1,36 +1,36 @@
 <div ng-controller="RegisterCtrl" class="registerPage row">
-    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <div class="panel panel-primary">
+    <div class="col-md-5 col-md-offset-2 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">注册</h3>
             </div>
             <div class="panel-body">
                 <form name="rForm" class="rForm" novalidate>
                     <div class="form-group" ng-class="{
-                    'has-error': rForm.$submitted || rForm.userName.$touched && rForm.userName.$invalid || inputError.userName}">
+                    'has-error': rForm.userName.$touched && rForm.userName.$invalid || inputError.userName}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="icon-user" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="userName" ng-model="user.userName" placeholder="用户名" maxlength="20" show-tips required>
                         </div>
                         <span class="help-block" ng-show="rForm.userName.$error.required">请输入用户名</span>
                         <span class="help-block" ng-show="inputError.userName">该用户名已被使用</span>
                     </div>
                     <div class="form-group" ng-class="{
-                    'has-error': rForm.$submitted || rForm.email.$touched && rForm.email.$invalid}">
+                    'has-error': rForm.email.$touched && rForm.email.$invalid}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"
+                            <span class="input-group-addon"><i class="icon-mail"
                                                                aria-hidden="true"></i></span>
-                            <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="邮箱" maxlength="30" required>
+                            <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="邮箱" maxlength="30" email-validate required>
                         </div>
                         <span class="help-block">请输入正确的邮箱</span>
                     </div>
                     <div class="form-group" ng-class="{
-                    'has-error': rForm.$submitted || rForm.eCode.$touched && rForm.eCode.$invalid  || inputError.eCode}">
+                    'has-error': rForm.eCode.$touched && rForm.eCode.$invalid  || inputError.eCode}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"
+                            <span class="input-group-addon"><i class="icon-validate"
                                                                aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="eCode" ng-model="user.eCode" minlength="6" maxlength="6" placeholder="邮箱验证码" show-tips required>
-                            <span class="input-group-addon ecode" ng-click="sendCode(rForm)">
+                            <span class="input-group-addon ecodeSending" ng-click="sendCode(rForm)">
                                 <span ng-show="!sending">获取</span>
                                 <span ng-show="sending" ng-bind="leftTime" show-time></span>
                             </span>
@@ -39,22 +39,22 @@
                         <span class="help-block" ng-show="inputError.eCode" ng-bind="eCodeError"></span>
                     </div>
                     <div class="form-group" ng-class="{
-                    'has-error': rForm.$submitted || rForm.pwd.$touched && rForm.pwd.$invalid}">
+                    'has-error': rForm.pwd.$touched && rForm.pwd.$invalid}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="icon-lock" aria-hidden="true"></i></span>
                             <input type="password" class="form-control" name="pwd" ng-model="user.password" placeholder="密码" maxlength="20" required>
                         </div>
                         <span class="help-block">请输入密码</span>
                     </div>
                     <div class="form-group" ng-class="{
-                    'has-error': rForm.$submitted || rForm.pwd1.$touched && user.password != user.password1}">
+                    'has-error': rForm.pwd1.$touched && user.password != user.password1}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="icon-lock" aria-hidden="true"></i></span>
                             <input type="password" class="form-control" name="pwd1" ng-model="user.password1" placeholder="确认密码" maxlength="20" required>
                         </div>
                         <span class="help-block">两次输入的密码不同</span>
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="register(rForm)" ng-disabled="rForm.$invalid || user.password != user.password1">注册</button>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="register(rForm)" ng-disabled="rForm.$invalid || user.password != user.password1">注册</button>
                 </form>
             </div>
         </div>

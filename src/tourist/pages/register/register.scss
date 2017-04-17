@@ -1,7 +1,7 @@
 .registerPage {
     .input-group {
-        .glyphicon {
-            font-size: 16px;
+        [class^='icon-'] {
+            font-size: 18px;
         }
     }
     .registerForm {
@@ -9,7 +9,8 @@
             padding-top: 30px;
         }
     }
-    .ecode {
+    .ecodeSending {
         cursor: pointer;
+        color: #428bca;
     }
 }

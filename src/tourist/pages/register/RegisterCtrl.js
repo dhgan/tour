@@ -9,7 +9,7 @@ function($scope, $http, $stateParams, $state) {
 
         rForm.submitting = true;
 
-        var req = _.clone($scope.user);
+        var req = angular.copy($scope.user);
 
         delete req.password1;
 

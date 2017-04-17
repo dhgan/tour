@@ -12,9 +12,10 @@ router.get('/captcha', function (req, res) {
         size: 4,
         ignoreChars: '01o1iIOL',
         color: true,
-        background: '#ccc'
+        noise: 2,
+        background: '#eee'
     });
-
+    svgCaptcha.options.height = 46;
     req.session.captcha = captcha.text;
 
     res.set('Content-Type', 'image/svg+xml');

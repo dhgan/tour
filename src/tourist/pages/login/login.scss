@@ -1,0 +1,19 @@
+.loginPage {
+    .input-group {
+        [class^="icon-"] {
+            font-size: 18px;
+        }
+    }
+    .formError {
+        color: #a94442;
+        margin-top: 5px;
+    }
+    .captcha {
+        padding: 0;
+        height: 34px;
+        img {
+            height: 100%;
+            cursor: pointer;
+        }
+    }
+}

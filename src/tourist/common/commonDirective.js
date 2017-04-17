@@ -1,6 +1,17 @@
 var app = require('./app');
 
-app.directive('showTips', function() {
+app.directive('emailValidate', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function($scope, elem, attr, ctrl) {
+            var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
+            ctrl.$validators.email = function(modelValue) {
+                return emailReg.test(modelValue);
+            }
+        }
+    }
+}).directive('showTips', function() {
     return {
         restrict: 'A',
         link: function($scope, elem, attr, ctrl) {
@@ -8,6 +19,9 @@ app.directive('showTips', function() {
             $scope.inputError[attr.name] = false;
             elem.on('focus', function() {
                 $scope.inputError[attr.name] = false;
+            });
+            elem.on('keyup', function() {
+                $scope.formError = false;
             });
         }
     }

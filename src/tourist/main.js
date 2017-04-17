@@ -3,6 +3,7 @@ if(ENV == 'dev') {
 }
 
 require('./main.scss');
+require('./font.css');
 
 require('./common/router.js');
 
