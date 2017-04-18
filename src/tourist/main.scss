@@ -17,3 +17,7 @@ body {
         display: none;
     }
 }
+
+input, button, textarea{
+    outline: none !important;
+}

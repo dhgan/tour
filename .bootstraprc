@@ -92,7 +92,7 @@ styles:
 
   # Components w/ JavaScript
   modals: false
-  tooltip: false
+  tooltip: true
   popovers: false
   carousel: false
 

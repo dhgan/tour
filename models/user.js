@@ -10,11 +10,13 @@ var userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 30
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 32
     },
     tel: {
         type: String,

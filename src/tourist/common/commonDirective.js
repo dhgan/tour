@@ -17,10 +17,8 @@ app.directive('emailValidate', function() {
         link: function($scope, elem, attr, ctrl) {
             $scope.inputError = {};
             $scope.inputError[attr.name] = false;
-            elem.on('focus', function() {
+            elem.on('focus keyup', function() {
                 $scope.inputError[attr.name] = false;
-            });
-            elem.on('keyup', function() {
                 $scope.formError = false;
             });
         }

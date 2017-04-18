@@ -15,7 +15,7 @@ router.post('/checkLogin', checkLogin, function (req, res) {
 /*router.post('/login', function (req, res) {
     var name = req.body.name;
     var captcha = req.body.captcha;
-    sCaptcha = req.session.captcha;
+    var sCaptcha = req.session.captcha;
     logger.debug(req.body);
     /!*if(!captcha || !sCaptcha || sCaptcha.toLowerCase() !== captcha.toLowerCase()) {
      logger.debug('captcha error');
@@ -47,11 +47,11 @@ router.post('/checkLogin', checkLogin, function (req, res) {
 });*/
 
 router.post('/register', function (req, res) {
-    var rbody = req.body;
-    userName = rbody.userName;
-    email = rbody.email;
-    eCode = rbody.eCode;
-    password = rbody.password;
+    var rbody = req.body,
+        userName = rbody.userName,
+        email = rbody.email,
+        eCode = rbody.eCode,
+        password = rbody.password;
 
     logger.debug(rbody);
 
@@ -112,7 +112,7 @@ router.post('/register', function (req, res) {
                             });
                         }, function (error) {
                             logger.debug(error);
-                            return res.json({
+                            res.json({
                                 status: '500'
                             });
                         });
@@ -120,22 +120,23 @@ router.post('/register', function (req, res) {
 
                 }, function (err) {
                     logger.error(err);
-                    return res.json({
+                    res.json({
                         status: '500'
                     });
                 });
         }, function (err) {
             logger.error(err);
-            return res.json({
+            res.json({
                 status: '500'
             });
         });
 });
 
 router.post('/login', function (req, res) {
-    var rbody = req.body;
-    userName = rbody.userName;
-    password = rbody.password;
+    var rbody = req.body,
+        userName = rbody.userName,
+        password = rbody.password,
+        captcha = req.body.captcha;
 
     logger.debug(rbody);
 
@@ -146,70 +147,35 @@ router.post('/login', function (req, res) {
         });
     }
 
-    res.json({
-        status: '200'
-    });
+    var sCaptcha = req.session.captcha;
 
-    /*User.findOne({userName: userName}).exec()
-        .then(function (user) {
-            // 用户名已存在
-            if (user) {
-                return res.json({
+    if(!captcha || !sCaptcha || sCaptcha.toLowerCase() !== captcha.toLowerCase()) {
+        logger.debug('captcha error');
+        return res.json({
+            status: '300'
+        });
+    }
+
+    User.findOne({userName: userName, password: password}).exec()
+        .then(function(user) {
+
+            // 用户名或密码错误
+            if(!user) {
+                res.json({
                     status: '400'
-                })
-            }
-
-            ECode.findOne({email: email, eType: '100'}).exec()
-                .then(function (ecode) {
-                    logger.debug(ecode);
-
-                    // 邮箱验证码错误
-                    if (!ecode || ecode.eCode !== eCode) {
-                        return res.json({
-                            status: '600'
-                        });
-                    }
-
-                    // 邮箱验证码过期
-                    if (new Date(ecode.expires) < new Date()) {
-                        return res.json({
-                            status: '601'
-                        });
-                    }
-
-
-                    user = new User({
-                        userName: userName,
-                        email: email,
-                        password: password,
-                        createDate: new Date()
-                    });
-
-                    user.save()
-                        .then(function () {
-                            res.json({
-                                status: '200'
-                            });
-                        }, function (error) {
-                            logger.debug(error);
-                            return res.json({
-                                status: '500'
-                            });
-                        });
-
-
-                }, function (err) {
-                    logger.error(err);
-                    return res.json({
-                        status: '500'
-                    });
                 });
-        }, function (err) {
-            logger.error(err);
-            return res.json({
-                status: '500'
-            });
-        });*/
+            } else {
+                req.session.user = user;
+                res.json({
+                    status: '200'
+                });
+            }
+        }, function(error) {
+           logger.error(error);
+           res.json({
+               status: '500'
+           });
+        });
 });
 
 module.exports = router;

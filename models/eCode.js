@@ -4,7 +4,8 @@ var eCodeSchema = new mongoose.Schema({
     email: {
         type: String,
         index: true,
-        required: true
+        required: true,
+        maxlength: 30
     },
     eType: {
         type: String,

@@ -3,6 +3,8 @@ var app = require('../../common/app.js');
 app.controller('LoginCtrl', ['$scope', '$http', '$stateParams', '$state',
 function ($scope, $http, $stateParams, $state) {
 
+    var redirect = decodeURIComponent($stateParams.redirect);
+
     function refreshCaptcha() {
         $scope.captchaSrc = 'api/common/captcha?d='+ Math.random();
     }
@@ -16,7 +18,7 @@ function ($scope, $http, $stateParams, $state) {
         // 防多次点击
         if(lForm.submitting) return;
 
-        lForm.submitting = true;
+        lForm.submitting = new Spinner({ width: 4 }).spin(document.querySelector('.lForm'));
 
         var req = $scope.user;
 
@@ -25,12 +27,33 @@ function ($scope, $http, $stateParams, $state) {
             url: '/api/tourist/login',
             data: req
         }).then(function(res) {
-            lForm.submitting = false;
+            lForm.submitting.stop();
+            lForm.submitting = null;
+            refreshCaptcha();
             var data = res.data,
                 status = data.status;
-            $scope.formError = true;
+            if(status === '200') {
+                if(redirect) {
+                    try {
+                        $state.go(redirect);
+                    } catch(err) {
+                        $state.go('home');
+                    }
+                } else {
+                    $state.go('home');
+                }
+            } else if(status === '300') {
+                $scope.inputError.captcha = true;
+            } else if(status === '400') {
+                $scope.formError = true;
+            } else if(status === '500') {
+                swal('未知错误');
+            }
         }, function(error) {
-            lForm.submitting = false;
+            lForm.submitting.stop();
+            lForm.submitting = null;
+            refreshCaptcha();
+            swal(error.data);
         });
     };
 }]);

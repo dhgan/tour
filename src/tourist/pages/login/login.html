@@ -1,4 +1,4 @@
-<div ng-controller="LoginCtrl" class="loginPage row">
+<div ng-controller="LoginCtrl" class="loginPage page row">
     <div class="col-md-5 col-md-offset-2 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
@@ -23,13 +23,14 @@
                         <span class="help-block">请输入密码</span>
                     </div>
                     <div class="form-group" ng-class="{
-                    'has-error': lForm.captcha.$touched && lForm.captcha.$invalid}">
+                    'has-error': lForm.captcha.$touched && lForm.captcha.$invalid || inputError.captcha}">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="icon-validate" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="captcha" ng-model="user.captcha" placeholder="图片验证码" minlength="4" maxlength="4" show-tips required>
-                            <span class="input-group-addon captcha"><img ng-src="{{captchaSrc}}" ng-click="refreshCaptcha()" ></span>
+                            <span class="input-group-addon captcha"><img ng-src="{{captchaSrc}}" ng-click="refreshCaptcha()" uib-tooltip="点击刷新" ></span>
                         </div>
-                        <span class="help-block">请输入4位图片验证码</span>
+                        <span class="help-block" ng-show="lForm.captcha.$invalid">请输入4位图片验证码</span>
+                        <span class="help-block" ng-show="inputError.captcha">图片验证码错误</span>
                         <div class="formError" ng-show="formError">用户名或密码错误</div>
                     </div>
                     <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="login(lForm)" ng-disabled="lForm.$invalid">注册</button>
