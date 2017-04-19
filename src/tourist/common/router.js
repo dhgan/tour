@@ -1,7 +1,7 @@
 var app = require('./app.js');
 
 // 设置angular路由
-app.config(['$stateProvider', '$locationProvider', function($stateProvider, $locationProvider) {
+app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', function($stateProvider, $locationProvider, $urlRouterProvider) {
 
 	// 将!#变成#
 	$locationProvider.hashPrefix('');
@@ -78,7 +78,7 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
             }
         })
         .state('home', {
-            url: '',
+            url: '/home',
             templateUrl: './home.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -94,5 +94,7 @@ app.config(['$stateProvider', '$locationProvider', function($stateProvider, $loc
                 }]
             }
         });
+
+	$urlRouterProvider.otherwise('/home');
 
 }]);

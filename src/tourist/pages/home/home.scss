@@ -1,2 +1,52 @@
 .homePage {
+    .navbar {
+        margin-bottom: 0;
+    }
+    .navbar-header {
+        height: 58px;
+        .navbar-brand {
+            height: 58px;
+            font-size: 0;
+            padding: 14px;
+            img {
+                vertical-align: middle;
+                height: 30px;
+            }
+        }
+    }
+    .navbar-toggle {
+        margin-top: 12px;
+    }
+    .nav-a {
+        padding-top: 19px;
+        padding-bottom: 19px;
+    }
+    @media screen and (max-width: 767px) {
+        .nav-a {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+    }
+    .carousel {
+        .slideImg {
+            width: 100%;
+            cursor: pointer;
+        }
+    }
+
+    @media (max-width: 767px) {
+    }
+    /* Small devices (tablets, 768px and up) */
+    @media (min-width: 768px) {
+    }
+
+    /* Medium devices (desktops, 992px and up) */
+    @media (min-width: 992px) {
+
+    }
+
+    /* Large devices (large desktops, 1200px and up) */
+    @media (min-width: 1200px) {
+
+    }
 }

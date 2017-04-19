@@ -1,3 +1,34 @@
 <div ng-controller="HomeCtrl" class="homePage page row">
-
+    <div class="header">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a ui-sref="home" class="navbar-brand"><img src="../../imgs/logo.png" alt="爱旅游"></a>
+            </div>
+            <div class="collapse navbar-collapse" uib-collapse="!isNavCollapsed">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a ui-sref="home" class="nav-a">首页</a></li>
+                    <li><a ui-sref="login" class="nav-a">登录</a></li>
+                    <li><a ui-sref="register" class="nav-a">注册</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="shadow"></div>
+    </div>
+    <div>
+        <div uib-carousel active="0" interval="intervalTime" center-img>
+            <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+                <img ng-src="{{slide.image}}" class="slideImg">
+                <div class="carousel-caption">
+                    <h4>Slide {{slide.id}}</h4>
+                    <p>{{slide.text}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

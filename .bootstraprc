@@ -94,7 +94,7 @@ styles:
   modals: false
   tooltip: true
   popovers: false
-  carousel: false
+  carousel: true
 
   # Utility classes
   utilities: true

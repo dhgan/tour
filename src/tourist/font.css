@@ -1,14 +1,14 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.ttf?wxc6ub') format('truetype'),
-    url('fonts/icomoon.woff?wxc6ub') format('woff'),
-    url('fonts/icomoon.svg?wxc6ub#icomoon') format('svg');
+    url('fonts/icomoon.ttf?e0tvme') format('truetype'),
+    url('fonts/icomoon.woff?e0tvme') format('woff'),
+    url('fonts/icomoon.svg?e0tvme#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
-[class^="icon-"], [class*=" icon-"] {
+[class^="glyphicon-"], [class*=" glyphicon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
@@ -23,16 +23,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-user:before {
+.glyphicon-chevron-left:before {
+  content: "\e906";
+}
+.glyphicon-chevron-right:before {
+  content: "\e901";
+}
+.glyphicon-search:before {
+  content: "\e905";
+}
+.glyphicon-user:before {
   content: "\e902";
 }
-.icon-validate:before {
+.glyphicon-validate:before {
   content: "\e903";
 }
-.icon-lock:before {
+.glyphicon-lock:before {
   content: "\e900";
 }
-.icon-mail:before {
+.glyphicon-mail:before {
   content: "\e904";
 }
 

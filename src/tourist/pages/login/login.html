@@ -9,7 +9,7 @@
                     <div class="form-group" ng-class="{
                     'has-error': lForm.userName.$touched && lForm.userName.$invalid}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-user" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="glyphicon-user" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="userName" ng-model="user.userName" placeholder="用户名" maxlength="20" show-tips required>
                         </div>
                         <span class="help-block">请输入用户名</span>
@@ -17,7 +17,7 @@
                     <div class="form-group" ng-class="{
                     'has-error': lForm.pwd.$touched && lForm.pwd.$invalid}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-lock" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="glyphicon-lock" aria-hidden="true"></i></span>
                             <input type="password" class="form-control" name="pwd" ng-model="user.password" placeholder="密码" maxlength="20" show-tips required>
                         </div>
                         <span class="help-block">请输入密码</span>
@@ -25,7 +25,7 @@
                     <div class="form-group" ng-class="{
                     'has-error': lForm.captcha.$touched && lForm.captcha.$invalid || inputError.captcha}">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="icon-validate" aria-hidden="true"></i></span>
+                            <span class="input-group-addon"><i class="glyphicon-validate" aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="captcha" ng-model="user.captcha" placeholder="图片验证码" minlength="4" maxlength="4" show-tips required>
                             <span class="input-group-addon captcha"><img ng-src="{{captchaSrc}}" ng-click="refreshCaptcha()" uib-tooltip="点击刷新" ></span>
                         </div>
