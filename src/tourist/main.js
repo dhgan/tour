@@ -16,3 +16,8 @@ require('./common/commonService.js');
 require('./common/commonDirective');
 
 require('lodash');
+
+var app = require('./common/app');
+app.controller('MainCtrl', ['$scope', function($scope) {
+    $scope.isNavCollapsed = true;
+}]);

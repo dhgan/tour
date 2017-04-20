@@ -1,11 +1,11 @@
-<div ng-controller="RegisterCtrl" class="registerPage page row">
+<div ng-controller="RegisterCtrl" class="register-page page row">
     <div class="col-md-5 col-md-offset-2 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">注册</h3>
             </div>
             <div class="panel-body">
-                <form name="rForm" class="rForm" novalidate>
+                <form name="rForm" class="register-form" novalidate>
                     <div class="form-group" ng-class="{
                     'has-error': rForm.userName.$touched && rForm.userName.$invalid || inputError.userName}">
                         <div class="input-group">

@@ -5,6 +5,7 @@ body {
 
 body {
     min-width: 340px;
+    padding-top: 58px
 }
 
 .form-group {
@@ -22,15 +23,10 @@ input, button, textarea{
     outline: none !important;
 }
 
-.header {
-    position: relative;
-}
-
 .navbar {
-    max-width: 1200px;
     margin: 0 auto;
     border: none !important;
-    background: none !important;
+    background: #fff !important;
 }
 .shadow {
     position: absolute;

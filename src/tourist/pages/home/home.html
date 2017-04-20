@@ -1,6 +1,6 @@
-<div ng-controller="HomeCtrl" class="homePage page row">
-    <div class="header">
-        <nav class="navbar navbar-default" role="navigation">
+<div ng-controller="HomeCtrl" class="home-page page row">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation" headroom tolerance="2" offset="200">
+        <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
                     <span class="sr-only">Toggle navigation</span>
@@ -10,25 +10,52 @@
                 </button>
                 <a ui-sref="home" class="navbar-brand"><img src="../../imgs/logo.png" alt="爱旅游"></a>
             </div>
-            <div class="collapse navbar-collapse" uib-collapse="!isNavCollapsed">
+            <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a ui-sref="home" class="nav-a">首页</a></li>
                     <li><a ui-sref="login" class="nav-a">登录</a></li>
                     <li><a ui-sref="register" class="nav-a">注册</a></li>
                 </ul>
+                <form class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="搜索">
+                        <span class="search-btn"><i class="glyphicon-search" aria-hidden="true"></i></span>
+                    </div>
+                </form>
             </div>
-        </nav>
-        <div class="shadow"></div>
+        </div>
     </div>
     <div>
-        <div uib-carousel active="0" interval="intervalTime" center-img>
-            <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
-                <img ng-src="{{slide.image}}" class="slideImg">
-                <div class="carousel-caption">
+        <div uib-carousel active="0" interval="intervalTime" class="big-carousel" center-img>
+            <div uib-slide ng-repeat="slide in slides track by slide.id" ng-swipe-left="$parent.$parent.next()" ng-swipe-right="$parent.$parent.prev()" index="slide.id">
+                <img ng-src="{{slide.image}}" class="slide-img">
+                <!--<div class="carousel-caption">
                     <h4>Slide {{slide.id}}</h4>
                     <p>{{slide.text}}</p>
-                </div>
+                </div>-->
             </div>
+        </div>
+        <div class="container hot-package">
+            <div class="hot-title">
+                <h3>
+                    <span>浪漫之旅</span>
+                </h3>
+                <p>择一城终老，遇一人白首</p>
+            </div>
+            <ul class="clearfix">
+                <li ng-repeat="package in packages" class="col-lg-3 col-md-4 col-sm-6">
+                    <a class="thumbnail" href="#">
+                        <img ng-src="{{package.url}}" class="package-img" alt="">
+                        <div class="caption">
+                            <h3 ng-bind="package.title" class="package-title"></h3>
+                            <p ng-bind="package.features" class="package-features"></p>
+                            <p class="package-price">
+                                ￥<span ng-bind="package.price" class="num"></span> 起
+                            </p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
