@@ -1,4 +1,4 @@
-<div ng-controller="HomeCtrl" class="home-page page row">
+<div ng-controller="HomeCtrl" class="home-page page">
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" headroom tolerance="2" offset="200">
         <div class="container">
             <div class="navbar-header">
@@ -25,7 +25,7 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="content">
         <div uib-carousel active="0" interval="intervalTime" class="big-carousel" center-img>
             <div uib-slide ng-repeat="slide in slides track by slide.id" ng-swipe-left="$parent.$parent.next()" ng-swipe-right="$parent.$parent.prev()" index="slide.id">
                 <img ng-src="{{slide.image}}" class="slide-img">
@@ -35,17 +35,19 @@
                 </div>-->
             </div>
         </div>
-        <div class="container hot-package">
+        <div class="container">
             <div class="hot-title">
                 <h3>
-                    <span>浪漫之旅</span>
+                    <span>精品推荐</span>
                 </h3>
-                <p>择一城终老，遇一人白首</p>
+                <p>世界这么大，我想去看看</p>
             </div>
-            <ul class="clearfix">
+            <ul class="hot-package row">
                 <li ng-repeat="package in packages" class="col-lg-3 col-md-4 col-sm-6">
-                    <a class="thumbnail" href="#">
-                        <img ng-src="{{package.url}}" class="package-img" alt="">
+                    <a class="thumbnail" ui-sref="package({packageId: package.packageId})">
+                        <div class="package-top">
+                            <img ng-src="{{package.url}}" class="package-img" alt="">0
+                        </div>
                         <div class="caption">
                             <h3 ng-bind="package.title" class="package-title"></h3>
                             <p ng-bind="package.features" class="package-features"></p>

@@ -93,6 +93,40 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     return deferred.promise;
                 }]
             }
+        })
+        .state('package', {
+            url: '/package/{packageId}',
+            templateUrl: './package.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/package/package.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }]
+            }
+        })
+        .state('search', {
+            url: '/search?q',
+            templateUrl: './search.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/search/search.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }]
+            }
         });
 
 	$urlRouterProvider.otherwise('/home');

@@ -5,6 +5,7 @@ require('bootstrap-loader');
 
 window.Headroom = require('headroom.js');
 require('headroom.js/dist/angular.headroom');
+require('./angular-locale_zh.js');
 
 var app = angular.module('tour', [
 		require('angular-ui-router'),

@@ -86,14 +86,12 @@
     }
 
     .hot-package {
-        &>ul {
-            padding: 0;
-        }
+        padding: 0;
         li {
             list-style: none;
         }
         .thumbnail {
-            width: 240px;
+            width: 250px;
             border: none;
             padding: 0;
             margin-left: auto;
@@ -101,14 +99,23 @@
             margin-bottom: 0;
             text-decoration: none;
         }
+        .package-top {
+            height: 125px;
+            overflow: hidden;
+            position: relative;
+        }
         .package-img {
+            position: absolute;
             width: 100%;
-            max-height: 150px;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
         }
         .caption {
             .package-title {
                 font-size: 16px;
                 color: #222;
+                height: 20px;
                 line-height: 20px;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -117,8 +124,9 @@
             }
             .package-features {
                 color: #999;
+                height: 18px;
                 font-size: 12px;
-                line-height: 20px;
+                line-height: 18px;
                 text-overflow: ellipsis;
                 overflow: hidden;
                 white-space: nowrap;
@@ -126,6 +134,7 @@
             }
             .package-price {
                 color: red;
+                height: 28px;
                 .num {
                     font-size: 20px;
                 }
@@ -164,24 +173,43 @@
             .carousel-control {
                 display: none;
             }
+            .text-center {
+                position: relative;
+                overflow: hidden;
+                height: 180px;
+                .slide-img {
+                    position: absolute;
+                    cursor: pointer;
+                    height: 180px;
+                    width: auto;
+                    top: 0;
+                    left: 50%;
+                    transform: translateX(-50%);;
+                }
+            }
         }
         .hot-package {
+            margin-right: -15px;
+            margin-left: -15px;
             .thumbnail {
                 width: auto;
                 margin-right: -15px;
                 margin-left: -15px;
             }
+            .package-top {
+                height: 150px;
+            }
         }
     }
-    /* Small devices (tablets, 576px and up) */
-    @media (min-width: 576px) and (max-width: 785px) {
+
+    @media (min-width: 576px) and (max-width: 767px) {
         .col-sm-6 {
             width: 50%;
             float: left;
         }
     }
 
-    /* Medium devices (desktops, 992px and up) */
+
     @media (min-width: 886px) and (max-width: 995px) {
         .container {
             width: 850px;
@@ -193,7 +221,7 @@
 
     }
 
-    /* Large devices (large desktops, 1200px and up) */
+
     @media (min-width: 1200px) {
 
     }
