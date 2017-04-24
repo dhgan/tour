@@ -1,14 +1,40 @@
 <div ng-controller="SearchCtrl" class="search-page page">
-    <ul class="list-group">
-        <li class="list-group-item media">
-            <div class="media-left">
-                <a href="#">
-                    <img class="media-object" src="..." alt="...">
-                </a>
-            </div>
-            <div class="media-body">
-                <h4 class="media-heading">Media heading</h4>
-            </div>
-        </li>
-    </ul>
+    <div class="container">
+        <div class="search-result clearfix" id="searchResult">
+            <ul class="list-group">
+                <li class="list-group-item row" ng-repeat="package in packages">
+                    <a ui-sref="package({packageId: package.packageId})">
+                        <div class="package-img col-sm-4">
+                            <img ng-src="{{package.url}}" alt="">
+                        </div>
+                        <div class="package-info col-sm-8">
+                            <h4 class="package-title" ng-bind="package.title"></h4>
+                            <div class="package-content">
+                                <div class="package-features" ng-bind="package.features">
+                                </div>
+                                <div class="package-other">
+                            <span class="departure-city">
+                                <label>出发城市：</label><span ng-bind="package.departureCity"></span>
+                            </span>
+                                    <span class="package-days">
+                                <label>行程：</label><span ng-bind="package.days"></span>
+                            </span>
+                                </div>
+                                <div class="package-price">
+                                    ￥<span class="num" ng-bind="package.price"></span> 起
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage"
+                max-size="maxSize" boundary-link-numbers="true" previous-text="上一页"
+                next-text="下一页" class="hidden-xs" ng-change="goPage()">
+            </ul>
+            <ul uib-pager total-items="totalItems" ng-model="currentPage" previous-text="上一页"
+                next-text="下一页" class="visible-xs-block" ng-change="goPage()">
+            </ul>
+        </div>
+    </div>
 </div>

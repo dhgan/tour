@@ -1,6 +1,7 @@
 if(ENV == 'dev') {
 	require('./index.html');
 }
+var app = require('./common/app');
 
 require('./main.scss');
 require('./font.css');
@@ -14,10 +15,10 @@ require('./common/router.js');
 
 require('./common/commonService.js');
 require('./common/commonDirective');
+require('./component/tourHeader/tourHeader');
 
 require('lodash');
 
-var app = require('./common/app');
 app.controller('MainCtrl', ['$scope', function($scope) {
-    $scope.isNavCollapsed = true;
+
 }]);

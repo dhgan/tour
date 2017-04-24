@@ -1,3 +1,113 @@
 .search-page {
-
+    .search-result {
+        max-width: 740px;
+    }
+    .list-group-item {
+        .package-img {
+            max-width: 240px;
+            height: 120px;
+            position: relative;
+            float: left;
+            overflow: hidden;
+            &>img {
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        .package-info {
+            float: left;
+        }
+        .package-title {
+            max-height: 38px;
+            color: #222;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+        }
+        .package-features {
+            color: #999;
+            max-height: 36px;
+            font-size: 12px;
+            line-height: 18px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            margin: 4px 0;
+        }
+        .package-other {
+            line-height: 20px;
+            height: 20px;
+            color: #383737;
+            label {
+                font-weight: 400;
+                margin-bottom: 0;
+                cursor: pointer;
+            }
+            .departure-city {
+                padding-right: 20px;
+            }
+        }
+        .package-price {
+            color: red;
+            height: 28px;
+            .num {
+                font-size: 20px;
+            }
+        }
+    }
+    .pagination {
+        margin-top: 0;
+        margin-right: -15px;
+        float: right;
+    }
+    @media (max-width: 575px) {
+        .list-group-item {
+            padding-top: 0;
+            padding-right: 0;
+            padding-left: 0;
+            border-left: none;
+            border-right: none;
+            border-color: #f0f0f0;
+            border-top-width: 10px;
+            .package-img {
+                width: 100%;
+                max-width: none;
+                height: 150px;
+            }
+            .package-info {
+                width: 100%;
+                padding: 0 10px;
+            }
+            .package-title {
+                font-size: 16px;
+                height: 20px;
+                line-height: 20px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                margin-top: 6px;
+            }
+            .package-features {
+                white-space: nowrap;
+            }
+        }
+    }
+    @media (min-width: 576px) and (max-width: 767px) {
+        .col-sm-4 {
+            width: 33.33333%;
+        }
+        .col-sm-8 {
+            width: 66.66667%;
+        }
+        .search-result {
+            .hidden-xs {
+                display: inline-block!important;
+            }
+            .visible-xs-block {
+                display: none!important;
+            }
+        }
+    }
 }

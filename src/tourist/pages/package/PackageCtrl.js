@@ -1,7 +1,7 @@
 var app = require('../../common/app.js');
 
-app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$location', '$anchorScroll',
-function ($scope, $http, $stateParams, $state, $location, $anchorScroll) {
+app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$anchorScroll',
+function ($scope, $http, $stateParams, $state, $anchorScroll) {
 
     $scope.intervalTime = 5000;
     $scope.slides = [
@@ -92,7 +92,6 @@ function ($scope, $http, $stateParams, $state, $location, $anchorScroll) {
     ];
 
     $scope.gotoAnchor = function(anchor) {
-        //$location.hash();
         $anchorScroll(anchor);
     };
 

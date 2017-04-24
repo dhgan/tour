@@ -112,7 +112,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             }
         })
         .state('search', {
-            url: '/search?q',
+            url: '/search?q&p', // query and page
             templateUrl: './search.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
