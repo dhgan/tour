@@ -91,8 +91,25 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                         deferred.resolve(module);
                     });
                     return deferred.promise;
+                }],
+                PageInfo: ['$http', function($http) {
+                    var spinner = new Spinner({
+                        width: 4,
+                        position: 'fixed'
+                    }).spin(document.querySelector('body'));
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/homePackage?t=' + Math.random()
+                    }).then(function (res) {
+                        spinner.stop();
+                        return res.data;
+                    }, function(error) {
+                        spinner.stop();
+                        swal(error.data);
+                    });
                 }]
-            }
+            },
+            controller: 'HomeCtrl'
         })
         .state('package', {
             url: '/package/{packageId}',
@@ -108,11 +125,32 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                         deferred.resolve(module);
                     });
                     return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
+                    var packageId = $stateParams.packageId;
+                    var spinner = new Spinner({
+                        width: 4,
+                        position: 'fixed'
+                    }).spin(document.querySelector('body'));
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/package/' + packageId,
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        spinner.stop();
+                        return res.data;
+                    }, function(error) {
+                        spinner.stop();
+                        swal(error.data);
+                    });
                 }]
-            }
+            },
+            controller: 'PackageCtrl'
         })
         .state('search', {
-            url: '/search?q&p', // query and page
+            url: '/search/:q/:p', // q = query and p = page num
             templateUrl: './search.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -125,8 +163,31 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                         deferred.resolve(module);
                     });
                     return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
+                    var page = $stateParams.p || 1,
+                        query = $stateParams.q;
+                    if(!query) return null;
+                    var spinner = new Spinner({
+                        width: 4,
+                        position: 'fixed'
+                    }).spin(document.querySelector('body'));
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/search/' + query + '/' + page,
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        spinner.stop();
+                        return res.data;
+                    }, function(error) {
+                        spinner.stop();
+                        swal(error.data);
+                    });
                 }]
-            }
+            },
+            controller: 'SearchCtrl'
         });
 
 	$urlRouterProvider.otherwise('/home');

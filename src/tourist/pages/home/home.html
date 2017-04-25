@@ -1,24 +1,20 @@
-<div ng-controller="HomeCtrl" class="home-page page">
-    <tour-header></tour-header>
+<div class="home-page page">
+    <tour-header query-str="queryStr"></tour-header>
     <div class="content">
         <div uib-carousel active="0" interval="intervalTime" class="big-carousel" center-img>
-            <div uib-slide ng-repeat="slide in slides track by slide.id" ng-swipe-left="$parent.$parent.next()" ng-swipe-right="$parent.$parent.prev()" index="slide.id">
+            <div uib-slide ng-repeat="slide in slides track by $index" index="$index" ng-swipe-left="$parent.$parent.next()" ng-swipe-right="$parent.$parent.prev()">
                 <img ng-src="{{slide.image}}" class="slide-img">
-                <!--<div class="carousel-caption">
-                    <h4>Slide {{slide.id}}</h4>
-                    <p>{{slide.text}}</p>
-                </div>-->
             </div>
         </div>
         <div class="container">
-            <div class="hot-title">
+            <div class="hot-title" ng-show="hasPackage">
                 <h3>
                     <span>精品推荐</span>
                 </h3>
                 <p>世界这么大，我想去看看</p>
             </div>
             <ul class="hot-package row">
-                <li ng-repeat="package in packages" class="col-lg-3 col-md-4 col-sm-6">
+                <li ng-repeat="package in packages track by $index" class="col-lg-3 col-md-4 col-sm-6">
                     <a class="thumbnail" ui-sref="package({packageId: package.packageId})">
                         <div class="package-top">
                             <img ng-src="{{package.url}}" class="package-img" alt="">0

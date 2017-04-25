@@ -1,6 +1,10 @@
-<div ng-controller="SearchCtrl" class="search-page page">
+<div class="search-page page">
+    <tour-header query-str="queryStr"></tour-header>
     <div class="container">
-        <div class="search-result clearfix" id="searchResult">
+        <div class="search-result">
+            <div class="page-header">
+                <h4>“<span ng-bind="curretQueryStr"></span>” 搜索结果</h4>
+            </div>
             <ul class="list-group">
                 <li class="list-group-item row" ng-repeat="package in packages">
                     <a ui-sref="package({packageId: package.packageId})">

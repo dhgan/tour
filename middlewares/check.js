@@ -1,7 +1,9 @@
 module.exports = {
 	checkLogin: function(req, res, next) {
 		if(!req.session.user) {
-			return res.send("no login");
+			return res.send({
+                status: '1024'
+            });
 		}
 		next();
 	}

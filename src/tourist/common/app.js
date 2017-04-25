@@ -15,7 +15,7 @@ var app = angular.module('tour', [
 		require('angular-ui-bootstrap'),
         'headroom'
 	]).run(['$anchorScroll', function($anchorScroll) {
-	    $anchorScroll.yOffset = 60;
+	    $anchorScroll.yOffset = 20;
     }]);
 
 module.exports = app;

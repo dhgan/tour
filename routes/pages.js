@@ -26,7 +26,9 @@ router.get('/', function(req, res) {
 router.get(/^((\/\w+)+)(?:\.html)$/, function(req, res) {
     var page = req.params[0];
     if(fs.existsSync(path.resolve(__dirname, '../views/tourist'+ page +'.html'))) {
-        res.render('tourist' + page);
+        res.render('tourist' + page, {
+            userInfo: req.session.user
+        });
     } else {
         res.sendStatus(404);
     }

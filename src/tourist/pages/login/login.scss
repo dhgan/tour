@@ -1,8 +1,15 @@
 .login-page {
+    margin: 80px auto;
     .input-group {
         [class^="glyphicon-"] {
             font-size: 18px;
         }
+    }
+    .go-register {
+        float: right;
+        position: relative;
+        top: -10px;
+        font-size: 80%;
     }
     .form-error {
         color: #a94442;
@@ -15,5 +22,8 @@
             height: 100%;
             cursor: pointer;
         }
+    }
+    @media (max-width: 767px) {
+        margin: 30px auto;
     }
 }
