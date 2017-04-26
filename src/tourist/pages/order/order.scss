@@ -1,0 +1,75 @@
+.order-page {
+    .order-list {
+        max-width: 820px;
+        margin: 20px auto;
+        @media  (min-width: 1200px){
+            margin-left: 8%;
+        }
+        .page-header {
+            margin: 20px 0 10px;
+            &>h4 {
+                margin: 0;
+            }
+        }
+        .list-group-item {
+            margin: 10px 0;
+            border-top: 1px solid #0BC972;
+            &:hover {
+                background-color: #f9f9f9;
+            }
+        }
+    }
+    .order-item {
+        padding: 0;
+        color: #333;
+        &>li {
+            list-style: none;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .key {
+            display: inline-block;
+            width: 60px;
+        }
+        .price {
+            color: #f30;
+        }
+        .text-success {
+            color: #5cb85c;
+        }
+        .unpayed {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+    }
+
+    .operate {
+        text-align: right;
+        padding: 0;
+        @media (min-width: 768px) {
+            &>.btn {
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    .pagination {
+        margin-top: 0;
+        margin-right: -15px;
+        float: right;
+    }
+
+    @media (min-width: 576px) and (max-width: 767px) {
+        .order-list {
+            .hidden-xs {
+                display: inline-block!important;
+            }
+            .visible-xs-block {
+                display: none!important;
+            }
+        }
+    }
+}

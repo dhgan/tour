@@ -34,7 +34,7 @@ if(ENV == 'dev') {
 	};
 
 	configArr.forEach(function(config) {
-        config.entry.unshift('webpack-dev-server/client?http://localhost:' + devPort, "webpack/hot/dev-server")
+        config.entry.unshift('webpack-dev-server/client?http://localhost:' + devPort, "webpack/hot/dev-server");
         config.plugins.push(new webpack.HotModuleReplacementPlugin());
     });
 

@@ -9,7 +9,7 @@
                 <li class="list-group-item row" ng-repeat="package in packages">
                     <a ui-sref="package({packageId: package.packageId})">
                         <div class="package-img col-sm-4">
-                            <img ng-src="{{package.url}}" alt="">
+                            <img ng-src="{{package.images[0]}}" alt="">
                         </div>
                         <div class="package-info col-sm-8">
                             <h4 class="package-title" ng-bind="package.title"></h4>
@@ -33,7 +33,7 @@
                 </li>
             </ul>
             <ul uib-pagination total-items="totalItems" ng-model="currentPage"
-                max-size="maxSize" boundary-link-numbers="true" previous-text="上一页"
+                max-size="maxSize" force-ellipses="true" previous-text="上一页"
                 next-text="下一页" class="hidden-xs" ng-change="goPage()">
             </ul>
             <ul uib-pager total-items="totalItems" ng-model="currentPage" previous-text="上一页"

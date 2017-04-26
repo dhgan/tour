@@ -52,6 +52,10 @@
                 .input-group {
                     max-width: 300px;
                     vertical-align: middle;
+                    input {
+                        cursor: pointer;
+                        background: #fff!important;
+                    }
                 }
                 .input-group-addon {
                     cursor: pointer;
@@ -81,9 +85,43 @@
                 .stock-tips {
                     position: absolute;
                     left: 106px;
-                    width: 4em;
+                    width: 8em;
                     line-height: 34px;
                     color: #999;
+                }
+                tbody {
+                    .btn-default, .text-muted {
+                        color: #0BC972;
+                    }
+                    .btn-default[disabled]{
+                        color: #ccc;
+                        .text-muted {
+                            color: #ccc;
+                        }
+                    }
+                    .btn-info,
+                    .btn-info.active,
+                    .btn-info:active,
+                    .btn-info:hover {
+                        color: #fff;
+                        .text-info, .text-muted {
+                            color: #fff;
+                        }
+                    }
+                }
+                .collection {
+                    float: right;
+                    line-height: 34px;
+                    padding-right: 2px;
+                    &>span {
+                        cursor: pointer;
+                        line-height: 34px;
+                    }
+                    .glyphicon {
+                        color: #f30;
+                        font-size: 20px;
+                        vertical-align: -16%;
+                    }
                 }
             }
             .total {
@@ -101,13 +139,17 @@
                 }
                 .buy {
                     float: right;
-                    .btn {
+                    .order-btn {
                         border-radius: 0;
                         background-color: #f80;
                         border: none;
                         height: 50px;
                         &:hover {
                             background-color: #f60;
+                        }
+                        &[disabled] {
+                            opacity: 0.3;
+                            filter: alpha(opacity=40);
                         }
                     }
                 }

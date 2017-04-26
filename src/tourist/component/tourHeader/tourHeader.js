@@ -2,7 +2,7 @@ var app = require('../../common/app');
 
 require('./tourHeader.scss');
 
-app.directive('tourHeader', ['$templateCache', '$state', function($templateCache, $state) {
+app.directive('tourHeader', ['$templateCache', '$state', '$http', function($templateCache, $state, $http) {
     //language=HTML
     $templateCache.put('template/tourHeader.html',
         '<div class="tour-header">\
@@ -22,13 +22,13 @@ app.directive('tourHeader', ['$templateCache', '$state', function($templateCache
                             <li><a ui-sref="home" class="nav-a">首页</a></li>\
                             <li ng-if="!hasLogin"><a ui-sref="login" class="nav-a">登录</a></li>\
                             <li ng-if="!hasLogin"><a ui-sref="register" class="nav-a">注册</a></li>\
-                            <li uib-dropdown ng-if="hasLogin">\
-                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle ng-bind="userInfo.userName"></a>\
+                            <li uib-dropdown is-open="infoOpen" ng-if="hasLogin" ng-mouseleave="infoOpen=false">\
+                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle ng-mouseover="infoOpen=true">{{userInfo.userName}} <span class="caret"></span></a>\
                                     <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">\
                                         <li><a ui-sref="collection">我的收藏</a></li>\
                                         <li><a ui-sref="order">我的订单</a></li>\
                                         <li><a ui-sref="info">个人信息</a></li>\
-                                        <li><a href="javascript:">退出</a></li>\
+                                        <li ng-click="logout()"><a href="javascript:">退出</a></li>\
                                     </ul>\
                             </li>\
                         </ul>\
@@ -40,6 +40,7 @@ app.directive('tourHeader', ['$templateCache', '$state', function($templateCache
                         </form>\
                     </div>\
                 </div>\
+                <div class="shadow"></div>\
             </div>\
         </div>');
 
@@ -67,6 +68,17 @@ app.directive('tourHeader', ['$templateCache', '$state', function($templateCache
                     p: 1
                 }, {
                     reload: true
+                });
+            };
+
+            $scope.logout = function() {
+                $http({
+                    method: 'post',
+                    url: '/api/tourist/logout'
+                }).then(function() {
+                    $state.reload();
+                }, function() {
+                    swal('退出失败');
                 });
             };
          }

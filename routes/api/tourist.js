@@ -147,71 +147,78 @@ router.post('/login', function (req, res) {
         });
 });
 
+router.post('/logout', function (req, res) {
+    req.session.user = null;
+    res.json({
+        status: '200'
+    });
+});
+
 router.get('/homePackage', function (req, res) {
 
     res.json({
         status: '200',
         slides: [
             {
-                image: 'https://a2-q.mafengwo.net/s10/M00/76/A1/wKgBZ1j0N-SABO9sAAXHvvrSeYA45.jpeg?imageMogr2%2Finterlace%2F1',
-                text: 'new image'
+                images: ['https://a2-q.mafengwo.net/s10/M00/76/A1/wKgBZ1j0N-SABO9sAAXHvvrSeYA45.jpeg?imageMogr2%2Finterlace%2F1'],
+                packageId: '12'
             },
             {
-                image: 'https://a2-q.mafengwo.net/s10/M00/EF/F8/wKgBZ1jsuNqAY13yAAe8CqrFYNQ74.jpeg?imageMogr2%2Finterlace%2F1',
-                text: 'new image'
+                images: ['https://a2-q.mafengwo.net/s10/M00/EF/F8/wKgBZ1jsuNqAY13yAAe8CqrFYNQ74.jpeg?imageMogr2%2Finterlace%2F1'],
+                packageId: '13'
             }
         ],
         packages: [
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100',
+                images: ['http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '2',
                 price: '899.00'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '3',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '4',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '5',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城，0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '6',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '7',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '8',
                 price: '899.00',
@@ -249,7 +256,45 @@ router.get('/package/:packageId', function (req, res) {
             departure_city: '西安',
             price: '899.00',
             features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城',
-            days: 8
+            days: 8,
+            choices: [
+                {
+                    price: 199.00,
+                    date: '2017-04-25',
+                    total: '50',
+                    left: '20'
+                },
+                {
+                    price: 299.00,
+                    date: '2017-04-27',
+                    total: '50',
+                    left: '0'
+                },
+                {
+                    price: 399.00,
+                    date: '2017-04-29',
+                    total: '50',
+                    left: '20'
+                },
+                {
+                    price: 599.00,
+                    date: '2017-05-01',
+                    total: '50',
+                    left: '20'
+                },
+                {
+                    price: 499.00,
+                    date: '2017-05-03',
+                    total: '50',
+                    left: '20'
+                },
+                {
+                    price: 399.00,
+                    date: '2017-05-04',
+                    total: '50',
+                    left: '20'
+                }
+            ]
         },
         userInfo: req.session.user
     });
@@ -274,7 +319,7 @@ router.get('/search/:query/:page', function (req, res) {
         status: '200',
         packages: [
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -283,7 +328,7 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100',
+                images: ['http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -291,7 +336,7 @@ router.get('/search/:query/:page', function (req, res) {
                 price: '899.00'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
                 title: '泰国普吉岛6或7日游泰国普吉岛国普吉岛6或7日游泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -300,7 +345,7 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -309,7 +354,7 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -318,7 +363,7 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城，0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -327,7 +372,7 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
@@ -336,13 +381,105 @@ router.get('/search/:query/:page', function (req, res) {
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
             },
             {
-                url: 'https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg',
+                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
                 title: '泰国普吉岛6或7日游',
                 packageId: '1',
                 departureCity: '西安',
                 days: '3天',
                 price: '899.00',
                 features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
+            }
+        ],
+        totalItems: 1237,
+        userInfo: req.session.user
+    });
+
+
+});
+
+router.post('/order', function (req, res) {
+    var rbody = req.body,
+        packageId = rbody.packageId,
+        date = rbody.date,
+        number = rbody.number,
+        price = rbody.price;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!packageId || !date || !number || !price) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    res.json({
+        status: '200'
+    });
+
+});
+
+router.get('/orderList/:p', function (req, res) {
+
+    var params = req.params,
+        page = params.page || 1;
+
+    logger.debug(params);
+
+    res.json({
+        status: '200',
+        orderList: [
+            {
+                orderId: '1',
+                packageId: '23',
+                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
+                totalPrice: '8888',
+                number: 2,
+                date: '2017-05-01',
+                price: '4444',
+                createDate: new Date(),
+                tel: '15079449251',
+                name: '小刚',
+                state: '1'
+            },
+            {
+                orderId: '2',
+                packageId: '23',
+                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
+                totalPrice: '8888',
+                number: 2,
+                date: '2017-05-01',
+                price: '4444',
+                createDate: new Date(),
+                tel: '15079449251',
+                name: '小刚',
+                state: '-2'
+            },
+            {
+                orderId: '3',
+                packageId: '23',
+                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
+                totalPrice: '8888',
+                number: 2,
+                date: '2017-05-01',
+                price: '4444',
+                createDate: new Date(),
+                tel: '15079449251',
+                name: '小刚',
+                state: '-1'
+            },
+            {
+                orderId: '4',
+                packageId: '23',
+                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
+                totalPrice: '8888',
+                number: 2,
+                date: '2017-05-01',
+                price: '4444',
+                createDate: new Date(),
+                tel: '15079449251',
+                name: '小刚',
+                state: '0'
             }
         ],
         totalItems: 1237,

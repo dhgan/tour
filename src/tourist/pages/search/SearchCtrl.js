@@ -7,11 +7,6 @@ function($scope, $http, $stateParams, $state, PageInfo) {
 
     if(!queryStr) return $state.go('home');
 
-    $scope.queryStr = queryStr;
-    $scope.curretQueryStr = queryStr;
-
-    var currentPage = $stateParams.p || 1;
-
     var status = PageInfo.status;
     if(status === '200') {
         $scope.userInfo = PageInfo.userInfo;
@@ -20,9 +15,12 @@ function($scope, $http, $stateParams, $state, PageInfo) {
         $scope.packages = PageInfo.packages;
     }
 
-    $scope.currentPage = currentPage;
+    $scope.queryStr = queryStr;
+    $scope.curretQueryStr = queryStr;
 
-    $scope.maxSize = 5;
+    $scope.currentPage = $stateParams.p || 1;
+
+    $scope.maxSize = 6;
 
     $scope.goPage = function() {
         $state.go('search', {

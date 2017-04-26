@@ -91,7 +91,7 @@ function addConfig(arr, dir) {
         alwaysWriteToDisk: true,
         filename: path.join(__dirname, './views/'+ dir +'/index.html'),
         template: path.join(__dirname, './src/'+ dir +'/index.html'),
-        inject: 'body'
+        inject: 'head'
     }));
 
 

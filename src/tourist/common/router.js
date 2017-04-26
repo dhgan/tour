@@ -48,6 +48,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             templateUrl: './register.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    Pace.restart();
                     var deferred = $q.defer();
                     require.ensure([], function() {
                         var module = require('../pages/register/register.js');
@@ -65,6 +66,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             templateUrl: './login.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    Pace.restart();
                     var deferred = $q.defer();
                     require.ensure([], function() {
                         var module = require('../pages/login/login.js');
@@ -93,18 +95,13 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     return deferred.promise;
                 }],
                 PageInfo: ['$http', function($http) {
-                    var spinner = new Spinner({
-                        width: 4,
-                        position: 'fixed'
-                    }).spin(document.querySelector('body'));
+                    Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/homePackage?t=' + Math.random()
                     }).then(function (res) {
-                        spinner.stop();
                         return res.data;
                     }, function(error) {
-                        spinner.stop();
                         swal(error.data);
                     });
                 }]
@@ -128,10 +125,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }],
                 PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
                     var packageId = $stateParams.packageId;
-                    var spinner = new Spinner({
-                        width: 4,
-                        position: 'fixed'
-                    }).spin(document.querySelector('body'));
+                    Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/package/' + packageId,
@@ -139,10 +133,8 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             t: Math.random()
                         }
                     }).then(function(res) {
-                        spinner.stop();
                         return res.data;
                     }, function(error) {
-                        spinner.stop();
                         swal(error.data);
                     });
                 }]
@@ -168,10 +160,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     var page = $stateParams.p || 1,
                         query = $stateParams.q;
                     if(!query) return null;
-                    var spinner = new Spinner({
-                        width: 4,
-                        position: 'fixed'
-                    }).spin(document.querySelector('body'));
+                    Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/search/' + query + '/' + page,
@@ -179,15 +168,47 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             t: Math.random()
                         }
                     }).then(function(res) {
-                        spinner.stop();
                         return res.data;
                     }, function(error) {
-                        spinner.stop();
                         swal(error.data);
                     });
                 }]
             },
             controller: 'SearchCtrl'
+        })
+        .state('order', {
+            url: '/order?p',
+            templateUrl: './order.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/order/order.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
+                    var page = $stateParams.p || 1;
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/orderList/' + page,
+                        params: {
+                            t: Math.random(),
+                            pageSize: 15
+                        }
+                    }).then(function(res) {
+                        return res.data;
+                    }, function(error) {
+                        swal(error.data);
+                    });
+                }]
+            },
+            controller: 'OrderCtrl'
         });
 
 	$urlRouterProvider.otherwise('/home');

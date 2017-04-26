@@ -14,8 +14,11 @@ var app = angular.module('tour', [
         require('angular-animate'),
 		require('angular-ui-bootstrap'),
         'headroom'
-	]).run(['$anchorScroll', function($anchorScroll) {
+	]).run(['$rootScope', '$anchorScroll', function($rootScope, $anchorScroll) {
 	    $anchorScroll.yOffset = 20;
+        $rootScope.$on('$stateChangeSuccess', function () {
+            $anchorScroll();
+        });
     }]);
 
 module.exports = app;

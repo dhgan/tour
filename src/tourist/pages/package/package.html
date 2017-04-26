@@ -35,21 +35,26 @@
                         <div class="form-group">
                             <label for="departure-time" class="col-xs-3">出发日期：</label>
                             <div class="input-group col-xs-8">
-                                <input type="text" class="form-control" uib-datepicker-popup ng-model="dt"
-                                       is-open="openDatepicker" datepicker-options="dateOptions" show-button-bar="false"
-                                       placeholder="选择出发日期" id="departure-time" ng-click="open()">
-                                <span class="input-group-addon" ng-click="open()"><i class="glyphicon-calendar"></i></span>
+                                <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" ng-change="dateChange()"
+                                       is-open="datepickerOpening" datepicker-options="dateOptions" show-button-bar="false"
+                                       placeholder="选择出发日期" id="departure-time" readonly ng-click="openDatepicker()">
+                                <span class="input-group-addon" ng-click="openDatepicker()"><i class="glyphicon-calendar"></i></span>
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="collection">
+                                <span>
+                                    <span class="glyphicon glyphicon-heart-edge"></span> 收藏
+                                </span>
+                            </div>
                             <label for="num" class="col-xs-3">人数选择：</label>
-                            <div class="input-group col-xs-6 num">
+                            <div class="input-group col-xs-4 num">
                                 <span class="input-group-addon" ng-class="{disable: num<=1}" ng-click="changeNum(-1)"><i class="glyphicon-minus"></i></span>
                                 <input type="text" class="form-control" id="num" ng-model="num" ng-change="checkState()">
-                                <input type="hidden" ng-model="stock">
-                                <input type="hidden" ng-model="price">
-                                <div class="stock-tips">(剩余 {{stock}})</div>
-                                <span class="input-group-addon" ng-class="{disable: num>=stock}" ng-click="changeNum(1)"><i class="glyphicon-plus"></i></span>
+                                <input type="hidden" ng-model="choice.stock">
+                                <input type="hidden" ng-model="choice.price">
+                                <div class="stock-tips" ng-show="choice">(剩余 {{choice.stock}})</div>
+                                <span class="input-group-addon" ng-class="{disable: num>=choice.stock}" ng-click="changeNum(1)"><i class="glyphicon-plus"></i></span>
                             </div>
                         </div>
                         <div class="total clearfix">
@@ -57,7 +62,7 @@
                                 <span ng-show="totalPrice!=='--'">￥</span><span ng-bind="totalPrice" class="num"></span>
                             </div>
                             <div class="buy">
-                                <button type="button" class="btn btn-lg btn-danger">立即预定</button>
+                                <button type="button" class="btn btn-lg btn-danger order-btn" ng-click="orderIt()" ng-disabled="!choice || choice.stock==0">立即预定</button>
                             </div>
                         </div>
                     </form>
