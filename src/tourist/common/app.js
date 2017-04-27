@@ -15,7 +15,7 @@ var app = angular.module('tour', [
 		require('angular-ui-bootstrap'),
         'headroom'
 	]).run(['$rootScope', '$anchorScroll', function($rootScope, $anchorScroll) {
-	    $anchorScroll.yOffset = 20;
+	    $anchorScroll.yOffset = 60;
         $rootScope.$on('$stateChangeSuccess', function () {
             $anchorScroll();
         });

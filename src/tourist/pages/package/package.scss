@@ -12,9 +12,24 @@
     .package-info {
         margin: 30px auto;
         .title {
-            margin-top: 0;
+            margin: 0;
             font-size: 18px;
             line-height: 22px;
+        }
+        .collection {
+            .collect-form {
+                position: relative;
+            }
+            .collect-form>span {
+                cursor: pointer;
+                display: inline-block;
+                line-height: 34px;
+            }
+            .glyphicon {
+                color: #f30;
+                font-size: 20px;
+                vertical-align: -16%;
+            }
         }
         .price {
             color: #f30;
@@ -109,26 +124,13 @@
                         }
                     }
                 }
-                .collection {
-                    float: right;
-                    line-height: 34px;
-                    padding-right: 2px;
-                    &>span {
-                        cursor: pointer;
-                        line-height: 34px;
-                    }
-                    .glyphicon {
-                        color: #f30;
-                        font-size: 20px;
-                        vertical-align: -16%;
-                    }
-                }
             }
             .total {
                 background-color: #f6f6f6;
                 padding-left: 20px;
                 color: #f30;
                 height: 50px;
+                position: relative;
                 .total-price {
                     float: left;
                     line-height: 50px;
@@ -162,6 +164,67 @@
 
     .panel-group {
         margin-top: 10px;
+        .package-comment {
+            .star-num {
+                float: left;
+                font-size: 32px;
+                color: #ff9e00;
+                padding: 0 10px;
+            }
+            .star-font {
+                float: left;
+                .star-tip {
+                    padding: 0 4px;
+                }
+            }
+            .avg-star {
+                font-size: 20px;
+            }
+            .full-star {
+                position: absolute;
+                z-index: 2;
+                left: 0;
+                top: 0;
+                width: 50%;
+                overflow: hidden;
+                white-space: nowrap;
+                height: 100%;
+            }
+            [class^='glyphicon-star'] {
+                color: #ff9e00;
+                float: left;
+                margin: 0 2px;
+            }
+            .list-group-item {
+                border-right: none;
+                border-left: none;
+                border-radius: 0;
+                border-color: #eee;
+                .comment-user-name {
+                    float: left;
+                    width: 60px;
+                    margin-top: 6px;
+                }
+                .comment-detail {
+                    margin-left: 60px;
+                    .comment-star {
+                        font-size: 18px;
+                        margin: 6px 0;
+                    }
+                    .comment-content {
+                        margin-bottom: 8px;
+                    }
+                    .comment-time {
+                        color: #999;
+                    }
+                }
+            }
+
+            .pagination {
+                margin-top: 0;
+                float: right;
+            }
+        }
     }
 
     .panel-heading {
@@ -198,6 +261,13 @@
         .collapsing {
             transition: none !important;
         }
+        .panel-group {
+            .package-comment {
+                .list-group-item {
+                    padding: 10px 0;
+                }
+            }
+        }
     }
 
     @media (min-width: 768px) and (max-width: 991px) {
@@ -205,6 +275,16 @@
             .carousel {
                 width: 360px;
                 height: 180px;
+            }
+        }
+    }
+    @media (min-width: 576px) and (max-width: 767px) {
+        .order-list {
+            .hidden-xs {
+                display: inline-block!important;
+            }
+            .visible-xs-block {
+                display: none!important;
             }
         }
     }

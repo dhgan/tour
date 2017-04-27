@@ -59,7 +59,8 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     });
                     return deferred.promise;
                 }]
-            }
+            },
+            controller: 'RegisterCtrl'
         })
         .state('login', {
             url: '/login?redirect',
@@ -77,7 +78,8 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     });
                     return deferred.promise;
                 }]
-            }
+            },
+            controller: 'LoginCtrl'
         })
         .state('home', {
             url: '/home',
@@ -209,6 +211,39 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }]
             },
             controller: 'OrderCtrl'
+        })
+        .state('collection', {
+            url: '/collection?p',
+            templateUrl: './collection.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/collection/collection.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
+                    var page = $stateParams.p || 1;
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/collection/' + page,
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        return res.data;
+                    }, function(error) {
+                        swal(error.data);
+                    });
+                }]
+            },
+            controller: 'CollectionCtrl'
         });
 
 	$urlRouterProvider.otherwise('/home');

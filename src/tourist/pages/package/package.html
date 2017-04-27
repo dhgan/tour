@@ -11,6 +11,13 @@
             </div>
             <div class="package-detail col-sm-6 col-md-6 col-lg-5">
                 <h3 class="title" ng-bind="package.title"></h3>
+                <div class="collection">
+                    <form name="cForm" class="collect-form">
+                        <span ng-click="collectIt(cForm)">
+                            <span class="glyphicon" ng-class="{'glyphicon-heart-edge': !package.collected, 'glyphicon-heart-full': package.collected}"></span> 收藏
+                        </span>
+                    </form>
+                </div>
                 <div class="price">
                     ￥ <span ng-bind="package.price" class="num"></span> 起
                 </div>
@@ -31,7 +38,7 @@
                     </div>
                 </div>
                 <div class="choice">
-                    <form>
+                    <form name="bForm">
                         <div class="form-group">
                             <label for="departure-time" class="col-xs-3">出发日期：</label>
                             <div class="input-group col-xs-8">
@@ -42,11 +49,6 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <div class="collection">
-                                <span>
-                                    <span class="glyphicon glyphicon-heart-edge"></span> 收藏
-                                </span>
-                            </div>
                             <label for="num" class="col-xs-3">人数选择：</label>
                             <div class="input-group col-xs-4 num">
                                 <span class="input-group-addon" ng-class="{disable: num<=1}" ng-click="changeNum(-1)"><i class="glyphicon-minus"></i></span>
@@ -62,7 +64,7 @@
                                 <span ng-show="totalPrice!=='--'">￥</span><span ng-bind="totalPrice" class="num"></span>
                             </div>
                             <div class="buy">
-                                <button type="button" class="btn btn-lg btn-danger order-btn" ng-click="orderIt()" ng-disabled="!choice || choice.stock==0">立即预定</button>
+                                <button type="button" class="btn btn-lg btn-danger order-btn" ng-click="orderIt(bForm)" ng-disabled="!choice || choice.stock==0">立即预定</button>
                             </div>
                         </div>
                     </form>
@@ -157,6 +159,55 @@
                             ★土特产：翡翠玉石、云南白药、纯银饰品、云南烤烟、黄龙玉、竹荪、围棋子、火腿、普洱茶、牛肝菌、各种时令水果等。
                         </p>
                     </div>
+                    <div id="package-comment" uib-accordion-group class="panel-info" is-open="status.commentOpen" template-url="package-panel-template.html">
+                        <uib-accordion-heading>
+                            用户点评 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.commentOpen, 'glyphicon-chevron-right': !status.commentOpen}"></i>
+                        </uib-accordion-heading>
+                        <div class="package-comment">
+                            <div class="comment-title clearfix">
+                                <div class="star-num" ng-bind="avgStar"></div>
+                                <div class="star-font">
+                                    <div class="star-tip">
+                                        综合评分
+                                    </div>
+                                    <div class="avg-star clearfix">
+                                        <i ng-class="{'glyphicon-star-empty': avgStar==0, 'glyphicon-star-half-empty': avgStar>0 && avgStar<1, 'glyphicon-star': avgStar>=1}"></i>
+                                        <i ng-class="{'glyphicon-star-empty': avgStar<=1, 'glyphicon-star-half-empty': avgStar>1 && avgStar<2, 'glyphicon-star': avgStar>=2}"></i>
+                                        <i ng-class="{'glyphicon-star-empty': avgStar<=2, 'glyphicon-star-half-empty': avgStar>2 && avgStar<3, 'glyphicon-star': avgStar>=3}"></i>
+                                        <i ng-class="{'glyphicon-star-empty': avgStar<=3, 'glyphicon-star-half-empty': avgStar>3 && avgStar<4, 'glyphicon-star': avgStar>=4}"></i>
+                                        <i ng-class="{'glyphicon-star-empty': avgStar<=4, 'glyphicon-star-half-empty': avgStar>4 && avgStar<5, 'glyphicon-star': avgStar>=5}"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item" ng-repeat="comment in comments track by $index">
+                                    <div class="comment-user-name" ng-bind="comment.userName"></div>
+                                    <div class="comment-detail">
+                                        <div class="comment-star clearfix">
+                                            <i ng-class="{'glyphicon-star-empty': comment.star==0, 'glyphicon-star-half-empty': comment.star>0 && comment.star<1, 'glyphicon-star': comment.star>=1}"></i>
+                                            <i ng-class="{'glyphicon-star-empty': comment.star<=1, 'glyphicon-star-half-empty': comment.star>1 && comment.star<2, 'glyphicon-star': comment.star>=2}"></i>
+                                            <i ng-class="{'glyphicon-star-empty': comment.star<=2, 'glyphicon-star-half-empty': comment.star>2 && comment.star<3, 'glyphicon-star': comment.star>=3}"></i>
+                                            <i ng-class="{'glyphicon-star-empty': comment.star<=3, 'glyphicon-star-half-empty': comment.star>3 && comment.star<4, 'glyphicon-star': comment.star>=4}"></i>
+                                            <i ng-class="{'glyphicon-star-empty': comment.star<=4, 'glyphicon-star-half-empty': comment.star>4 && comment.star<5, 'glyphicon-star': comment.star>=5}"></i>
+                                        </div>
+                                        <div class="comment-content" ng-bind="comment.content">
+                                        </div>
+                                        <div class="comment-time" ng-bind="comment.time">
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div ng-show="comments">
+                                <ul uib-pagination total-items="totalItems" ng-model="$parent.$parent.$parent.currentPage"
+                                    max-size="maxSize" force-ellipses="true" previous-text="上一页"
+                                    next-text="下一页" class="hidden-xs" ng-change="goPage()">
+                                </ul>
+                                <ul uib-pager total-items="totalItems" ng-model="$parent.$parent.$parent.currentPage" previous-text="上一页"
+                                    next-text="下一页" class="visible-xs-block" ng-change="goPage()">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </uib-accordion>
             </div>
         </div>
@@ -165,7 +216,7 @@
 <script type="text/ng-template" id="package-panel-template.html">
     <div class="panel-heading" ng-click="toggleOpen()">
         <h4 class="panel-title" uib-accordion-transclude="heading">
-            <span uib-accordion-header ng-class="{'text-muted': isDisabled}">
+            <span uib-accordion-header>
             {{heading}}
             </span>
         </h4>

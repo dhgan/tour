@@ -15,7 +15,8 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         featuresOpen: true,
         detailOpen: true,
         priceDetailOpen: true,
-        precautionsOpen: true
+        precautionsOpen: true,
+        commentOpen: true
     };
 
 
@@ -31,7 +32,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         yearColumns: 3,
         startingDay: 1,
         formatDayTitle: 'yyyy MMMM',
-        minDate: moment(new Date()).add('day', 1),
+        minDate: moment(new Date()).add(1, 'day'),
         dateDisabled: function (obj) {
             var formatStr = 'YYYY-MM-DD';
             if(obj.mode === 'day') {
@@ -100,7 +101,12 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         $anchorScroll(anchor);
     };
 
-    $scope.orderIt = function() {
+    $scope.orderIt = function(bForm) {
+
+        if(bForm.submitting) return ;
+
+        bForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.total'));
+
         var req = {
             packageId: $stateParams.packageId,
             number: $scope.num,
@@ -113,14 +119,108 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
             url: '/api/tourist/order',
             data: req
         }).then(function(res) {
+            bForm.submitting.stop();
+            bForm.submitting = null;
+
             var data = res.data,
                 status = data.status;
             if(status === '200') {
                 swal('下单成功');
             }
         }, function(error) {
+            bForm.submitting.stop();
+            bForm.submitting = null;
             swal(error.data);
         });
+    };
+
+    $scope.collectIt = function(cForm) {
+        if($scope.package.collected) {
+            swal({
+                text: '您已收藏该线路，无需重复收藏',
+                type: 'warning'
+            });
+            return;
+        }
+
+        if(cForm.submitting) return ;
+
+        cForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.collect-form'));
+
+        $http({
+            method: 'post',
+            url: '/api/tourist/addCollection',
+            data: {
+                packageId: $scope.package.packageId
+            }
+        }).then(function(res) {
+            cForm.submitting.stop();
+            cForm.submitting = null;
+            var data = res.data,
+                status = data.status;
+            if(status === '200') {
+                swal({
+                    type: 'success',
+                    text: '收藏成功',
+                    showConfirmButton: false,
+                    timer: 1500
+                }).catch(swal.noop);
+
+                $scope.package.collected = true;
+            }
+        }, function(error) {
+            cForm.submitting.stop();
+            cForm.submitting = null;
+            swal({
+                type: 'error',
+                text: error.data
+            });
+        });
+
+    };
+
+    $scope.avgStar = 5;
+    $scope.maxSize = 6;
+    $scope.currentPage = 1;
+    var gettingComment = false;
+
+   getComments(true);
+
+    // 获取评论
+    function getComments(isFirst) {
+        if(gettingComment) return;
+        gettingComment = true;
+
+        $http({
+            method: 'get',
+            url: '/api/tourist/packageComments/' + $scope.package.packageId + '/' + $scope.currentPage,
+            params: {
+                t: Math.random()
+            }
+        }).then(function(res) {
+            gettingComment = false;
+            var data = res.data,
+                status = data.status;
+            if(status === '200') {
+                $scope.comments = data.comments;
+                $scope.avgStar = data.avgStar;
+                $scope.totalItems = data.totalItems;
+                if(!isFirst) {
+                    $anchorScroll('package-comment');
+                }
+            }
+        }, function(error) {
+            gettingComment = false;
+            swal({
+                type: 'error',
+                text: error.data
+            });
+        });
+    }
+
+
+    $scope.goPage = function() {
+        getComments(false);
     };
 
 }]);

@@ -9,7 +9,7 @@ function($scope, $http, $stateParams, $state) {
         // 防多次点击
         if(rForm.submitting) return;
 
-        rForm.submitting = new Spinner({ width: 4 }).spin(document.querySelector('.rForm'));
+        rForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.register-form'));
 
         var req = angular.copy($scope.user);
 
@@ -46,7 +46,10 @@ function($scope, $http, $stateParams, $state) {
             } else if(status === '400') {
                 $scope.inputError.userName = true;
             } else if(status === '500') {
-                swal('未知错误');
+                swal({
+                    type: 'error',
+                    text: '未知错误'
+                });
             } else if(status === '600') {
                 $scope.inputError.eCode = true;
                 $scope.eCodeError = '邮箱验证码错误！';
@@ -57,7 +60,10 @@ function($scope, $http, $stateParams, $state) {
         }, function(error) {
             rForm.submitting.stop();
             rForm.submitting = null;
-            swal(error.data);
+            swal({
+                type: 'error',
+                text: error.data
+            });
         });
     };
 }]);

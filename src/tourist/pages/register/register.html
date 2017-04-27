@@ -1,4 +1,4 @@
-<div ng-controller="RegisterCtrl" class="register-page page clearfix">
+<div class="register-page page row">
     <tour-header hide-collapse="true"></tour-header>
     <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-info">
@@ -32,7 +32,7 @@
                             <span class="input-group-addon"><i class="glyphicon-validate"
                                                                aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="eCode" ng-model="user.eCode" minlength="6" maxlength="6" placeholder="邮箱验证码" show-tips required>
-                            <span class="input-group-addon ecodeSending" ng-click="sendCode(rForm)">
+                            <span class="input-group-addon ecode-sending" ng-click="sendCode(rForm)">
                                 <span ng-show="!sending">获取</span>
                                 <span ng-show="sending" ng-bind="leftTime" show-time></span>
                             </span>

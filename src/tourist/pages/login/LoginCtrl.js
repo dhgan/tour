@@ -18,7 +18,7 @@ function ($scope, $http, $stateParams, $state) {
         // 防多次点击
         if(lForm.submitting) return;
 
-        lForm.submitting = new Spinner({ width: 4 }).spin(document.querySelector('.lForm'));
+        lForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.login-form'));
 
         var req = $scope.user;
 
@@ -47,13 +47,19 @@ function ($scope, $http, $stateParams, $state) {
             } else if(status === '400') {
                 $scope.formError = true;
             } else if(status === '500') {
-                swal('未知错误');
+                swal({
+                    type: 'error',
+                    text: '未知错误'
+                });
             }
         }, function(error) {
             lForm.submitting.stop();
             lForm.submitting = null;
             refreshCaptcha();
-            swal(error.data);
+            swal({
+                type: 'error',
+                text: error.data
+            });
         });
     };
 }]);

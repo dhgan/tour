@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.ttf?pw1y37') format('truetype'),
-    url('fonts/icomoon.woff?pw1y37') format('woff'),
-    url('fonts/icomoon.svg?pw1y37#icomoon') format('svg');
+    url('fonts/icomoon.ttf?jsz7gb') format('truetype'),
+    url('fonts/icomoon.woff?jsz7gb') format('woff'),
+    url('fonts/icomoon.svg?jsz7gb#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -28,6 +28,21 @@
 }
 .glyphicon-minus:before {
   content: "\e909";
+}
+.glyphicon-star-empty:before {
+  content: "\e90d";
+}
+.glyphicon-star-half-empty:before {
+  content: "\e90e";
+}
+.glyphicon-star-half-full:before {
+  content: "\e90e";
+}
+.glyphicon-star-half-o:before {
+  content: "\e90e";
+}
+.glyphicon-star:before {
+  content: "\e90f";
 }
 .glyphicon-heart-edge:before {
   content: "\e90b";
