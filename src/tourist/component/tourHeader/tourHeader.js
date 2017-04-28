@@ -3,7 +3,6 @@ var app = require('../../common/app');
 require('./tourHeader.scss');
 
 app.directive('tourHeader', ['$templateCache', '$state', '$http', function($templateCache, $state, $http) {
-    //language=HTML
     $templateCache.put('template/tourHeader.html',
         '<div class="tour-header">\
             <div class="navbar navbar-default navbar-fixed-top" role="navigation" headroom tolerance="2" offset="200">\
@@ -19,16 +18,16 @@ app.directive('tourHeader', ['$templateCache', '$state', '$http', function($temp
                     </div>\
                     <div class="collapse navbar-collapse" uib-collapse="!isNavCollapsed" ng-if="!hideCollapse">\
                         <ul class="nav navbar-nav navbar-right">\
-                            <li><a ui-sref="home" class="nav-a">首页</a></li>\
-                            <li ng-if="!hasLogin"><a ui-sref="login" class="nav-a">登录</a></li>\
-                            <li ng-if="!hasLogin"><a ui-sref="register" class="nav-a">注册</a></li>\
-                            <li uib-dropdown is-open="infoOpen" ng-if="hasLogin" ng-mouseleave="infoOpen=false">\
-                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle ng-mouseover="infoOpen=true">{{userInfo.userName}} <span class="caret"></span></a>\
-                                    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">\
-                                        <li><a ui-sref="collection">我的收藏</a></li>\
-                                        <li><a ui-sref="order">我的订单</a></li>\
-                                        <li><a ui-sref="info">个人信息</a></li>\
-                                        <li ng-click="logout()"><a href="javascript:">退出</a></li>\
+                            <li><a ui-sref="home" class="nav-a"><i class="glyphicon-home"></i>首页</a></li>\
+                            <li ng-if="!$root.userInfo"><a ui-sref="login" class="nav-a">登录</a></li>\
+                            <li ng-if="!$root.userInfo"><a ui-sref="register" class="nav-a">注册</a></li>\
+                            <li ng-if="$root.userInfo"><a ui-sref="member.order" class="nav-a"><i class="glyphicon-order"></i>我的订单</a></li>\
+                            <li ng-if="$root.userInfo"><a ui-sref="member.collection" class="nav-a"><i class="glyphicon-heart-full"></i>我的收藏</a></li>\
+                            <li uib-dropdown is-open="infoOpen" ng-if="$root.userInfo" ng-mouseleave="infoOpen=false">\
+                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle ng-mouseover="infoOpen=true">{{$root.userInfo.userName}} <span class="caret"></span></a>\
+                                    <ul class="dropdown-menu user-dropdown" uib-dropdown-menu aria-labelledby="simple-dropdown">\
+                                        <li><a ui-sref="member.user"><i class="glyphicon-user"></i>个人信息</a></li>\
+                                        <li ng-click="logout()"><a href="javascript:"><i class="glyphicon-sign-out"></i>退出</a></li>\
                                     </ul>\
                             </li>\
                         </ul>\
@@ -57,8 +56,8 @@ app.directive('tourHeader', ['$templateCache', '$state', '$http', function($temp
             $scope.toggleNav = function() {
                 $scope.isNavCollapsed = !$scope.isNavCollapsed;
             };
-            $scope.userInfo = $scope.$parent.userInfo;
-            $scope.hasLogin = !!$scope.userInfo;
+            /*$scope.userInfo = $scope.$parent.userInfo;
+            $scope.$root.userInfo = !!$scope.userInfo;*/
 
             $scope.goSearch = function() {
                 $scope.queryStr = $scope.queryStr.replace(/^\s+|\s+$/g, '');
@@ -76,7 +75,9 @@ app.directive('tourHeader', ['$templateCache', '$state', '$http', function($temp
                     method: 'post',
                     url: '/api/tourist/logout'
                 }).then(function() {
-                    $state.reload();
+                    $state.go('home', {}, {
+                        reload: true
+                    });
                 }, function() {
                     swal('退出失败');
                 });

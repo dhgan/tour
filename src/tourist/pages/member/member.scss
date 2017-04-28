@@ -1,0 +1,33 @@
+.member-page {
+    .nav-list-set {
+        list-style: none;
+        float: left;
+        width: 200px;
+        padding: 20px 10px;
+        .nav-list {
+            margin-bottom: 8px;
+            &.active {
+                a, a:hover {
+                    color: #fff;
+                    background-color: #0BC972;
+                }
+            }
+            a {
+                line-height: 46px;
+                border-radius: 4px;
+                display: block;
+                text-decoration: none;
+                padding: 0 10px 0 24px;
+                color: #666;
+                &:hover {
+                    background-color: #f0f0f0;
+                }
+                [class^='glyphicon-'] {
+                    font-size: 18px;
+                    vertical-align: -6%;
+                    padding: 0 8px;
+                }
+            }
+        }
+    }
+}

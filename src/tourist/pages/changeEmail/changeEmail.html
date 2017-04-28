@@ -1,0 +1,36 @@
+<div class="change-email-page page">
+    <div class="change-email clearfix">
+        <div class="page-header">
+            <h4>修改邮箱</h4>
+        </div>
+        <div class="col-lg-5 col-lg-offset-2 col-md-6 col-md-offset-2 col-sm-8 col-sm-offset-2">
+            <form name="cForm" class="change-form" novalidate>
+                <div class="form-group" ng-class="{
+                    'has-error': cForm.email.$touched && cForm.email.$invalid}">
+                    <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon-mail"
+                                                               aria-hidden="true"></i></span>
+                        <input type="email" name="email" ng-model="user.email" class="form-control" placeholder="邮箱" maxlength="30" email-validate required>
+                    </div>
+                    <span class="help-block">请输入正确的邮箱</span>
+                </div>
+                <div class="form-group" ng-class="{
+                    'has-error': cForm.eCode.$touched && cForm.eCode.$invalid  || inputError.eCode}">
+                    <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon-validate"
+                                                               aria-hidden="true"></i></span>
+                        <input type="text" class="form-control" name="eCode" ng-model="user.eCode" minlength="6" maxlength="6" placeholder="邮箱验证码" show-tips required>
+                        <input type="hidden" name="eType" ng-model="eType">
+                        <span class="input-group-addon ecode-sending" ng-click="sendCode(cForm)">
+                                <span ng-show="!sending">获取</span>
+                                <span ng-show="sending" ng-bind="leftTime" show-time></span>
+                            </span>
+                    </div>
+                    <span class="help-block" ng-show="cForm.eCode.$invalid">请输入6位验证码</span>
+                    <span class="help-block" ng-show="inputError.eCode" ng-bind="eCodeError"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="changeEmail(cForm)" ng-disabled="cForm.$invalid">确定</button>
+            </form>
+        </div>
+    </div>
+</div>

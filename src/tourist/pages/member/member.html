@@ -1,0 +1,13 @@
+<div class="member-page page">
+    <tour-header query-str="queryStr"></tour-header>
+    <div class="container">
+        <ul class="nav-list-set hidden-xs">
+            <li class="nav-list" ng-class="{'active': currentState === 'member.user'}"><a ui-sref="member.user"><i class="glyphicon-user"></i>我的信息</a></li>
+            <li class="nav-list" ng-class="{'active': currentState === 'member.order'}"><a ui-sref="member.order"><i class="glyphicon-order"></i>我的订单</a></li>
+            <li class="nav-list" ng-class="{'active': currentState === 'member.collection'}"><a ui-sref="member.collection"><i class="glyphicon-heart-full"></i>我的收藏</a></li>
+            <li class="nav-list" ng-class="{'active': currentState === 'member.changeEmail'}"><a ui-sref="member.changeEmail"><i class="glyphicon-mail"></i>修改邮箱</a></li>
+            <li class="nav-list" ng-class="{'active': currentState === 'member.changePassword'}"><a ui-sref="member.changePassword"><i class="glyphicon-lock"></i>修改密码</a></li>
+        </ul>
+        <div ui-view></div>
+    </div>
+</div>

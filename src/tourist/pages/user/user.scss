@@ -1,0 +1,46 @@
+.user-page {
+    .user-detail {
+        //max-width: 820px;
+        //margin: 20px auto;
+        margin-left: 220px;
+        @media (max-width: 767px) {
+            margin-left: 0;
+        }
+        /*@media (min-width: 1200px) {
+            margin-left: 8%;
+        }*/
+        .page-header {
+            margin: 20px 0 10px;
+            & > h4 {
+                margin: 0;
+            }
+        }
+        .user-info {
+            list-style: none;
+            padding: 0;
+            & > li {
+                margin: 14px auto;
+            }
+            .key {
+                display: inline-block;
+                width: 60px;
+                text-align: right;
+                color: #a1a1a1;
+            }
+            .value {
+                padding: 6px;
+            }
+            .price {
+                color: #f30;
+            }
+            .change-email {
+                font-size: 14px;
+                padding: 6px;
+            }
+            .btn {
+                color: #0BC972;
+                padding: 0 6px;
+            }
+        }
+    }
+}

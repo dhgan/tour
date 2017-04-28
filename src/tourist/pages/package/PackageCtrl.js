@@ -6,7 +6,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
     // 页面信息
     var status = PageInfo.status;
     if(status === '200') {
-        $scope.userInfo = PageInfo.userInfo;
+        $scope.$root.userInfo = PageInfo.userInfo;
 
         $scope.package = PageInfo.package;
     }

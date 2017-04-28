@@ -1,9 +1,13 @@
 .order-page {
     .order-list {
-        max-width: 820px;
+        /*max-width: 820px;
         margin: 20px auto;
         @media  (min-width: 1200px){
             margin-left: 8%;
+        }*/
+        margin-left: 220px;
+        @media (max-width: 767px) {
+            margin-left: 0;
         }
         .page-header {
             margin: 20px 0 10px;
@@ -14,6 +18,7 @@
         .list-group-item {
             margin: 10px 0;
             border-top: 1px solid #0BC972;
+            overflow: hidden;
             &:hover {
                 background-color: #f9f9f9;
             }

@@ -178,7 +178,25 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             },
             controller: 'SearchCtrl'
         })
-        .state('order', {
+        .state('member', {
+            url: '/member',
+            templateUrl: './member.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/member/member.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }]
+            },
+            abstract: true
+        })
+        .state('member.order', {
             url: '/order?p',
             templateUrl: './order.html',
             resolve: {
@@ -204,7 +222,15 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             pageSize: 15
                         }
                     }).then(function(res) {
-                        return res.data;
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: 'member.order'
+                            });
+                        } else {
+                            return data;
+                        }
                     }, function(error) {
                         swal(error.data);
                     });
@@ -212,7 +238,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             },
             controller: 'OrderCtrl'
         })
-        .state('collection', {
+        .state('member.collection', {
             url: '/collection?p',
             templateUrl: './collection.html',
             resolve: {
@@ -237,13 +263,141 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             t: Math.random()
                         }
                     }).then(function(res) {
-                        return res.data;
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: 'member.collection'
+                            });
+                        } else {
+                            return data;
+                        }
                     }, function(error) {
                         swal(error.data);
                     });
                 }]
             },
             controller: 'CollectionCtrl'
+        })
+        .state('member.user', {
+            url: '/user',
+            templateUrl: './user.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/user/user.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$state', function($http, $state) {
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/user',
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: 'member.user'
+                            });
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal(error.data);
+                    });
+                }]
+            },
+            controller: 'UserCtrl'
+        })
+        .state('member.changePassword', {
+            url: '/changePassword',
+            templateUrl: './changePassword.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/changePassword/changePassword.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$state', function($http, $state) {
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/user',
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: 'member.changePassword'
+                            });
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal(error.data);
+                    });
+                }]
+            },
+            controller: 'ChangePasswordCtrl'
+        })
+        .state('member.changeEmail', {
+            url: '/changeEmail',
+            templateUrl: './changeEmail.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/changeEmail/changeEmail.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$state', function($http, $state) {
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/user',
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: 'member.changeEmail'
+                            });
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal(error.data);
+                    });
+                }]
+            },
+            controller: 'ChangeEmailCtrl'
         });
 
 	$urlRouterProvider.otherwise('/home');

@@ -9,7 +9,7 @@ function($scope, $http, $stateParams, $state, PageInfo) {
 
     var status = PageInfo.status;
     if(status === '200') {
-        $scope.userInfo = PageInfo.userInfo;
+        $scope.$root.userInfo = PageInfo.userInfo;
 
         $scope.totalItems = PageInfo.totalItems;
         $scope.packages = PageInfo.packages;

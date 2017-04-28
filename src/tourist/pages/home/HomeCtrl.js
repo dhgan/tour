@@ -6,7 +6,7 @@ function ($rootScope, $scope, $http, $stateParams, $state, PageInfo) {
 
     var status = PageInfo.status;
     if(status === '200') {
-        $scope.userInfo = PageInfo.userInfo;
+        $scope.$root.userInfo = PageInfo.userInfo;
 
         $scope.hasPackage = PageInfo.packages.length > 0;
         $scope.slides = PageInfo.slides;

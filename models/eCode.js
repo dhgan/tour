@@ -9,7 +9,7 @@ var eCodeSchema = new mongoose.Schema({
     },
     eType: {
         type: String,
-        enum: ['100']
+        enum: ['100', '200']
     },
     eCode: String,
     expires: Date

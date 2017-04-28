@@ -7,13 +7,6 @@ var wyEmail = require('../../lib/wyEmail');
 var User = require('../../models/user');
 var ECode = require('../../models/eCode');
 
-router.post('/checkLogin', checkLogin, function (req, res) {
-    res.send({
-        status: '200',
-        userInfo: req.session.user
-    });
-});
-
 router.post('/register', function (req, res) {
     var rbody = req.body,
         userName = rbody.userName,
@@ -133,7 +126,11 @@ router.post('/login', function (req, res) {
                     status: '400'
                 });
             } else {
-                req.session.user = user;
+                req.session.user = {
+                    _id: user._id,
+                    userName: user.userName,
+                    email: user.email
+                };
                 res.json({
                     status: '200'
                 });
@@ -680,6 +677,269 @@ router.get('/packageComments/:packageId/:page', function (req, res) {
         ]
     });
 
+});
+
+router.get('/user', checkLogin, function (req, res) {
+
+    User.findById(req.session.user._id).exec()
+        .then(function (user) {
+            // 异常错误
+            if (!user) {
+                return res.json({
+                    status: '500'
+                })
+            }
+
+            req.session.user = {
+                _id: user._id,
+                userName: user.userName,
+                email: user.email
+            };
+
+            res.json({
+                status: '200',
+                userInfo: req.session.user
+            });
+
+        }, function (err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+});
+
+
+router.post('/changeEmail', checkLogin, function (req, res) {
+    var rbody = req.body,
+        email = rbody.email,
+        eCode = rbody.eCode;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!email || !eCode) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    // 邮箱格式错误
+    var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
+    if (!emailReg.test(email)) {
+        return res.json({
+            status: '300'
+        });
+    }
+
+    ECode.findOne({email: email, eType: '200'}).exec()
+        .then(function (ecode) {
+            logger.debug(ecode);
+
+            // 邮箱验证码错误
+            if (!ecode || ecode.eCode !== eCode) {
+                return res.json({
+                    status: '600'
+                });
+            }
+
+            // 邮箱验证码过期
+            if (new Date(ecode.expires) < new Date()) {
+                return res.json({
+                    status: '601'
+                });
+            }
+
+
+            User.findById(req.session.user._id).exec()
+                .then(function (user) {
+                    // 异常错误
+                    if (!user) {
+                        return res.json({
+                            status: '500'
+                        })
+                    }
+
+                    user.email = email;
+
+                    user.save()
+                        .then(function() {
+
+                            res.json({
+                                status: '200'
+                            });
+
+                        }, function() {
+                            logger.error(err);
+
+                            return res.json({
+                                status: '500'
+                            });
+                        });
+
+
+                }, function (err) {
+                    logger.error(err);
+                    res.json({
+                        status: '500'
+                    });
+                });
+
+
+        }, function (err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+
+    res.json({
+        status: '200',
+        userInfo: req.session.user
+    });
+
+});
+
+router.post('/changePassword', checkLogin, function (req, res) {
+    var rbody = req.body,
+        opassword = rbody.opassword,
+        password = rbody.password;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!opassword || !password) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+
+    User.findById(req.session.user._id).exec()
+        .then(function (user) {
+            // 异常错误
+            if (!user) {
+                return res.json({
+                    status: '500'
+                })
+            }
+
+            // 原密码错误
+            if (opassword !== user.password) {
+                return res.json({
+                    status: '300'
+                });
+            }
+
+            user.password = password;
+
+            user.save()
+                .then(function() {
+
+                    res.json({
+                       status: '200'
+                    });
+
+                }, function() {
+                    logger.error(err);
+
+                    return res.json({
+                        status: '500'
+                    });
+                });
+
+
+        }, function (err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+});
+
+
+router.post('/changeEmail', checkLogin, function (req, res) {
+    var rbody = req.body,
+        email = rbody.email,
+        eCode = rbody.eCode;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!email || !eCode) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    // 邮箱格式错误
+    var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
+    if (!emailReg.test(email)) {
+        return res.json({
+            status: '300'
+        });
+    }
+
+    ECode.findOne({email: email, eType: '200'}).exec()
+        .then(function (ecode) {
+            logger.debug(ecode);
+
+            // 邮箱验证码错误
+            if (!ecode || ecode.eCode !== eCode) {
+                return res.json({
+                    status: '600'
+                });
+            }
+
+            // 邮箱验证码过期
+            if (new Date(ecode.expires) < new Date()) {
+                return res.json({
+                    status: '601'
+                });
+            }
+
+
+            User.findById(req.session.user._id).exec()
+                .then(function (user) {
+                    // 异常错误
+                    if (!user) {
+                        return res.json({
+                            status: '500'
+                        })
+                    }
+
+                    user.email = email;
+
+                    user.save()
+                        .then(function() {
+
+                            res.json({
+                                status: '200'
+                            });
+
+                        }, function() {
+                            logger.error(err);
+
+                            return res.json({
+                                status: '500'
+                            });
+                        });
+
+
+                }, function (err) {
+                    logger.error(err);
+                    res.json({
+                        status: '500'
+                    });
+                });
+
+
+        }, function (err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
 });
 
 module.exports = router;

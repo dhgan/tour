@@ -27,15 +27,25 @@
     .navbar-toggle {
         margin-top: 12px;
     }
-    .navbar-nav .nav-a {
-        padding: 19px 15px;
-        &.user-name {
-            color: #0BC972;
+    .navbar-nav {
+        .nav-a {
+            padding: 19px 15px;
+            &.user-name {
+                color: #0BC972;
+            }
+            &:hover, &:focus {
+                color: #0BC972 !important;
+            }
         }
-    }
-    .navbar-nav a {
-        &:hover, &:focus {
-            color: #0BC972 !important;
+        [class^='glyphicon-'] {
+            font-size: 18px;
+            vertical-align: -8%;
+            padding-right: 4px;
+        }
+        .user-dropdown {
+            a {
+                padding: 6px 20px;
+            }
         }
     }
     .navbar-form {

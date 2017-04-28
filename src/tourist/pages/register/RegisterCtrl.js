@@ -5,6 +5,8 @@ function($scope, $http, $stateParams, $state) {
 
     var redirect = decodeURIComponent($stateParams.redirect);
 
+    $scope.eType = '100';
+
     $scope.register = function(rForm) {
         // 防多次点击
         if(rForm.submitting) return;

@@ -1,0 +1,26 @@
+<div class="user-page page">
+    <div class="user-detail">
+        <div class="page-header">
+            <h4>我的信息</h4>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ul class="user-info">
+                    <li>
+                        <span class="key">用户名</span>：
+                        <span class="value">{{userInfo.userName}}</span>
+                    </li>
+                    <li>
+                        <span class="key">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</span>：
+                        <span class="value">{{userInfo.email}}</span>
+                        <a role="button" ui-sref="changeEmail" class="btn btn-link change-email">修改邮箱</a>
+                    </li>
+                    <li>
+                        <span class="key">密&nbsp;&nbsp;&nbsp;&nbsp;码</span>：
+                        <a role="button" ui-sref="changePassword" class="btn btn-link change-email">修改密码</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

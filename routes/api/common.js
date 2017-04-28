@@ -5,12 +5,13 @@ var logger = require('../../lib/log').logger;
 var svgCaptcha = require('svg-captcha');
 var ECode = require('../../models/eCode');
 var qqEmail = require('../../lib/qqEmail');
+var wyEmail = require('../../lib/wyEmail');
 var _ = require('lodash');
 
 router.get('/captcha', function (req, res) {
     var captcha = svgCaptcha.create({
         size: 4,
-        ignoreChars: '01o1iIOL',
+        ignoreChars: '01o1iIOLl',
         color: true,
         noise: 2,
         background: '#eee'
@@ -64,18 +65,32 @@ router.post('/getECode', function (req, res) {
 
         ecode.save()
             .then(function () {
-                qqEmail.send({
+
+                var subject = '',
+                    text = '',
+                    html = '';
+
+                if(eType === '100') {
+                    subject = '旅游团网注册验证码';
+                    text = '感谢您的注册，您的邮箱验证码位: ' + code + '。';
+                    html = '<h3>感谢您的注册，您的邮箱验证码为: <b>' + code + '</b>。</h3>';
+                } else if(eType === '200') {
+                    subject = '旅游团网修改邮箱验证码';
+                    text = '您正在修改邮箱，您的邮箱验证码为: ' + code + '。';
+                    html = '<h3>您正在修改邮箱，您的邮箱验证码为: <b>' + code + '</b>。</h3>';
+                }
+                wyEmail.send({
                     to: email,
-                    subject: '旅游团网注册验证码',
-                    text: '感谢您的注册，您的邮箱验证码位: ' + code + '。',
-                    html: '<h3>感谢您的注册，您的邮箱验证码位: <b>' + code + '</b>。</h3>'
+                    subject: subject,
+                    text: text,
+                    html: html
                 });
 
                 res.json({
                     status: '200'
                 });
             }, function (err) {
-                logger.debug(err);
+                logger.error(err);
 
                 // eType数据错误
                 if (err.errors['eType']) {

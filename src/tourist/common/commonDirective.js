@@ -48,13 +48,13 @@ app.directive('emailValidate', function() {
                 }
             });
 
-            $scope.sendCode = function(rForm) {
+            $scope.sendCode = function(form) {
                 // 防多次点击
                 if($scope.sending) return;
 
                 // 邮件格式错误或邮件为空
-                if(rForm.email.$invalid) {
-                    rForm.email.$touched = true;
+                if(form.email.$invalid) {
+                    form.email.$touched = true;
                     return;
                 }
 
@@ -62,18 +62,27 @@ app.directive('emailValidate', function() {
 
                 var req = {
                     email: $scope.user.email,
-                    eType: '100'
+                    eType: $scope.eType
                 };
 
                 commonService.getECode(req).then(function(res) {
                     var data = res.data,
                         status = data.status;
+                    if(status === '200') return ;
                     if(status === '300') {
-                        rForm.email.$invalid = true;
+                        form.email.$invalid = true;
+                    } else {
+                        swal({
+                            type: 'error',
+                            text: '未知错误'
+                        });
                     }
-                }, function() {
+                }, function(error) {
                     $scope.sending = false;
-                    alert('网络错误');
+                    swal({
+                        type: 'error',
+                        text: error.data
+                    });
                 });
             };
 

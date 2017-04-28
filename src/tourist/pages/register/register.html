@@ -32,6 +32,7 @@
                             <span class="input-group-addon"><i class="glyphicon-validate"
                                                                aria-hidden="true"></i></span>
                             <input type="text" class="form-control" name="eCode" ng-model="user.eCode" minlength="6" maxlength="6" placeholder="邮箱验证码" show-tips required>
+                            <input type="hidden" name="eType" ng-model="eType">
                             <span class="input-group-addon ecode-sending" ng-click="sendCode(rForm)">
                                 <span ng-show="!sending">获取</span>
                                 <span ng-show="sending" ng-bind="leftTime" show-time></span>
