@@ -11,6 +11,7 @@ var app = angular.module('tour', [
 		require('angular-ui-router'),
 		require('oclazyload'),
         require('angular-touch'),
+        require('angular-sanitize'),
         require('angular-animate'),
 		require('angular-ui-bootstrap'),
         'headroom'

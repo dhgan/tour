@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var userSchema = new mongoose.Schema({
     userName: {
@@ -31,10 +32,16 @@ var userSchema = new mongoose.Schema({
         enum: [-2, -1, 0],
         default: 0
     },
-    comments: [mongoose.Schema.Types.ObjectId],
-    collections: [mongoose.Schema.Types.ObjectId]
+    comments: [{
+        type: ObjectId,
+        ref: 'Comment'
+    }],
+    collections: [{
+        type: ObjectId,
+        ref: 'Collection'
+    }]
 
 });
 
-var User = mongoose.model('users', userSchema);
+var User = mongoose.model('User', userSchema);
 module.exports = User;

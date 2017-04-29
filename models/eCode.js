@@ -15,5 +15,5 @@ var eCodeSchema = new mongoose.Schema({
     expires: Date
 });
 
-var ECode = mongoose.model('eCodes', eCodeSchema);
+var ECode = mongoose.model('ECode', eCodeSchema);
 module.exports = ECode;

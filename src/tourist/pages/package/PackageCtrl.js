@@ -5,11 +5,17 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
     // 页面信息
     var status = PageInfo.status;
-    if(status === '200') {
-        $scope.$root.userInfo = PageInfo.userInfo;
+    $scope.$root.userInfo = PageInfo.userInfo;
+    $scope.package = PageInfo.package;
 
-        $scope.package = PageInfo.package;
+    if(status === '500') {
+        swal('为知错误');
     }
+
+    if(!$scope.package) return;
+
+    var packageId = PageInfo.package._id;
+
 
     $scope.status = {
         featuresOpen: true,
@@ -108,7 +114,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         bForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.total'));
 
         var req = {
-            packageId: $stateParams.packageId,
+            packageId: packageId,
             number: $scope.num,
             date: moment($scope.dt).format('YYYY-MM-DD'),
             price: $scope.choice.price
@@ -151,7 +157,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
             method: 'post',
             url: '/api/tourist/addCollection',
             data: {
-                packageId: $scope.package.packageId
+                packageId: packageId
             }
         }).then(function(res) {
             cForm.submitting.stop();
@@ -167,6 +173,10 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
                 }).catch(swal.noop);
 
                 $scope.package.collected = true;
+            } else if(status === '1024') {
+                $state.go('login', {
+                    redirect: encodeURIComponent('package?' + JSON.stringify({packageId: packageId}))
+                });
             }
         }, function(error) {
             cForm.submitting.stop();
@@ -193,7 +203,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
         $http({
             method: 'get',
-            url: '/api/tourist/packageComments/' + $scope.package.packageId + '/' + $scope.currentPage,
+            url: '/api/tourist/packageComments/' + packageId + '/' + $scope.currentPage,
             params: {
                 t: Math.random()
             }

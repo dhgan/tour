@@ -1,4 +1,9 @@
 .package-page {
+    .wrong-package {
+        font-size: 24px;
+        margin: 100px auto;
+        text-align: center;
+    }
     .package-img {
         .carousel {
             width: 450px;
@@ -20,7 +25,7 @@
             .collect-form {
                 position: relative;
             }
-            .collect-form>span {
+            .collect-form > span {
                 cursor: pointer;
                 display: inline-block;
                 line-height: 34px;
@@ -47,7 +52,7 @@
             .content {
                 color: #838383;
             }
-            &>div {
+            & > div {
                 border-top: 1px solid #eee;
                 border-bottom: 1px solid #eee;
                 &:not(:last-child) {
@@ -69,7 +74,7 @@
                     vertical-align: middle;
                     input {
                         cursor: pointer;
-                        background: #fff!important;
+                        background: #fff !important;
                     }
                 }
                 .input-group-addon {
@@ -108,7 +113,7 @@
                     .btn-default, .text-muted {
                         color: #0BC972;
                     }
-                    .btn-default[disabled]{
+                    .btn-default[disabled] {
                         color: #ccc;
                         .text-muted {
                             color: #ccc;
@@ -281,10 +286,10 @@
     @media (min-width: 576px) and (max-width: 767px) {
         .order-list {
             .hidden-xs {
-                display: inline-block!important;
+                display: inline-block !important;
             }
             .visible-xs-block {
-                display: none!important;
+                display: none !important;
             }
         }
     }

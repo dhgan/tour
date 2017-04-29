@@ -3,7 +3,10 @@ var app = require('../../common/app.js');
 app.controller('LoginCtrl', ['$scope', '$http', '$stateParams', '$state',
 function ($scope, $http, $stateParams, $state) {
 
-    var redirect = decodeURIComponent($stateParams.redirect);
+    var redirect = decodeURIComponent($stateParams.redirect),
+        i = redirect.indexOf('?'),
+        params = JSON.parse(redirect.substr(i+1)),
+        redirect = redirect.substr(0, i);
 
     function refreshCaptcha() {
         $scope.captchaSrc = 'api/common/captcha?d='+ Math.random();
@@ -35,7 +38,7 @@ function ($scope, $http, $stateParams, $state) {
             if(status === '200') {
                 if(redirect) {
                     try {
-                        $state.go(redirect);
+                        $state.go(redirect, params);
                     } catch(err) {
                         $state.go('home');
                     }
