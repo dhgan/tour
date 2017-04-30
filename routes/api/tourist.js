@@ -8,6 +8,8 @@ var User = require('../../models/user');
 var ECode = require('../../models/eCode');
 var Package = require('../../models/package');
 var Collection = require('../../models/collection');
+var pageQuery = require('../../lib/pageQuery');
+var async = require('async');
 
 router.post('/register', function (req, res) {
     var rbody = req.body,
@@ -119,7 +121,9 @@ router.post('/login', function (req, res) {
         });
     }
 
-    User.findOne({userName: userName, password: password}).exec()
+    User.findOne({userName: userName, password: password})
+        .populate('collections')
+        .exec()
         .then(function(user) {
 
             // 用户名或密码错误
@@ -131,7 +135,8 @@ router.post('/login', function (req, res) {
                 req.session.user = {
                     _id: user._id,
                     userName: user.userName,
-                    email: user.email
+                    email: user.email,
+                    collections: user.collections
                 };
                 res.json({
                     status: '200'
@@ -257,7 +262,6 @@ router.get('/package/:packageId', function (req, res) {
                 if(minPrice > choices[i].price) {
                     minPrice = choices[i].price;
                 }
-                console.log(choices[i].price);
             }
 
             package = package.toObject();
@@ -393,8 +397,9 @@ router.get('/package/:packageId', function (req, res) {
 
 router.get('/search/:query/:page', function (req, res) {
     var params = req.params,
-        page = params.page || 1,
-        query = params.query;
+        page = parseInt(params.page) || 1,
+        query = params.query,
+        pageSize = parseInt(req.query.pageSize) || 10;
 
     logger.debug(params);
 
@@ -405,7 +410,48 @@ router.get('/search/:query/:page', function (req, res) {
         });
     }
 
-    res.json({
+    var reg = new RegExp(query, 'i');
+
+    var queryParams = {
+        $or: [
+            { title: {$regex: reg} },
+            { features: {$regex: reg} },
+            { departureCity: {$regex: reg} },
+            { days: {$regex: reg} }
+        ]
+    };
+
+    var sortParams = {
+        createTime: -1
+    };
+
+    pageQuery(page, pageSize, Package, '', queryParams, sortParams, function(err, $page) {
+        if(err) {
+            logger.error(err);
+            return res.json({
+                status: '500'
+            });
+        }
+
+        var results = $page.results,
+            packages = [];
+
+        for(var i=results.length-1; i>=0; i--) {
+            packages[i] = results[i].toObject();
+            packages[i].minPrice = results[i].getMinPrice();
+        }
+
+        res.json({
+            status: '200',
+            packages: packages,
+            page: $page.page,
+            totalItems: $page.count,
+            userInfo: req.session.user
+        });
+
+    })
+
+    /*res.json({
         status: '200',
         packages: [
             {
@@ -482,7 +528,7 @@ router.get('/search/:query/:page', function (req, res) {
         ],
         totalItems: 1237,
         userInfo: req.session.user
-    });
+    });*/
 
 
 });
@@ -591,35 +637,156 @@ router.post('/addCollection', checkLogin, function (req, res) {
         });
     }
 
-    new Collection({
-        userId: Object(req.session.user._id),
-        packageId: Object(packageId),
-        createDate: new Date()
-    }).save()
-        .then(function() {
-            res.json({
-                status: '200'
-            });
+    var sessionUser = req.session.user,
+        userId = sessionUser._id;
+
+    Collection.findOne({user: userId, package: packageId}).exec()
+        .then(function(collection) {
+            if(!collection) {
+                logger.debug('not collection');
+                new Collection({
+                    user: Object(userId),
+                    package: Object(packageId),
+                    createDate: new Date()
+                }).save()
+                    .then(function(collection) {
+                        User.findByIdAndUpdate(userId, {$addToSet: {'collections': collection._id}}).exec()
+                            .then(function() {
+                                sessionUser.collections.push(collection);
+                                return res.json({
+                                    status: '200',
+                                    userInfo: sessionUser
+                                });
+                            }, function(error) {
+                                logger.error(error);
+                                return res.json({
+                                    status: '500',
+                                    userInfo: sessionUser
+                                });
+                            });
+                    }, function(error) {
+                        logger.error(error);
+                        return res.json({
+                            status: '500',
+                            userInfo: sessionUser
+                        });
+                    });
+            } else {
+
+                var collectionId = collection._id.toString();
+
+                if(sessionUser.collections.indexOf(collectionId) >= 0) {
+                    // 已收藏
+                    return res.json({
+                        status: '300',
+                        userInfo: sessionUser
+                    });
+                }
+
+                // else
+
+                User.findByIdAndUpdate(userId, {$addToSet: {'collections': collection._id}}).exec()
+                    .then(function() {
+                        sessionUser.collections.push(collection);
+                        return res.json({
+                            status: '200',
+                            userInfo: sessionUser
+                        });
+                    }, function(error) {
+                        logger.error(error);
+                        return res.json({
+                            status: '500',
+                            userInfo: sessionUser
+                        });
+                    });
+            }
         }, function(error) {
             logger.error(error);
-            res.json({
-                status: '500',
-                userInfo: req.session.user
+            return res.json({
+                status: '500'
             });
         });
-
 
 
 });
 
 
-router.get('/collection/:page', function (req, res) {
+router.get('/collection/:page', checkLogin, function (req, res) {
     var params = req.params,
-        page = params.page || 1;
+        page = parseInt(params.page) || 1,
+        pageSize = parseInt(req.query.pageSize) || 10;
 
     logger.debug(params);
+    logger.debug(req.query);
 
-    res.json({
+    // 存在参数为空
+    if(!page || !pageSize) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var start = (page - 1) * pageSize;
+    var userId = req.session.user._id;
+
+    logger.debug(start, pageSize);
+
+    async.parallel({
+        count: function(done) {
+            User.findById(userId, 'collections', function(err, attr) {
+                if(err) logger.error(err);
+                logger.debug('user collections ', attr.collections);
+                done(err, attr.collections.length);
+            })
+        },
+        user: function(done) {
+            User.findById(userId, 'collections')
+                .populate({
+                    path: 'collections',
+                    options: {
+                        sort: '-createDate',
+                        skip: start,
+                        limit: pageSize
+                    },
+                    populate: {
+                        path: 'package',
+                        select: 'title features images choices _id days departureCity',
+                    }
+                })
+                .exec(function(err, doc) {
+                    if(err) logger.error(err);
+                    done(err, doc);
+                });
+        }
+    }, function(err, results) {
+        var count = results.count,
+            collections = results.user.collections;
+        if(err) {
+            logger.error(err);
+            return res.json({
+                status: '500',
+                userInfo: req.session.user
+            });
+        }
+
+        var collect = [];
+
+        for(var i=collections.length-1; i>=0; i--) {
+            collect[i] = collections[i].toObject();
+            collect[i].package.minPrice = collections[i].package.getMinPrice();
+        }
+
+        res.json({
+            status: '200',
+            collections: collect,
+            totalItems: count,
+            page: page,
+            userInfo: req.session.user
+        })
+
+    });
+
+    /*res.json({
         status: '200',
         packages: [
             {
@@ -696,28 +863,77 @@ router.get('/collection/:page', function (req, res) {
         ],
         totalItems: 1237,
         userInfo: req.session.user
-    });
+    });*/
 
 
 });
 
 
-router.post('/removeCollection', function (req, res) {
+router.post('/removeCollection', checkLogin, function (req, res) {
     var rbody = req.body,
-        packageId = rbody.packageId;
+        collectionId = rbody.collectionId;
 
     logger.debug(rbody);
 
     // 存在参数为空
-    if (!packageId) {
+    if (!collectionId) {
         return res.json({
             status: '800'
         });
     }
 
-    res.json({
-        status: '200'
-    });
+    var userId = req.session.user._id;
+
+    Collection.findById(collectionId).exec()
+        .then(function(collection) {
+
+            logger.debug(collection);
+
+            // 非自己收藏
+            if(userId !== collection.user.toString()) {
+                return res.json({
+                    status: '300'
+                });
+            }
+
+            User.findByIdAndUpdate(userId, {$pull: {collections: collectionId}}, {new: true})
+                .populate('collections')
+                .exec()
+                .then(function(user) {
+
+                    req.session.user = {
+                        _id: user._id,
+                        userName: user.userName,
+                        email: user.email,
+                        collections: user.collections
+                    };
+
+                    collection.remove()
+                        .then(function() {
+                            res.json({
+                                status: '200',
+                                userInfo: req.session.user
+                            });
+                        }, function(err) {
+                            logger.error(err);
+                            res.json({
+                                status: '500'
+                            });
+                        })
+
+                }, function(err) {
+                    logger.error(err);
+                    res.json({
+                        status: '500'
+                    });
+                });
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        })
 
 });
 
@@ -801,7 +1017,8 @@ router.get('/user', checkLogin, function (req, res) {
             req.session.user = {
                 _id: user._id,
                 userName: user.userName,
-                email: user.email
+                email: user.email,
+                collections: user.collections
             };
 
             res.json({

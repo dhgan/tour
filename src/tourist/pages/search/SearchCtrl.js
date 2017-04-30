@@ -8,24 +8,29 @@ function($scope, $http, $stateParams, $state, PageInfo) {
     if(!queryStr) return $state.go('home');
 
     var status = PageInfo.status;
-    if(status === '200') {
-        $scope.$root.userInfo = PageInfo.userInfo;
 
+    $scope.$root.userInfo = PageInfo.userInfo;
+
+    if(status === '200') {
         $scope.totalItems = PageInfo.totalItems;
         $scope.packages = PageInfo.packages;
+    } else if(status === '500') {
+        swal('未知错误', '', 'error');
     }
 
     $scope.queryStr = queryStr;
     $scope.curretQueryStr = queryStr;
 
     $scope.currentPage = $stateParams.p || 1;
+    $scope.pageSize = $stateParams.pageSize || 10;
 
     $scope.maxSize = 6;
 
     $scope.goPage = function() {
         $state.go('search', {
             p: $scope.currentPage,
-            q: queryStr
+            q: queryStr,
+            pageSize: $scope.pageSize
         });
     };
 }]);

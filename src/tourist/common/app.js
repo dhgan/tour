@@ -19,7 +19,12 @@ var app = angular.module('tour', [
 	    $anchorScroll.yOffset = 60;
         $rootScope.$on('$stateChangeSuccess', function () {
             $anchorScroll();
+            $rootScope.isNavCollapsed = false;
         });
-    }]);
+    }]).filter('htmlToPlaintext', function() {
+        return function(text) {
+            return  text ? String(text).replace(/<[^>]+>/gm, '') : '';
+        };
+    });
 
 module.exports = app;

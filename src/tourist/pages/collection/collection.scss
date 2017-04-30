@@ -67,6 +67,10 @@
             text-overflow: ellipsis;
             overflow: hidden;
             margin: 4px 0;
+            ul {
+                padding-left: 0;
+                font-weight: 400;
+            }
         }
         .package-other {
             line-height: 20px;

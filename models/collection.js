@@ -2,11 +2,11 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var collectionSchema = new mongoose.Schema({
-    userId: {
+    user: {
         type: ObjectId,
         ref: 'User'
     },
-    packageId: {
+    package: {
         type: ObjectId,
         ref: 'Package'
     },

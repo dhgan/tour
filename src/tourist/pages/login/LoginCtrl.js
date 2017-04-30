@@ -3,10 +3,18 @@ var app = require('../../common/app.js');
 app.controller('LoginCtrl', ['$scope', '$http', '$stateParams', '$state',
 function ($scope, $http, $stateParams, $state) {
 
-    var redirect = decodeURIComponent($stateParams.redirect),
-        i = redirect.indexOf('?'),
-        params = JSON.parse(redirect.substr(i+1)),
-        redirect = redirect.substr(0, i);
+    var redirect = $stateParams.redirect,
+        params = {};
+    if(redirect) {
+        redirect =  decodeURIComponent(redirect);
+        var i = redirect.indexOf('?');
+        if(i !== -1) {
+            params = redirect.substr(i+1);
+            params = params && JSON.parse(params);
+            redirect = redirect.substr(0, i);
+        }
+
+    }
 
     function refreshCaptcha() {
         $scope.captchaSrc = 'api/common/captcha?d='+ Math.random();

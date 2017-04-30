@@ -144,7 +144,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             controller: 'PackageCtrl'
         })
         .state('search', {
-            url: '/search/:q/:p', // q = query and p = page num
+            url: '/search/:q/:p?pageSize', // q = query and p = page num
             templateUrl: './search.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -160,14 +160,16 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }],
                 PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
                     var page = $stateParams.p || 1,
-                        query = $stateParams.q;
+                        query = $stateParams.q,
+                        pageSize = $stateParams.pageSize || 10;
                     if(!query) return null;
                     Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/search/' + query + '/' + page,
                         params: {
-                            t: Math.random()
+                            t: Math.random(),
+                            pageSize: pageSize
                         }
                     }).then(function(res) {
                         return res.data;
@@ -239,7 +241,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             controller: 'OrderCtrl'
         })
         .state('member.collection', {
-            url: '/collection?p',
+            url: '/collection?p&pageSize',
             templateUrl: './collection.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -253,14 +255,16 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     });
                     return deferred.promise;
                 }],
-                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
-                    var page = $stateParams.p || 1;
+                PageInfo: ['$http', '$stateParams', '$state', function($http, $stateParams, $state) {
+                    var page = $stateParams.p || 1,
+                        pageSize = $stateParams.pageSize || 10;
                     Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/collection/' + page,
                         params: {
-                            t: Math.random()
+                            t: Math.random(),
+                            pageSize: pageSize
                         }
                     }).then(function(res) {
                         var data = res.data,

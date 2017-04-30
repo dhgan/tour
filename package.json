@@ -8,6 +8,7 @@
     "build": "cross-env NODE_ENV=build node server"
   },
   "dependencies": {
+    "async": "^2.4.0",
     "body-parser": "~1.16.0",
     "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",

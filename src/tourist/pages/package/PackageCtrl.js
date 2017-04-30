@@ -4,17 +4,29 @@ app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$an
 function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
     // 页面信息
-    var status = PageInfo.status;
-    $scope.$root.userInfo = PageInfo.userInfo;
+    var status = PageInfo.status,
+        userInfo = PageInfo.userInfo;
+    $scope.$root.userInfo = userInfo;
     $scope.package = PageInfo.package;
-
-    if(status === '500') {
-        swal('为知错误');
-    }
 
     if(!$scope.package) return;
 
     var packageId = PageInfo.package._id;
+
+    if(userInfo) {
+        var collections = userInfo.collections;
+        collections.forEach(function(collection) {
+            if(collection.package === packageId) {
+                return $scope.package.collected = true;
+            }
+        });
+    }
+
+
+    if(status === '500') {
+        swal('未知错误');
+    }
+
 
 
     $scope.status = {
@@ -172,6 +184,12 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
                     timer: 1500
                 }).catch(swal.noop);
 
+                $scope.package.collected = true;
+            } else if(status === '300') {
+                swal({
+                    text: '您已收藏该线路，无需重复收藏',
+                    type: 'warning'
+                });
                 $scope.package.collected = true;
             } else if(status === '1024') {
                 $state.go('login', {

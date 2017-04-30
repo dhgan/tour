@@ -32,5 +32,19 @@ var packageSchema = new mongoose.Schema({
     state: Number
 });
 
+packageSchema.methods.getMinPrice = function() {
+    var choices  = this.choices,
+        minPrice = choices[0].price;
+
+    for(var i=choices.length-1; i>0; i--) {
+        if(minPrice > choices[i].price) {
+            minPrice = choices[i].price;
+        }
+    }
+
+    return minPrice;
+};
+
 var Package = mongoose.model('Package', packageSchema);
+
 module.exports = Package;

@@ -16,15 +16,15 @@ app.directive('tourHeader', ['$templateCache', '$state', '$http', function($temp
                         </button>\
                         <a ui-sref="home" class="navbar-brand"><img ng-src="{{logoSrc}}" alt="爱旅游"></a>\
                     </div>\
-                    <div class="collapse navbar-collapse" uib-collapse="!isNavCollapsed" ng-if="!hideCollapse">\
+                    <div class="collapse navbar-collapse" uib-collapse="!$root.isNavCollapsed" ng-if="!hideCollapse">\
                         <ul class="nav navbar-nav navbar-right">\
                             <li><a ui-sref="home" class="nav-a"><i class="glyphicon-home"></i>首页</a></li>\
                             <li ng-if="!$root.userInfo"><a ui-sref="login" class="nav-a">登录</a></li>\
                             <li ng-if="!$root.userInfo"><a ui-sref="register" class="nav-a">注册</a></li>\
                             <li ng-if="$root.userInfo"><a ui-sref="member.order" class="nav-a"><i class="glyphicon-order"></i>我的订单</a></li>\
                             <li ng-if="$root.userInfo"><a ui-sref="member.collection" class="nav-a"><i class="glyphicon-heart-full"></i>我的收藏</a></li>\
-                            <li uib-dropdown is-open="infoOpen" ng-if="$root.userInfo" ng-mouseleave="infoOpen=false">\
-                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle ng-mouseover="infoOpen=true">{{$root.userInfo.userName}} <span class="caret"></span></a>\
+                            <li uib-dropdown is-open="infoOpen" ng-if="$root.userInfo">\
+                                    <a class="nav-a user-name" href="javascript:" uib-dropdown-toggle>{{$root.userInfo.userName}} <span class="caret"></span></a>\
                                     <ul class="dropdown-menu user-dropdown" uib-dropdown-menu aria-labelledby="simple-dropdown">\
                                         <li><a ui-sref="member.user"><i class="glyphicon-user"></i>个人信息</a></li>\
                                         <li ng-click="logout()"><a href="javascript:"><i class="glyphicon-sign-out"></i>退出</a></li>\
@@ -54,7 +54,7 @@ app.directive('tourHeader', ['$templateCache', '$state', '$http', function($temp
         link: function($scope, elem, attr, ctrl) {
             $scope.logoSrc = require('../../imgs/logo.png');
             $scope.toggleNav = function() {
-                $scope.isNavCollapsed = !$scope.isNavCollapsed;
+                $scope.$root.isNavCollapsed = !$scope.$root.isNavCollapsed;
             };
             /*$scope.userInfo = $scope.$parent.userInfo;
             $scope.$root.userInfo = !!$scope.userInfo;*/

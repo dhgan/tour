@@ -4,40 +4,44 @@ app.controller('CollectionCtrl', ['$scope', '$http', '$stateParams', '$state', '
 function ($scope, $http, $stateParams, $state, PageInfo) {
 
     var status = PageInfo.status;
+    $scope.$root.userInfo = PageInfo.userInfo;
     if(status === '200') {
-        $scope.$root.userInfo = PageInfo.userInfo;
-
         $scope.totalItems = PageInfo.totalItems;
-        $scope.packages = PageInfo.packages;
+        $scope.currentPage = PageInfo.currentPage;
+        $scope.collections = PageInfo.collections;
+    } else if(status === '500') {
+        swal('未知错误');
     }
 
     $scope.$parent.currentState = $state.current.name;
 
     $scope.currentPage = $stateParams.p || 1;
+    $scope.pageSize = $stateParams.pageSize || 10;
 
     $scope.maxSize = 6;
 
     $scope.goPage = function() {
         $state.go('member.collection', {
-            p: $scope.currentPage
+            p: $scope.currentPage,
+            pageSize: $scope.pageSize
         });
     };
 
-    $scope.removeCollect = function(package) {
+    $scope.removeCollect = function(collection) {
 
-        if(package.submitting) return ;
+        if(collection.submitting) return ;
 
-        package.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.package'+package.packageId));
+        collection.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.collection-' + collection._id));
 
         $http({
             method: 'post',
             url: '/api/tourist/removeCollection',
             data: {
-                packageId: package.packageId
+                collectionId: collection._id
             }
         }).then(function(res) {
-            package.submitting.stop();
-            package.submitting = null;
+            collection.submitting.stop();
+            collection.submitting = null;
             var data = res.data,
                 status = data.status;
             if(status === '200') {
@@ -49,10 +53,22 @@ function ($scope, $http, $stateParams, $state, PageInfo) {
                 }).then(function() {}, function() {
                     $state.reload();
                 });
+            } else if(status === '300') {
+                swal({
+                    type: 'error',
+                    text: '不能取消非本人收藏！'
+                }).then(function() {}, function() {
+                    $state.reload();
+                });
+            } else if(status === '500') {
+                swal({
+                    type: 'error',
+                    text: '未知错误'
+                });
             }
         }, function(error) {
-            package.submitting.stop();
-            package.submitting = null;
+            collection.submitting.stop();
+            collection.submitting = null;
             swal({
                 type: 'error',
                 text: error.data

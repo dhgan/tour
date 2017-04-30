@@ -3,44 +3,49 @@
         <div class="page-header">
             <h4>我的收藏</h4>
         </div>
-        <ul class="list-group">
-            <li ng-repeat="package in packages" class="list-group-item package{{package.packageId}}">
-                <div class="package-operate">
-                    <button class="btn btn-danger btn-xs" ng-click="removeCollect(package)">取消收藏</button>
-                </div>
-                <div class="package-detail row">
-                    <a ui-sref="package({packageId: package.packageId})">
-                        <div class="package-img col-xs-4">
-                            <img ng-src="{{package.images[0]}}" alt="">
-                        </div>
-                    </a>
-                    <div class="package-info col-xs-8">
-                        <h4 class="package-title"><a ui-sref="package({packageId: package.packageId})" ng-bind="package.title"></a></h4>
-                        <div class="package-content">
-                            <div class="package-features" ng-bind="package.features">
+        <div ng-show="collections.length == 0">
+            您还没有收藏。
+        </div>
+        <div ng-show="collections.length > 0">
+            <ul class="list-group">
+                <li ng-repeat="collection in collections" class="list-group-item collection-{{collection._id}}">
+                    <div class="package-operate">
+                        <button class="btn btn-danger btn-xs" ng-click="removeCollect(collection)">取消收藏</button>
+                    </div>
+                    <div class="package-detail row">
+                        <a ui-sref="package({packageId: collection.package._id})">
+                            <div class="package-img col-xs-4">
+                                <img ng-src="{{collection.package.images[0]}}" alt="">
                             </div>
-                            <div class="package-other">
+                        </a>
+                        <div class="package-info col-xs-8">
+                            <h4 class="package-title"><a ui-sref="package({packageId: collection.package._id})" ng-bind="collection.package.title"></a></h4>
+                            <div class="package-content">
+                                <div class="package-features" ng-bind-html="collection.package.features | htmlToPlaintext">
+                                </div>
+                                <div class="package-other">
                                     <span class="departure-city">
-                                        <label>出发城市：</label><span ng-bind="package.departureCity"></span>
+                                        <label>出发城市：</label><span ng-bind="collection.package.departureCity"></span>
                                     </span>
-                                <span class="package-days">
-                                        <label>行程：</label><span ng-bind="package.days"></span>
+                                    <span class="package-days">
+                                        <label>行程：</label><span ng-bind="collection.package.days"></span>
                                     </span>
-                            </div>
-                            <div class="package-price">
-                                ￥<span class="num" ng-bind="package.price"></span> 起
+                                </div>
+                                <div class="package-price">
+                                    ￥<span class="num" ng-bind="collection.package.minPrice"></span> 起
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </ul>
-        <ul uib-pagination total-items="totalItems" ng-model="currentPage"
-            max-size="maxSize" force-ellipses="true" previous-text="上一页"
-            next-text="下一页" class="hidden-xs" ng-change="goPage()">
-        </ul>
-        <ul uib-pager total-items="totalItems" ng-model="currentPage" previous-text="上一页"
-            next-text="下一页" class="visible-xs-block " ng-change="goPage()">
-        </ul>
+                </li>
+            </ul>
+            <ul uib-pagination total-items="totalItems" items-per-page="pageSize" ng-model="currentPage"
+                max-size="maxSize" force-ellipses="true" previous-text="上一页"
+                next-text="下一页" class="hidden-xs" ng-change="goPage()">
+            </ul>
+            <ul uib-pager total-items="totalItems" items-per-page="pageSize" ng-model="currentPage" previous-text="上一页"
+                next-text="下一页" class="visible-xs-block " ng-change="goPage()">
+            </ul>
+        </div>
     </div>
 </div>
