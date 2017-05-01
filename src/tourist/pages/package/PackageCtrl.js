@@ -3,6 +3,8 @@ var app = require('../../common/app.js');
 app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$anchorScroll', 'PageInfo',
 function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
+
+    if(!PageInfo) return;
     // 页面信息
     var status = PageInfo.status,
         userInfo = PageInfo.userInfo;
@@ -24,7 +26,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
 
     if(status === '500') {
-        swal('未知错误');
+        return swal('', '未知错误', 'error');
     }
 
 
@@ -50,7 +52,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         yearColumns: 3,
         startingDay: 1,
         formatDayTitle: 'yyyy MMMM',
-        minDate: moment(new Date()).add(1, 'day'),
+        minDate: moment(new Date()).add(1, 'days'),
         dateDisabled: function (obj) {
             var formatStr = 'YYYY-MM-DD';
             if(obj.mode === 'day') {
@@ -121,7 +123,13 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
     $scope.orderIt = function(bForm) {
 
-        if(bForm.submitting) return ;
+        $state.go('orderConfirm', {
+            packageId: packageId,
+            number: $scope.num,
+            date: moment($scope.dt).format('YYYY-MM-DD')
+        });
+
+        /*if(bForm.submitting) return ;
 
         bForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.total'));
 
@@ -149,7 +157,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
             bForm.submitting.stop();
             bForm.submitting = null;
             swal(error.data);
-        });
+        });*/
     };
 
     $scope.collectIt = function(cForm) {

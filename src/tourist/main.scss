@@ -40,3 +40,12 @@ input, button, textarea{
     background-color: rgba(0, 0, 0, .06);
     overflow: hidden;
 }
+
+.red-star {
+    &:before {
+        content: '*';
+        color: red;
+        padding-right: 4px;
+        font-weight: bold;
+    }
+}

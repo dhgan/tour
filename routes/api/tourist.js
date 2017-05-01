@@ -10,6 +10,8 @@ var Package = require('../../models/package');
 var Collection = require('../../models/collection');
 var pageQuery = require('../../lib/pageQuery');
 var async = require('async');
+var moment = require('moment');
+var Order = require('../../models/order');
 
 router.post('/register', function (req, res) {
     var rbody = req.body,
@@ -410,6 +412,8 @@ router.get('/search/:query/:page', function (req, res) {
         });
     }
 
+    var sessionUser = req.session.user;
+
     var reg = new RegExp(query, 'i');
 
     var queryParams = {
@@ -425,11 +429,14 @@ router.get('/search/:query/:page', function (req, res) {
         createTime: -1
     };
 
-    pageQuery(page, pageSize, Package, '', queryParams, sortParams, function(err, $page) {
+    var select = 'title features images choices _id days departureCity';
+
+    pageQuery(page, pageSize, Package, '', queryParams, select, sortParams, function(err, $page) {
         if(err) {
             logger.error(err);
             return res.json({
-                status: '500'
+                status: '500',
+                userInfo: sessionUser
             });
         }
 
@@ -446,7 +453,7 @@ router.get('/search/:query/:page', function (req, res) {
             packages: packages,
             page: $page.page,
             totalItems: $page.count,
-            userInfo: req.session.user
+            userInfo: sessionUser
         });
 
     })
@@ -533,94 +540,522 @@ router.get('/search/:query/:page', function (req, res) {
 
 });
 
-router.post('/order', function (req, res) {
-    var rbody = req.body,
-        packageId = rbody.packageId,
-        date = rbody.date,
-        number = rbody.number,
-        price = rbody.price;
+router.get('/order', checkLogin, function (req, res) {
+    var query = req.query,
+        packageId = query.packageId,
+        date = query.date,
+        number = query.number;
 
-    logger.debug(rbody);
+    logger.debug(query);
 
     // 存在参数为空
-    if (!packageId || !date || !number || !price) {
+    if (!packageId || !date || !number) {
         return res.json({
             status: '800'
         });
     }
 
-    res.json({
-        status: '200'
+    var sessionUser = req.session.user;
+
+    logger.debug(moment(date), moment(new Date()).add(1, 'days'));
+
+    date = new Date(date);
+
+    // 日期错误
+    if(!moment(date).isValid() || moment(date).isBefore(moment(new Date()).add(1, 'days'), 'day')) {
+        return res.json({
+            status: '300',
+            userInfo: sessionUser
+        });
+    }
+
+    Package.findById(packageId, 'title choices departureCity days _id')
+        .exec()
+        .then(function(package) {
+
+            // packageId错误
+            if(!package) {
+                return res.json({
+                    status: '400',
+                    userInfo: sessionUser
+                });
+            }
+
+            var  order = {};
+
+            var choices = package.choices;
+
+            choices.forEach(function(choice) {
+                if(moment(choice.date).isSame(date, 'day')) {
+                    order.price = choice.price;
+                    order.date = choice.date;
+                    return ;
+                }
+            });
+
+            // 时间错误
+            if(!order.price) {
+                return res.json({
+                    status: '300',
+                    userInfo: sessionUser
+                })
+            }
+
+            order.number = number;
+            order.totalPrice = order.price * number;
+
+
+            res.json({
+                status: '200',
+                order: order,
+                package: package,
+                userInfo: sessionUser
+            });
+
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500',
+                userInfo: sessionUser
+            });
+        });
+});
+
+router.post('/orderSubmit', checkLogin, function (req, res) {
+    var rbody = req.body,
+        packageId = rbody.packageId,
+        date = rbody.date,
+        number = parseInt(rbody.number),
+        name = rbody.name,
+        tel = rbody.tel;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!packageId || !date || !number || !name || !tel) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var userId = req.session.user._id;
+
+    logger.debug(moment(date), moment(new Date()).add(1, 'days'));
+
+    date = new Date(date);
+
+    // 日期错误
+    if(!moment(date).isValid() || moment(date).isBefore(moment(new Date()).add(1, 'days'), 'day')) {
+        return res.json({
+            status: '300'
+        });
+    }
+
+    Package.findById(packageId, 'title choices departureCity days _id')
+        .exec()
+        .then(function(package) {
+
+            // packageId错误
+            if(!package) {
+                return res.json({
+                    status: '400'
+                });
+            }
+
+            var  order = {};
+
+            var choices = package.choices,
+                stockEnough = false;
+
+            choices.forEach(function(choice) {
+                if(moment(choice.date).isSame(date, 'day')) {
+                    order.price = choice.price;
+                    order.date = choice.date;
+
+                    // 库存不足
+                    if(choice.left < number) {
+                        return res.json({
+                            status: '600',
+                        });
+                    }
+                    stockEnough = true;
+                    choice.left = choice.left - number;
+                }
+            });
+
+            if(!stockEnough) return;
+
+            // 时间错误
+            if(!order.price) {
+                return res.json({
+                    status: '300'
+                })
+            }
+
+            package.save()
+                .then(function() {
+
+                    order.number = number;
+                    order.totalPrice = order.price * number;
+                    order.user = userId;
+                    order.package = packageId;
+                    order.name = name;
+                    order.tel = tel;
+
+                    var date = new Date();
+                    order.createDate = date;
+                    order.leastDate = moment(date).add('30', 'm');
+
+                    new Order(order).save()
+                        .then(function(order) {
+
+                            User.findByIdAndUpdate(userId, {$addToSet: {'orders': order._id}}).exec()
+                                .then(function() {
+                                    return res.json({
+                                        status: '200',
+                                        orderId: order._id
+                                    });
+                                }, function(err) {
+                                    logger.error(err);
+                                    return res.json({
+                                        status: '500',
+                                    });
+                                });
+                        }, function(err) {
+                            logger.error(err);
+                            res.json({
+                                status: '500'
+                            });
+                        });
+
+                }, function(err) {
+                    logger.error(err);
+                    res.json({
+                        status: '500'
+                    });
+                });
+
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+});
+
+router.get('/orderList/:p', checkLogin, function (req, res) {
+
+    var params = req.params,
+        page = params.page || 1,
+        query = req.query,
+        pageSize = query.pageSize || 10;
+
+    logger.debug(params, query);
+
+    // 存在参数为空
+    if(!page || !pageSize) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var start = (page - 1) * pageSize;
+    var sessionUser = req.session.user;
+    var userId = sessionUser._id;
+
+    logger.debug(start, pageSize);
+
+    async.parallel({
+        count: function(done) {
+            User.findById(userId, 'orders', function(err, attr) {
+                if(err) logger.error(err);
+                logger.debug('user orders ', attr.orders);
+                done(err, attr.orders.length);
+            })
+        },
+        user: function(done) {
+            User.findById(userId, 'orders')
+                .populate({
+                    path: 'orders',
+                    options: {
+                        sort: '-createDate',
+                        skip: start,
+                        limit: pageSize
+                    },
+                    populate: {
+                        path: 'package',
+                        select: 'title days departureCity',
+                    }
+                })
+                .exec(function(err, doc) {
+                    if(err) logger.error(err);
+                    done(err, doc);
+                });
+        }
+    }, function(err, results) {
+        var count = results.count,
+            orders = results.user.orders;
+        if(err) {
+            logger.error(err);
+            return res.json({
+                status: '500',
+                userInfo: sessionUser
+            });
+        }
+
+        res.json({
+            status: '200',
+            orderList: orders,
+            totalItems: count,
+            page: page,
+            userInfo: sessionUser
+        })
+
     });
 
 });
 
-router.get('/orderList/:p', function (req, res) {
+router.post('/cancelOrder', checkLogin, function (req, res) {
+    var rbody = req.body,
+        orderId = rbody.orderId;
 
-    var params = req.params,
-        page = params.page || 1;
+    logger.debug(rbody);
 
-    logger.debug(params);
+    // 存在参数为空
+    if (!orderId) {
+        return res.json({
+            status: '800'
+        });
+    }
 
-    res.json({
-        status: '200',
-        orderList: [
-            {
-                orderId: '1',
-                packageId: '23',
-                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
-                totalPrice: '8888',
-                number: 2,
-                date: '2017-05-01',
-                price: '4444',
-                createDate: new Date(),
-                tel: '15079449251',
-                name: '小刚',
-                state: '1'
-            },
-            {
-                orderId: '2',
-                packageId: '23',
-                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
-                totalPrice: '8888',
-                number: 2,
-                date: '2017-05-01',
-                price: '4444',
-                createDate: new Date(),
-                tel: '15079449251',
-                name: '小刚',
-                state: '-2'
-            },
-            {
-                orderId: '3',
-                packageId: '23',
-                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
-                totalPrice: '8888',
-                number: 2,
-                date: '2017-05-01',
-                price: '4444',
-                createDate: new Date(),
-                tel: '15079449251',
-                name: '小刚',
-                state: '-1'
-            },
-            {
-                orderId: '4',
-                packageId: '23',
-                title: '烟花三月下扬州+溧阳南山竹海+千垛油菜花海生态养生之旅4日跟团游',
-                totalPrice: '8888',
-                number: 2,
-                date: '2017-05-01',
-                price: '4444',
-                createDate: new Date(),
-                tel: '15079449251',
-                name: '小刚',
-                state: '0'
+    var userId = req.session.user._id;
+
+    Order.findById(orderId).exec()
+        .then(function(order) {
+
+            // orderId错误
+            if(!order) {
+                return res.json({
+                    status: '400'
+                });
             }
-        ],
-        totalItems: 1237,
-        userInfo: req.session.user
-    });
+
+            // 非自己订单
+            if(userId !== order.user.toString()) {
+                return res.json({
+                    status: '300'
+                });
+            }
+
+            if(order.state === 0) {
+                order.state = -1;
+                order.save()
+                    .then(function() {
+                        Package.findById(order.package).exec()
+                            .then(function(package) {
+                                var choices = package.choices;
+
+                                choices.forEach(function(choice) {
+                                    if(moment(choice.date).isSame(order.date, 'day')) {
+                                        choice.left = choice.left + order.number;
+                                        return;
+                                    }
+                                });
+
+                                package.save()
+                                    .then(function() {
+                                        res.json({
+                                            status: '200'
+                                        });
+                                    }, function(err) {
+                                        logger.error(err);
+                                        return res.json({
+                                            status: '500'
+                                        });
+                                    });
+                            }, function(err) {
+                                logger.error(err);
+                                return res.json({
+                                    status: '500'
+                                });
+                            });
+                    }, function(err) {
+                        logger.error(err);
+                        res.json({
+                            status: '500'
+                        });
+                    })
+            } else if(order.state === -1) { // 订单已被取消
+                res.json({
+                    status: '600'
+                });
+            } else {
+                res.json({ // 订单已支付不能取消
+                    status: '700'
+                });
+            }
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        })
+
+});
+
+router.get('/getPayOrder', checkLogin, function (req, res) {
+    var query = req.query,
+        orderId = query.orderId;
+
+    logger.debug(query);
+
+    // 存在参数为空
+    if (!orderId) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var sessionUser = req.session.user,
+        userId = sessionUser._id;
+
+
+    Order.findById(orderId)
+        .exec()
+        .then(function(order) {
+
+            // orderId错误
+            if(!order) {
+                return res.json({
+                    status: '400',
+                    userInfo: sessionUser
+                });
+            }
+
+            // 非自己订单
+            if(userId !== order.user.toString()) {
+                return res.json({
+                    status: '300',
+                    userInfo: sessionUser
+                });
+            }
+
+            if(order.state === 0) {
+                res.json({
+                    status: '200',
+                    order: order,
+                    userInfo: sessionUser
+                });
+            } else if(order.state === -1) { // 订单已被取消
+                res.json({
+                    status: '600'
+                });
+            } else {
+                res.json({ // 订单已支付
+                    status: '700'
+                });
+            }
+
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500',
+                userInfo: sessionUser
+            });
+        });
+});
+
+router.post('/pay', checkLogin, function (req, res) {
+    var rbody = req.body,
+        orderId = rbody.orderId;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!orderId) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var userId = req.session.user._id;
+
+    Order.findById(orderId).exec()
+        .then(function(order) {
+
+            // orderId错误
+            if(!order) {
+                return res.json({
+                    status: '400'
+                });
+            }
+
+            // 非自己订单
+            if(userId !== order.user.toString()) {
+                return res.json({
+                    status: '300'
+                });
+            }
+
+
+            if(order.state === 0) {
+                order.state = 1;
+                order.save()
+                    .then(function() {
+                        Package.findById(order.package).exec()
+                            .then(function(package) {
+                                var choices = package.choices;
+
+                                choices.forEach(function(choice) {
+                                    if(moment(choice.date).isSame(order.date, 'day')) {
+                                        choice.left = choice.left + order.number;
+                                        return;
+                                    }
+                                });
+
+                                package.save()
+                                    .then(function() {
+                                        res.json({
+                                            status: '200'
+                                        });
+                                    }, function(err) {
+                                        logger.error(err);
+                                        return res.json({
+                                            status: '500'
+                                        });
+                                    });
+                            }, function(err) {
+                                logger.error(err);
+                                return res.json({
+                                    status: '500'
+                                });
+                            });
+                    }, function(err) {
+                        logger.error(err);
+                        res.json({
+                            status: '500'
+                        });
+                    })
+            } else if(order.state === -1) { // 订单已被取消
+                res.json({
+                    status: '600'
+                });
+            } else {
+                res.json({ // 订单已支付
+                    status: '700'
+                });
+            }
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        })
 
 });
 
@@ -727,7 +1162,8 @@ router.get('/collection/:page', checkLogin, function (req, res) {
     }
 
     var start = (page - 1) * pageSize;
-    var userId = req.session.user._id;
+    var sessionUser = req.session.user;
+    var userId = sessionUser._id;
 
     logger.debug(start, pageSize);
 
@@ -765,7 +1201,7 @@ router.get('/collection/:page', checkLogin, function (req, res) {
             logger.error(err);
             return res.json({
                 status: '500',
-                userInfo: req.session.user
+                userInfo: sessionUser
             });
         }
 
@@ -781,91 +1217,10 @@ router.get('/collection/:page', checkLogin, function (req, res) {
             collections: collect,
             totalItems: count,
             page: page,
-            userInfo: req.session.user
+            userInfo: sessionUser
         })
 
     });
-
-    /*res.json({
-        status: '200',
-        packages: [
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '2',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游泰国普吉岛国普吉岛6或7日游泰国普吉岛6或7日游',
-                packageId: '3',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '4',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '5',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城，0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '6',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '7',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '8',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            }
-        ],
-        totalItems: 1237,
-        userInfo: req.session.user
-    });*/
-
-
 });
 
 
@@ -888,6 +1243,13 @@ router.post('/removeCollection', checkLogin, function (req, res) {
         .then(function(collection) {
 
             logger.debug(collection);
+
+            // collectionId错误
+            if(!collection) {
+                return res.json({
+                    status: '400'
+                });
+            }
 
             // 非自己收藏
             if(userId !== collection.user.toString()) {
@@ -1005,12 +1367,15 @@ router.get('/packageComments/:packageId/:page', function (req, res) {
 
 router.get('/user', checkLogin, function (req, res) {
 
+    var sessionUser = req.session.user;
+
     User.findById(req.session.user._id).exec()
         .then(function (user) {
             // 异常错误
             if (!user) {
                 return res.json({
-                    status: '500'
+                    status: '500',
+                    userInfo: sessionUser
                 })
             }
 
@@ -1023,13 +1388,14 @@ router.get('/user', checkLogin, function (req, res) {
 
             res.json({
                 status: '200',
-                userInfo: req.session.user
+                userInfo: sessionUser
             });
 
         }, function (err) {
             logger.error(err);
             res.json({
-                status: '500'
+                status: '500',
+                userInfo: sessionUser
             });
         });
 });
@@ -1049,11 +1415,14 @@ router.post('/changeEmail', checkLogin, function (req, res) {
         });
     }
 
+    var sessionUser = req.session.user;
+
     // 邮箱格式错误
     var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
     if (!emailReg.test(email)) {
         return res.json({
-            status: '300'
+            status: '300',
+            userInfo: sessionUser
         });
     }
 
@@ -1064,14 +1433,16 @@ router.post('/changeEmail', checkLogin, function (req, res) {
             // 邮箱验证码错误
             if (!ecode || ecode.eCode !== eCode) {
                 return res.json({
-                    status: '600'
+                    status: '600',
+                    userInfo: sessionUser
                 });
             }
 
             // 邮箱验证码过期
             if (new Date(ecode.expires) < new Date()) {
                 return res.json({
-                    status: '601'
+                    status: '601',
+                    userInfo: sessionUser
                 });
             }
 
@@ -1081,7 +1452,8 @@ router.post('/changeEmail', checkLogin, function (req, res) {
                     // 异常错误
                     if (!user) {
                         return res.json({
-                            status: '500'
+                            status: '500',
+                            userInfo: sessionUser
                         })
                     }
 
@@ -1091,14 +1463,16 @@ router.post('/changeEmail', checkLogin, function (req, res) {
                         .then(function() {
 
                             res.json({
-                                status: '200'
+                                status: '200',
+                                userInfo: sessionUser
                             });
 
                         }, function() {
                             logger.error(err);
 
                             return res.json({
-                                status: '500'
+                                status: '500',
+                                userInfo: sessionUser
                             });
                         });
 
@@ -1106,7 +1480,8 @@ router.post('/changeEmail', checkLogin, function (req, res) {
                 }, function (err) {
                     logger.error(err);
                     res.json({
-                        status: '500'
+                        status: '500',
+                        userInfo: sessionUser
                     });
                 });
 
@@ -1114,15 +1489,10 @@ router.post('/changeEmail', checkLogin, function (req, res) {
         }, function (err) {
             logger.error(err);
             res.json({
-                status: '500'
+                status: '500',
+                userInfo: sessionUser
             });
         });
-
-    res.json({
-        status: '200',
-        userInfo: req.session.user
-    });
-
 });
 
 router.post('/changePassword', checkLogin, function (req, res) {
@@ -1138,7 +1508,6 @@ router.post('/changePassword', checkLogin, function (req, res) {
             status: '800'
         });
     }
-
 
     User.findById(req.session.user._id).exec()
         .then(function (user) {

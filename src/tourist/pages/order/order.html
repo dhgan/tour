@@ -3,62 +3,83 @@
         <div class="page-header">
             <h4>全部订单</h4>
         </div>
-        <ul class="list-group">
-            <li class="list-group-item row" ng-repeat="order in orderList">
-                <ul class="order-item col-sm-10">
-                    <li>
-                        <span class="key">订单编号</span>：
-                        <span class="value">{{order.orderId}}</span>
-                    </li>
-                    <li>
-                        <span class="key">下单时间</span>：
-                        <span class="value">{{order.createDate}}</span>
-                    </li>
-                    <li>
-                        <span class="key">线路名称</span>：
-                        <span class="value"><a ui-sref="package({packageId: order.packageId})">{{order.title}}</a></span>
-                    </li>
-                    <li ng-switch="order.state">
-                        <span class="key">订单状态</span>：
-                        <span class="value text-danger" ng-switch-when="-1">已取消</span>
-                        <span class="value unpayed" ng-switch-when="0">待支付</span>
-                        <span class="value text-success" ng-switch-when="1">已支付</span>
-                        <span class="value text-success" ng-switch-when="-2">已评价</span>
-                    </li>
-                    <li>
-                        <span class="key">出发时间</span>：
-                        <span class="value">{{order.date}}</span>
-                    </li>
-                    <li>
-                        <span class="key">联系人</span>：
-                        <span class="value">{{order.name}}</span>
-                    </li>
-                    <li>
-                        <span class="key">手机号码</span>：
-                        <span class="value">{{order.tel}}</span>
-                    </li>
-                    <li>
-                        <span class="key">出行人数</span>：
-                        <span class="value">{{order.number}}</span>
-                    </li>
-                    <li>
-                        <span class="key">订单金额</span>：
-                        <span class="value price">￥{{order.totalPrice}}</span>
-                    </li>
-                </ul>
-                <div class="operate col-sm-2" ng-switch="order.state">
-                    <button type="button" class="btn btn-success btn-sm" ng-switch-when="0">立即支付</button>
-                    <button type="button" class="btn btn-danger btn-sm" ng-switch-when="0">取消订单</button>
-                    <button type="button" class="btn btn-success btn-sm" ng-switch-when="1">评价</button>
-                </div>
-            </li>
-        </ul>
-        <ul uib-pagination total-items="totalItems" ng-model="currentPage"
-            max-size="maxSize" force-ellipses="true" previous-text="上一页"
-            next-text="下一页" class="hidden-xs" ng-change="goPage()">
-        </ul>
-        <ul uib-pager total-items="totalItems" ng-model="currentPage" previous-text="上一页"
-            next-text="下一页" class="visible-xs-block" ng-change="goPage()">
-        </ul>
+        <div ng-show="orderList.length == 0">
+            您还没有订单。
+        </div>
+        <div ng-show="orderList.length > 0">
+            <ul class="list-group">
+                <li class="list-group-item row" ng-repeat="order in orderList">
+                    <ul class="order-item col-sm-10">
+                        <li>
+                            <span class="key">订单编号</span>：
+                            <span class="value">{{order._id}}</span>
+                        </li>
+                        <li>
+                            <span class="key">下单时间</span>：
+                            <span class="value">{{order.createDate}}</span>
+                        </li>
+                        <li>
+                            <span class="key">线路名称</span>：
+                            <span class="value"><a ui-sref="package({packageId: order.package._id})">{{order.package.title}}</a></span>
+                        </li>
+                        <li ng-switch="order.state">
+                            <span class="key">订单状态</span>：
+                            <span class="value text-danger" ng-switch-when="-1">已取消</span>
+                            <span class="value unpayed" ng-switch-when="0">待支付</span>
+                            <span class="value text-success" ng-switch-when="1">已支付</span>
+                            <span class="value text-success" ng-switch-when="-2">已评价</span>
+                        </li>
+                        <li>
+                            <span class="key">出发时间</span>：
+                            <span class="value">{{order.date}}</span>
+                        </li>
+                        <li>
+                            <span class="key">出发地点</span>：
+                            <span class="value">{{order.package.departureCity}}</span>
+                        </li>
+                        <li>
+                            <span class="key">联系人</span>：
+                            <span class="value">{{order.name}}</span>
+                        </li>
+                        <li>
+                            <span class="key">手机号码</span>：
+                            <span class="value">{{order.tel}}</span>
+                        </li>
+                        <li>
+                            <span class="key">出行人数</span>：
+                            <span class="value">{{order.number}}</span>
+                        </li>
+                        <li>
+                            <span class="key">订单金额</span>：
+                            <span class="value price">￥{{order.totalPrice}}</span>
+                        </li>
+                    </ul>
+                    <div class="operate col-sm-2 order-{{order._id}}" ng-switch="order.state">
+                        <button type="button" class="btn btn-success btn-sm" ng-switch-when="0" ng-click="payOrder(order)">立即支付</button>
+                        <button type="button" class="btn btn-danger btn-sm" ng-switch-when="0" ng-click="cancelOrder(order)">取消订单</button>
+                        <button type="button" class="btn btn-success btn-sm" ng-switch-when="1" ng-click="commentOrder(order)">评价</button>
+                    </div>
+                </li>
+            </ul>
+            <ul uib-pagination total-items="totalItems" items-per-page="pageSize" ng-model="currentPage"
+                max-size="maxSize" force-ellipses="true" previous-text="上一页"
+                next-text="下一页" class="hidden-xs" ng-change="goPage()">
+            </ul>
+            <ul uib-pager total-items="totalItems" items-per-page="pageSize" ng-model="currentPage" previous-text="上一页"
+                next-text="下一页" class="visible-xs-block" ng-change="goPage()">
+            </ul>
+        </div>
     </div>
+    <script type="text/ng-template" id="commentBox.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">点评</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <input type="text" ng-model="order._id">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="submitComment()">确定</button>
+            <button class="btn btn-warning" type="button" ng-click="cancelComment()">取消</button>
+        </div>
+    </script>
 </div>

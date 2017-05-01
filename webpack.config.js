@@ -64,7 +64,7 @@ function addConfig(arr, dir) {
                         use: ['css-loader?minimize='+ !isDev, 'postcss-loader', 'sass-loader']
                     })
                 }, {
-                    test: /\.(png|jpg)$/,
+                    test: /\.(png|jpg|gif)$/,
                     use: 'url-loader?limit=8192&name=imgs/[name].[hash:8].[ext]'
                 }, {
                     test: /\.(woff2?|svg)$/,

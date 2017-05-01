@@ -104,7 +104,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     }).then(function (res) {
                         return res.data;
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -127,6 +127,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }],
                 PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
                     var packageId = $stateParams.packageId;
+                    if(!packageId) return ;
                     Pace.restart();
                     return $http({
                         method: 'get',
@@ -137,11 +138,101 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     }).then(function(res) {
                         return res.data;
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
             controller: 'PackageCtrl'
+        })
+        .state('orderConfirm', {
+            url: '/orderConfirm?packageId&date&number',
+            templateUrl: './orderConfirm.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/orderConfirm/orderConfirm.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', '$state', function($http, $stateParams, $state) {
+                    var packageId = $stateParams.packageId,
+                        date = $stateParams.date,
+                        number = $stateParams.number;
+                    if(!packageId || !date || !number) return;
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/order',
+                        params: {
+                            packageId: packageId,
+                            date: date,
+                            number: number,
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: encodeURIComponent('orderConfirm?' + JSON.stringify({packageId: packageId, date: date, number: number})),
+                            });
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal('', error.data, 'error');
+                    });
+                }]
+            },
+            controller: 'OrderConfirmCtrl'
+        })
+        .state('pay', {
+            url: '/pay?orderId',
+            templateUrl: './pay.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/pay/pay.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', '$state', function($http, $stateParams, $state) {
+                    var orderId = $stateParams.orderId;
+                    if(!orderId) return;
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/getPayOrder',
+                        params: {
+                            orderId: orderId,
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1024') {
+                            return $state.go('login', {
+                                redirect: encodeURIComponent('pay?' + JSON.stringify({orderId: orderId})),
+                            });
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal('', error.data, 'error');
+                    });
+                }]
+            },
+            controller: 'PayCtrl'
         })
         .state('search', {
             url: '/search/:q/:p?pageSize', // q = query and p = page num
@@ -174,7 +265,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     }).then(function(res) {
                         return res.data;
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -199,7 +290,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             abstract: true
         })
         .state('member.order', {
-            url: '/order?p',
+            url: '/order?p&pageSize',
             templateUrl: './order.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -213,15 +304,16 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                     });
                     return deferred.promise;
                 }],
-                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
-                    var page = $stateParams.p || 1;
+                PageInfo: ['$http', '$stateParams', '$state', function($http, $stateParams, $state) {
+                    var page = $stateParams.p || 1,
+                        pageSize = $stateParams.pageSize || 10;
                     Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/orderList/' + page,
                         params: {
                             t: Math.random(),
-                            pageSize: 15
+                            pageSize: pageSize
                         }
                     }).then(function(res) {
                         var data = res.data,
@@ -234,7 +326,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             return data;
                         }
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -277,7 +369,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             return data;
                         }
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -317,7 +409,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             return data;
                         }
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -357,7 +449,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             return data;
                         }
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },
@@ -397,7 +489,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                             return data;
                         }
                     }, function(error) {
-                        swal(error.data);
+                        swal('', error.data, 'error');
                     });
                 }]
             },

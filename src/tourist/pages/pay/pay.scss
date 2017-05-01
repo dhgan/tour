@@ -1,0 +1,115 @@
+.pay-page {
+    .pay-info {
+        max-width: 820px;
+        margin: 20px auto;
+        @media  (min-width: 1200px){
+            margin-left: 8%;
+        }
+        .page-header {
+            margin: 20px 0 10px;
+            &>h4 {
+                margin: 0;
+            }
+        }
+        .panel-body {
+            .alert-success {
+                &>span {
+                    margin-right: 20px;
+                    i {
+                        color: #f30;
+                    }
+                }
+            }
+            .bank {
+                list-style: none;
+                padding-left: 0;
+                &>li {
+                    float: left;
+                    margin: 20px 0 0 20px;
+                    padding: 0;
+                    border-bottom: 0 none;
+                    @media (max-width: 576px) {
+                        margin: 15px 0 0 0;
+                    }
+                }
+                .ico {
+                    display: block;
+                    width: 145px;
+                    height: 42px;
+                    background: url(../../imgs/bank.jpg) no-repeat;
+                }
+                .ico-bank1 {
+                    background-position: 0 -163px
+                }
+                .ico-bank2 {
+                    background-position: -161px -163px;
+                }
+                .ico-bank3 {
+                    background-position: -325px -163px;
+                }
+                .ico-bank4 {
+                    background-position: -485px -163px;
+                }
+                .ico-bank5 {
+                    background-position: -648px -163px;
+                }
+                .ico-bank6 {
+                    background-position: 0 -223px;
+                }
+                .ico-bank7 {
+                    background-position: -164px -223px;
+                }
+                .ico-bank8 {
+                    background-position: -325px -163px;
+                }
+                .ico-bank9 {
+                    background-position: -488px -163px;
+                }
+                .ico-bank10 {
+                    background-position: -648px -163px;
+                }
+                .ico-bank11 {
+                    background-position: 0 -283px
+                }
+                .ico-bank12 {
+                    background-position: -161px -283px;
+                }
+                .ico-bank13 {
+                    background-position: -325px -283px;
+                }
+                .ico-bank14 {
+                    background-position: -485px -283px;
+                }
+                .ico-bank15 {
+                    background-position: -648px -283px;
+                }
+            }
+
+            .pt {
+                list-style: none;
+                padding-left: 0;
+                & > li {
+                    float: left;
+                    margin: 20px 0 0 20px;
+                    padding: 0;
+                    border-bottom: 0 none;
+                }
+                .ico {
+                    display: block;
+                    width: 140px;
+                    height: 50px;
+                    border: 1px solid #eee;
+                }
+                .ico-alipay {
+                    background: url(../../imgs/pay_alipay.gif) no-repeat center;
+                }
+                .ico-tenpay {
+                    background: url(../../imgs/pay_tenpay.gif) no-repeat center;
+                }
+                .ico-wechat {
+                    background: url(../../imgs/pay_wechat.jpg) no-repeat center;
+                }
+            }
+        }
+    }
+}

@@ -32,9 +32,9 @@ var userSchema = new mongoose.Schema({
         enum: [-2, -1, 0],
         default: 0
     },
-    comments: [{
+    orders: [{
         type: ObjectId,
-        ref: 'Comment'
+        ref: 'Order'
     }],
     collections: [{
         type: ObjectId,

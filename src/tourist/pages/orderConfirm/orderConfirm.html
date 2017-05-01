@@ -1,0 +1,67 @@
+<div class="order-confirm-page page">
+    <tour-header query-str="queryStr"></tour-header>
+    <div class="container">
+        <div class="order-info">
+            <div class="page-header">
+                <h4>订单确认</h4>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">产品信息</div>
+                <div class="panel-body">
+                    <ul class="order-item">
+                        <li>
+                            <span class="key">线路名称</span>：
+                            <span class="value"><a ui-sref="package({packageId: package._id})">{{package.title}}</a></span>
+                        </li>
+                        <li>
+                            <span class="key">出发地点</span>：
+                            <span class="value">{{package.departureCity}}</span>
+                        </li>
+                        <li>
+                            <span class="key">出发时间</span>：
+                            <span class="value">{{order.date}}</span>
+                        </li>
+                        <li>
+                            <span class="key">出行人数</span>：
+                            <span class="value">{{order.number}}</span>
+                        </li>
+                        <li>
+                            <span class="key">订单金额</span>：
+                            <span class="value price">￥{{order.totalPrice}}</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">联系人信息</div>
+                <div class="panel-body">
+                    <form class="contact-form" name="cForm">
+                        <div class="form-group" ng-class="{'has-error': cForm.name.$touched && cForm.name.$invalid}">
+                            <label for="name" class="control-label red-star">联系人：</label>
+                            <div>
+                                <input type="text" class="form-control" id="name" name="name" ng-model="order.name" maxlength="30" placeholder="联系人姓名" required>
+                            </div>
+                            <span class="help-block">请输入联系人姓名</span>
+                        </div>
+                        <div class="form-group" ng-class="{'has-error': cForm.tel.$touched && cForm.tel.$invalid}">
+                            <label for="tel" class="control-label red-star">手机号码：</label>
+                            <div>
+                                <input type="text" class="form-control" id="tel" name="tel" ng-model="order.tel" minlength="11" maxlength="11" placeholder="联系人手机号" required>
+                            </div>
+                            <span class="help-block">请输入联系人正确手机号</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="total clearfix">
+                <div class="total-price">
+                    <span>￥</span><span ng-bind="order.totalPrice" class="num"></span>
+                </div>
+                <div class="buy">
+                    <button type="button" class="btn btn-lg btn-danger order-btn" ng-click="orderIt(cForm)" ng-disabled="cForm.$invalid">提交订单</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

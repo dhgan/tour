@@ -1,0 +1,48 @@
+<div class="pay-page page">
+    <tour-header query-str="queryStr"></tour-header>
+    <div class="container" ng-show="order">
+        <div class="pay-info">
+            <div class="page-header">
+                <h4>支付订单</h4>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="alert alert-success" role="alert">
+                        恭喜您！订单提交成功，请在下方选择付款方式完成支付(30分钟内完成)
+                        <br><br>
+                        <span>订单编号：<i>{{order._id}}</i></span>
+                        <span>总金额：<i>¥{{order.totalPrice}}</i></span>
+                    </div>
+                    <uib-tabset active="0">
+                        <uib-tab index="0" heading="网银支付">
+                            <ul class="bank clearfix">
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank1"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank2"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank3"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank4"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank5"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank6"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank7"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank8"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank9"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank10"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank11"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank12"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank13"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank14"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-bank15"></i></a></li>
+                            </ul>
+                        </uib-tab>
+                        <uib-tab index="1" heading="平台支付">
+                            <ul class="pt clearfix">
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-alipay"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-tenpay"></i></a></li>
+                                <li ng-click="pay()"><a href="javascript:;"><i class="ico ico-wechat"></i></a></li>
+                            </ul>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -91,7 +91,7 @@ styles:
   close: true
 
   # Components w/ JavaScript
-  modals: false
+  modals: true
   tooltip: true
   popovers: false
   carousel: true

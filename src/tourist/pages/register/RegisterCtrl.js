@@ -33,7 +33,8 @@ function($scope, $http, $stateParams, $state) {
                     showConfirmButton: false,
                     timer: 1000
                 }).then(function() {}, function() {
-                    if(redirect) {
+                    $state.go('login');
+                    /*if(redirect) {
                         try {
                             $state.go(redirect);
                         } catch(err) {
@@ -41,7 +42,7 @@ function($scope, $http, $stateParams, $state) {
                         }
                     } else {
                         $state.go('home');
-                    }
+                    }*/
                 });
             } else if(status === '300') {
                 rForm.email.$invalid = true;

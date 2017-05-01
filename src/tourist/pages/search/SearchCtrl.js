@@ -15,7 +15,10 @@ function($scope, $http, $stateParams, $state, PageInfo) {
         $scope.totalItems = PageInfo.totalItems;
         $scope.packages = PageInfo.packages;
     } else if(status === '500') {
-        swal('未知错误', '', 'error');
+        return swal({
+            type: 'error',
+            text: '未知错误'
+        });
     }
 
     $scope.queryStr = queryStr;
