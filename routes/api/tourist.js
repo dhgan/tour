@@ -12,6 +12,7 @@ var pageQuery = require('../../lib/pageQuery');
 var async = require('async');
 var moment = require('moment');
 var Order = require('../../models/order');
+var Comment = require('../../models/comment');
 
 router.post('/register', function (req, res) {
     var rbody = req.body,
@@ -1004,6 +1005,7 @@ router.post('/pay', checkLogin, function (req, res) {
 
             if(order.state === 0) {
                 order.state = 1;
+                order.payDate = new Date();
                 order.save()
                     .then(function() {
                         Package.findById(order.package).exec()
@@ -1299,10 +1301,106 @@ router.post('/removeCollection', checkLogin, function (req, res) {
 
 });
 
+
+router.post('/comment', checkLogin, function (req, res) {
+    var rbody = req.body,
+        orderId = rbody.orderId,
+        star = parseInt(rbody.star),
+        content = rbody.content;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!orderId, !star, !content) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var sessionUser = req.session.user,
+        userId = sessionUser._id;
+
+    Order.findById(orderId).exec()
+        .then(function(order) {
+
+            // orderId错误
+            if(!order) {
+                return res.json({
+                    status: '400'
+                });
+            }
+
+            // 非自己订单
+            if(userId !== order.user.toString()) {
+                return res.json({
+                    status: '300'
+                });
+            }
+
+
+            if(order.state === 1) {
+                new Comment({
+                    user: userId,
+                    package: order.package,
+                    star: star,
+                    content: content,
+                    createDate: new Date()
+                }).save().then(function(comment) {
+                    order.state = 2;
+                    order.save()
+                        .then(function() {
+                            Package.findByIdAndUpdate(order.package, {$addToSet: {'comments': comment._id}}).exec()
+                                .then(function() {
+                                    return res.json({
+                                        status: '200'
+                                    });
+                                }, function(error) {
+                                    logger.error(error);
+                                    return res.json({
+                                        status: '500'
+                                    });
+                                });
+                        }, function(err) {
+                            logger.error(err);
+                            res.json({
+                                status: '500'
+                            });
+                        })
+                }, function(err) {
+                    logger.error(err);
+                    res.json({
+                        status: '500'
+                    });
+                });
+            } else if(order.state === -1) { // 订单已被取消
+                res.json({
+                    status: '600'
+                });
+            } else if(order.state === 0) {
+                res.json({ // 订单未支付
+                    status: '700'
+                });
+            } else {
+                res.json({ // 订单已评价
+                    status: '900'
+                })
+            }
+
+        }, function(err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+
+
+});
+
 router.get('/packageComments/:packageId/:page', function (req, res) {
     var params = req.params,
         packageId = params.packageId,
-        page = params.page || 1;
+        page = parseInt(params.page) || 1,
+        pageSize = parseInt(req.query.pageSize) || 10;
 
     logger.debug(params);
 
@@ -1313,56 +1411,79 @@ router.get('/packageComments/:packageId/:page', function (req, res) {
         });
     }
 
-    res.json({
-        status: '200',
-        avgStar: 4.1,
-        totalItems: 76,
-        comments: [
-            {
-                userName: '小**',
-                star: '5',
-                content: '温泉不错，携程预订的时候不太满意，下单的时候没有填发票的地方，最后还要打电话去补发票比较纠结',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            },
-            {
-                userName: '疯狂***',
-                star: '4',
-                content: '在网上第一眼就找到这家的拼车活动，感觉行程还不错，我们是两个车一起出发的，为了节省费用，大家都是临时拼再一起出行的，不过都很随和，景色很美，玩的也很开心，不错的行程。',
-                time: '2017-04-18 16:47:55'
-            }
-        ]
-    });
+    var start = (page - 1) * pageSize;
 
+    if(start < 0) { // page错误
+        return res.json({
+            status: '400'
+        });
+    }
+
+    logger.debug(start, pageSize);
+
+
+    Package.findById(packageId, 'comments')
+        .populate({
+            path: 'comments',
+            options: {
+                sort: '-createDate'
+            },
+            populate: {
+                path: 'user',
+                select: 'userName',
+            }
+        })
+        .exec()
+        .then(function(package){
+            if(!package) {
+                // package错误
+                return res.json({
+                    status: '300'
+                });
+            }
+
+            var comments = package.comments.concat(),
+                len = comments.length;
+
+            logger.info(comments);
+
+            if(len > 0) {
+                var avgStar = 0;
+
+                for(var i=0; i<comments.length; i++) {
+                    avgStar += comments[i].star;
+                    comments[i].user.userName = comments[i].user.userName.charAt(0) + '**';
+                }
+
+                avgStar /=len;
+
+                if(start > len) { // page错误
+                    return res.json({
+                        status: '400'
+                    });
+                }
+
+                var cs = comments.slice(start, pageSize + start);
+
+                res.json({
+                    status: '200',
+                    comments: cs,
+                    avgStar: avgStar,
+                    totalItems: len
+                })
+
+            } else {
+                res.json({
+                    status: '200'
+                });
+            }
+
+        }, function(err){
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
 });
 
 router.get('/user', checkLogin, function (req, res) {
@@ -1399,7 +1520,6 @@ router.get('/user', checkLogin, function (req, res) {
             });
         });
 });
-
 
 router.post('/changeEmail', checkLogin, function (req, res) {
     var rbody = req.body,
@@ -1551,76 +1671,138 @@ router.post('/changePassword', checkLogin, function (req, res) {
         });
 });
 
-
-router.post('/changeEmail', checkLogin, function (req, res) {
+router.post('/validateName', function (req, res) {
     var rbody = req.body,
-        email = rbody.email,
-        eCode = rbody.eCode;
+        userName = rbody.userName,
+        captcha = rbody.captcha;
 
     logger.debug(rbody);
 
     // 存在参数为空
-    if (!email || !eCode) {
+    if (!userName || !captcha) {
         return res.json({
             status: '800'
         });
     }
 
-    // 邮箱格式错误
-    var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
-    if (!emailReg.test(email)) {
+    var sCaptcha = req.session.captcha;
+
+    // 验证码错误
+    if(!captcha || !sCaptcha || sCaptcha.toLowerCase() !== captcha.toLowerCase()) {
+        logger.debug('captcha error');
         return res.json({
             status: '300'
         });
     }
 
-    ECode.findOne({email: email, eType: '200'}).exec()
+    User.findOne({userName: userName}).exec()
+        .then(function (user) {
+            // 用户名错误
+            if (!user) {
+                return res.json({
+                    status: '400'
+                })
+            }
+
+            req.session.forgetPassword = {
+                userName: userName,
+                email: user.email
+            };
+
+            res.json({
+                status: '200'
+            });
+
+
+        }, function (err) {
+            logger.error(err);
+            res.json({
+                status: '500'
+            });
+        });
+});
+
+router.get('/getValidateEmail', function (req, res) {
+
+    var forgetPassword = req.session.forgetPassword;
+
+    // session过期
+    if(!forgetPassword) {
+        return res.json({
+            status: '1000'
+        });
+    }
+
+    var email = forgetPassword.email,
+        i = email.indexOf('@'),
+        ef = email.substring(0, i),
+        eb = email.substring(i);
+
+    if(ef.length<=2) {
+        ef = ef.charAt(0) + '*';
+    } else {
+        ef = ef.charAt(0) + '***' + ef.charAt(ef.length-1);
+    }
+
+    email = ef + eb;
+
+
+    return res.json({
+        status: '200',
+        email:　email
+    });
+
+});
+
+router.post('/resetPassword', function (req, res) {
+    var rbody = req.body,
+        eCode = rbody.eCode,
+        password = rbody.password;
+
+    logger.debug(rbody);
+
+    // 存在参数为空
+    if (!eCode || !password) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    var forgetPassword = req.session.forgetPassword,
+        email = forgetPassword.email;
+
+    // session过期
+    if(!forgetPassword) {
+        return res.json({
+            status: '1000'
+        });
+    }
+
+    ECode.findOne({email: email, eType: '300'}).exec()
         .then(function (ecode) {
             logger.debug(ecode);
 
             // 邮箱验证码错误
             if (!ecode || ecode.eCode !== eCode) {
                 return res.json({
-                    status: '600'
+                    status: '300'
                 });
             }
 
             // 邮箱验证码过期
             if (new Date(ecode.expires) < new Date()) {
                 return res.json({
-                    status: '601'
+                    status: '400'
                 });
             }
 
-
-            User.findById(req.session.user._id).exec()
-                .then(function (user) {
-                    // 异常错误
-                    if (!user) {
-                        return res.json({
-                            status: '500'
-                        })
-                    }
-
-                    user.email = email;
-
-                    user.save()
-                        .then(function() {
-
-                            res.json({
-                                status: '200'
-                            });
-
-                        }, function() {
-                            logger.error(err);
-
-                            return res.json({
-                                status: '500'
-                            });
-                        });
-
-
-                }, function (err) {
+            User.findOneAndUpdate({userName: forgetPassword.userName}, {password: password}).exec()
+                .then(function() {
+                    req.session.forgetPassword = null;
+                    res.json({
+                        status: '200'
+                    });
+                }, function(err){
                     logger.error(err);
                     res.json({
                         status: '500'

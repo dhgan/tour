@@ -62,7 +62,7 @@ setInterval(function() {
         }, function(err) {
             logger.error(err);
         });
-}, 1000 * 20);
+}, 1000 * 60);
 
 var Order = mongoose.model('Order', orderSchema);
 module.exports = Order;

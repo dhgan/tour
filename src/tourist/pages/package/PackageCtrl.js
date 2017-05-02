@@ -128,36 +128,6 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
             number: $scope.num,
             date: moment($scope.dt).format('YYYY-MM-DD')
         });
-
-        /*if(bForm.submitting) return ;
-
-        bForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.total'));
-
-        var req = {
-            packageId: packageId,
-            number: $scope.num,
-            date: moment($scope.dt).format('YYYY-MM-DD'),
-            price: $scope.choice.price
-        };
-
-        $http({
-            method: 'post',
-            url: '/api/tourist/order',
-            data: req
-        }).then(function(res) {
-            bForm.submitting.stop();
-            bForm.submitting = null;
-
-            var data = res.data,
-                status = data.status;
-            if(status === '200') {
-                swal('下单成功');
-            }
-        }, function(error) {
-            bForm.submitting.stop();
-            bForm.submitting = null;
-            swal(error.data);
-        });*/
     };
 
     $scope.collectIt = function(cForm) {
@@ -218,6 +188,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
     $scope.avgStar = 5;
     $scope.maxSize = 6;
     $scope.currentPage = 1;
+    $scope.pageSize = 5;
     var gettingComment = false;
 
    getComments(true);
@@ -231,7 +202,8 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
             method: 'get',
             url: '/api/tourist/packageComments/' + packageId + '/' + $scope.currentPage,
             params: {
-                t: Math.random()
+                t: Math.random(),
+                pageSize: $scope.pageSize
             }
         }).then(function(res) {
             gettingComment = false;
@@ -239,7 +211,7 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
                 status = data.status;
             if(status === '200') {
                 $scope.comments = data.comments;
-                $scope.avgStar = data.avgStar;
+                $scope.avgStar = data.avgStar || 5;
                 $scope.totalItems = data.totalItems;
                 if(!isFirst) {
                     $anchorScroll('package-comment');

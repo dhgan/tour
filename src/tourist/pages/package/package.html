@@ -110,7 +110,7 @@
                         </div>
                         <div id="package-comment" uib-accordion-group class="panel-info" is-open="status.commentOpen" template-url="package-panel-template.html">
                             <uib-accordion-heading>
-                                用户点评 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.commentOpen, 'glyphicon-chevron-right': !status.commentOpen}"></i>
+                                用户点评({{totalItems}}) <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.commentOpen, 'glyphicon-chevron-right': !status.commentOpen}"></i>
                             </uib-accordion-heading>
                             <div class="package-comment">
                                 <div class="comment-title clearfix">
@@ -130,7 +130,7 @@
                                 </div>
                                 <ul class="list-group">
                                     <li class="list-group-item" ng-repeat="comment in comments track by $index">
-                                        <div class="comment-user-name" ng-bind="comment.userName"></div>
+                                        <div class="comment-user-name" ng-bind="comment.user.userName"></div>
                                         <div class="comment-detail">
                                             <div class="comment-star clearfix">
                                                 <i ng-class="{'glyphicon-star-empty': comment.star==0, 'glyphicon-star-half-empty': comment.star>0 && comment.star<1, 'glyphicon-star': comment.star>=1}"></i>
@@ -141,17 +141,17 @@
                                             </div>
                                             <div class="comment-content" ng-bind="comment.content">
                                             </div>
-                                            <div class="comment-time" ng-bind="comment.time">
+                                            <div class="comment-time" ng-bind="comment.createDate | date: 'yyyy-MM-dd hh:mm:ss'">
                                             </div>
                                         </div>
                                     </li>
                                 </ul>
                                 <div ng-show="comments">
-                                    <ul uib-pagination total-items="totalItems" ng-model="$parent.$parent.$parent.currentPage"
+                                    <ul uib-pagination total-items="totalItems" items-per-page="$parent.$parent.$parent.pageSize" ng-model="$parent.$parent.$parent.currentPage"
                                         max-size="maxSize" force-ellipses="true" previous-text="上一页"
                                         next-text="下一页" class="hidden-xs" ng-change="goPage()">
                                     </ul>
-                                    <ul uib-pager total-items="totalItems" ng-model="$parent.$parent.$parent.currentPage" previous-text="上一页"
+                                    <ul uib-pager total-items="totalItems" items-per-page="$parent.$parent.$parent.pageSize" ng-model="$parent.$parent.$parent.currentPage" previous-text="上一页"
                                         next-text="下一页" class="visible-xs-block" ng-change="goPage()">
                                     </ul>
                                 </div>

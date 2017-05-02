@@ -5,6 +5,7 @@ var logger = require('../../lib/log').logger;
 var svgCaptcha = require('svg-captcha');
 var ECode = require('../../models/eCode');
 var qqEmail = require('../../lib/qqEmail');
+var qqExEmail = require('../../lib/qqExEmail');
 var wyEmail = require('../../lib/wyEmail');
 var _ = require('lodash');
 
@@ -30,18 +31,36 @@ router.post('/getECode', function (req, res) {
     logger.debug(req.body);
 
     // 存在参数为空
-    if (!eType || !email) {
+    if (!eType || (!email && eType !== '300')) {
         return res.json({
             status: 800
         });
     }
 
-    // 邮箱格式错误
-    var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
-    if (!emailReg.test(email)) {
-        return res.json({
-            status: '300'
-        });
+    if(eType === '300') {
+        if(!req.session.forgetPassword) {
+            return res.json({
+                status: '1000'
+            });
+        }
+
+        email = req.session.forgetPassword.email;
+
+    } else {
+
+        if(eType === '200' && !req.session.user) {
+            return res.json({
+                status: '1024'
+            });
+        }
+
+        // 邮箱格式错误
+        var emailReg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/i;
+        if (!emailReg.test(email)) {
+            return res.json({
+                status: '300'
+            });
+        }
     }
 
     var code = '';
@@ -72,14 +91,19 @@ router.post('/getECode', function (req, res) {
 
                 if(eType === '100') {
                     subject = 'i旅行网注册验证码';
-                    text = '感谢您的注册，您的邮箱验证码位: ' + code + '。';
+                    text = '感谢您的注册，您的邮箱验证码为: ' + code + '。';
                     html = '<h3>感谢您的注册，您的邮箱验证码为: <b>' + code + '</b>。</h3>';
                 } else if(eType === '200') {
                     subject = 'i旅行网修改邮箱验证码';
                     text = '您正在修改邮箱，您的邮箱验证码为: ' + code + '。';
                     html = '<h3>您正在修改邮箱，您的邮箱验证码为: <b>' + code + '</b>。</h3>';
+                } else if(eType === '300') {
+                    subject = 'i旅行网重置密码验证码';
+                    text = '您正在重置密码，您的邮箱验证码为: ' + code + '。';
+                    html = '<h3>您正在重置密码，您的邮箱验证码为: <b>' + code + '</b>。</h3>';
                 }
-                wyEmail.send({
+
+                qqExEmail.send({
                     to: email,
                     subject: subject,
                     text: text,

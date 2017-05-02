@@ -16,7 +16,7 @@
                         </li>
                         <li>
                             <span class="key">下单时间</span>：
-                            <span class="value">{{order.createDate}}</span>
+                            <span class="value">{{order.createDate | date: 'yyyy-MM-dd hh:mm:ss'}}</span>
                         </li>
                         <li>
                             <span class="key">线路名称</span>：
@@ -27,11 +27,11 @@
                             <span class="value text-danger" ng-switch-when="-1">已取消</span>
                             <span class="value unpayed" ng-switch-when="0">待支付</span>
                             <span class="value text-success" ng-switch-when="1">已支付</span>
-                            <span class="value text-success" ng-switch-when="-2">已评价</span>
+                            <span class="value text-success" ng-switch-when="2">已评价</span>
                         </li>
                         <li>
                             <span class="key">出发时间</span>：
-                            <span class="value">{{order.date}}</span>
+                            <span class="value">{{order.date | date: 'yyyy-MM-dd'}}</span>
                         </li>
                         <li>
                             <span class="key">出发地点</span>：
@@ -72,13 +72,39 @@
     </div>
     <script type="text/ng-template" id="commentBox.html">
         <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">点评</h3>
+            <h3 class="modal-title" id="modal-title">点评产品</h3>
         </div>
         <div class="modal-body" id="modal-body">
-            <input type="text" ng-model="order._id">
+            <form class="comment-form" name="cForm" novalidate>
+                <input type="hidden" ng-model="order._id">
+                <div class="form-group" ng-class="{'has-error': comment.star == 0 && cForm.commentStr.$touched}">
+                    <div class="clearfix">
+                        <label class="control-label red-star">评星：</label>
+                        <div class="comment-key comment-star clearfix">
+                            <input type="hidden" ng-model="comment.star" name="commentStar">
+                            <i ng-click="clickStar(1)" ng-class="{'glyphicon-star-empty': comment.star==0, 'glyphicon-star': comment.star>=1}"></i>
+                            <i ng-click="clickStar(2)" ng-class="{'glyphicon-star-empty': comment.star<=1, 'glyphicon-star': comment.star>=2}"></i>
+                            <i ng-click="clickStar(3)" ng-class="{'glyphicon-star-empty': comment.star<=2, 'glyphicon-star': comment.star>=3}"></i>
+                            <i ng-click="clickStar(4)" ng-class="{'glyphicon-star-empty': comment.star<=3, 'glyphicon-star': comment.star>=4}"></i>
+                            <i ng-click="clickStar(5)" ng-class="{'glyphicon-star-empty': comment.star<=4, 'glyphicon-star': comment.star>=5}"></i>
+                            <span class="label" ng-class="{'label-warning': comment.star<=1, 'label-info': comment.star>=2 && comment.star<=3, 'label-success': comment.star>=4}" ng-show="comment.star">{{comment.star}}星</span>
+                        </div>
+                    </div>
+                    <span class="help-block">请评星</span>
+                </div>
+                <div class="form-group comment-content" ng-class="{'has-error': cForm.commentStr.$touched && cForm.commentStr.$invalid}">
+                    <div class="clearfix">
+                        <label for="commentStr" class="control-label red-star">点评：</label>
+                        <div class="comment-key">
+                            <textarea name="commentStr" class="form-control" id="commentStr" rows="4" ng-model="comment.content" placeholder="点评此旅游线路套餐" maxlength="500" required></textarea>
+                        </div>
+                    </div>
+                    <span class="help-block">请输入点评内容</span>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
-            <button class="btn btn-primary" type="button" ng-click="submitComment()">确定</button>
+            <button class="btn btn-primary" type="button" ng-disabled="cForm.$invalid || comment.star == 0" ng-click="submitComment(cForm)">确定</button>
             <button class="btn btn-warning" type="button" ng-click="cancelComment()">取消</button>
         </div>
     </script>

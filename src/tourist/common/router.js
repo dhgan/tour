@@ -494,6 +494,83 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }]
             },
             controller: 'ChangeEmailCtrl'
+        })
+        .state('forgetPassword', {
+            url: '/forgetPassword',
+            templateUrl: './forgetPassword.html',
+            abstract: true,
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    Pace.restart();
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/forgetPassword/forgetPassword.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }]
+            }
+        })
+        .state('forgetPassword.step1', {
+            url: '/step1',
+            templateUrl: './step1.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    Pace.restart();
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/step1/step1.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }]
+            },
+            controller: 'Step1Ctrl'
+        })
+        .state('forgetPassword.step2', {
+            url: '/step2',
+            templateUrl: './step2.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    Pace.restart();
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/step2/step2.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$state', function($http, $state) {
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/getValidateEmail',
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '1000') {
+                            return $state.go('forgetPassword.step1');
+                        } else {
+                            return data;
+                        }
+                    }, function(error) {
+                        swal('', error.data, 'error');
+                    });
+                }]
+            },
+            controller: 'Step2Ctrl'
         });
 
 	$urlRouterProvider.otherwise('/home');

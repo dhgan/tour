@@ -99,6 +99,10 @@ function ($scope, $http, $stateParams, $state, PageInfo) {
                     swal('', '订单已支付, 不能重复支付', 'error').then(function() {
                         $state.go('member.order');
                     }, function() {});
+                } else if(status === '1024') {
+                    return $state.go('login', {
+                        redirect: encodeURIComponent('pay?' + JSON.stringify({orderId: PageInfo.order.orderId})),
+                    });
                 }
             }, function(error) {
                 $scope.paying.stop();

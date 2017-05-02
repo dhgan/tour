@@ -77,3 +77,48 @@
         }
     }
 }
+.modal {
+    min-width: 300px;
+}
+.comment-form {
+
+    .control-label {
+        float: left;
+    }
+    .comment-star {
+        font-size: 20px;
+        display: inline-block;
+        .label {
+            font-weight: 400;
+            font-size: 12px;
+            vertical-align: 50%;
+        }
+    }
+    .comment-str {
+        display: inline-block;
+    }
+    [class^='glyphicon-star'] {
+        color: #ff9e00;
+        float: left;
+        margin: 0 2px;
+        cursor: pointer;
+    }
+    .help-block {
+        margin-left: 52px;
+    }
+    .comment-content {
+        .control-label {
+            float: none;
+        }
+        .help-block {
+            margin-left: 0;
+        }
+    }
+    textarea {
+        padding: 5px 5px;
+        font-size: 14px;
+        border: 1px solid #cecece;
+        resize: none;
+        vertical-align: top;
+    }
+}

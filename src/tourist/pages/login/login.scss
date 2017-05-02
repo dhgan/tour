@@ -23,6 +23,13 @@
             cursor: pointer;
         }
     }
+    .forget-password {
+        font-size: 12px;
+        text-align: right;
+        display: block;
+        margin-top: 10px;
+        margin-right: 4px;
+    }
     @media (max-width: 767px) {
         margin: 30px auto;
     }

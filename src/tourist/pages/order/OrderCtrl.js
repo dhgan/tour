@@ -7,11 +7,6 @@ function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
     var status = PageInfo.status;
     $scope.$root.userInfo = PageInfo.userInfo;
     if(status === '200') {
-
-        PageInfo.orderList.forEach(function(order) {
-            order.createDate = moment(order.createDate).format('YYYY-MM-DD HH:mm:ss');
-            order.date = moment(order.date).format('YYYY-MM-DD');
-        });
         $scope.orderList = PageInfo.orderList;
         $scope.totalItems = PageInfo.totalItems;
     } else if(status === '500') {
@@ -95,6 +90,10 @@ function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
                         type: 'error',
                         text: '订单已支付，不能取消'
                     });
+                } else if(status === '1024') {
+                    $state.go('login', {
+                        redirect: 'member.order'
+                    });
                 }
             }, function(error) {
                 order.submitting.stop();
@@ -116,29 +115,105 @@ function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
 
     $scope.commentOrder = function(order) {
 
-        $scope.modalInstance =  $uibModal.open({
+        var modalInstance =  $uibModal.open({
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'commentBox.html',
-            scope: $scope,
-            resolve: {
-                order: function() {
-                    return order;
-                }
-            },
             controller: function($scope) {
                 $scope.order = order;
+                $scope.comment = {
+                    star: 0,
+                    content: ''
+                };
+
+                $scope.clickStar = function(star) {
+                    $scope.comment.star = star;
+                };
+
+                $scope.submitComment = function(cForm) {
+                    // 防多次点击
+                    if(cForm.submitting) return;
+
+                    cForm.submitting = new Spinner({ width: 2 }).spin(document.querySelector('.comment-form'));
+
+                    var req = {
+                        orderId: order._id,
+                        star: $scope.comment.star,
+                        content: $scope.comment.content
+                    };
+
+                    $http({
+                        method: 'post',
+                        url: '/api/tourist/comment',
+                        data: req
+                    }).then(function(res) {
+                        cForm.submitting.stop();
+                        cForm.submitting = null;
+                        var data = res.data,
+                            status = data.status;
+                        if(status === '200') {
+                            swal({
+                                type: 'success',
+                                text: '评论成功',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(function(){}, function() {
+                                modalInstance.close();
+                                $state.reload();
+                            });
+                        } else if(status === '300') {
+                            swal({
+                                type: 'error',
+                                text: '不能评论非本人订单'
+                            }).then(function() {}, function() {
+                                $state.reload();
+                            });
+                        } else if(status === '400') {
+                            swal({
+                                type: 'error',
+                                text: '订单编号错误'
+                            });
+                        } else if(status === '500') {
+                            swal({
+                                type: 'error',
+                                text: '未知错误'
+                            });
+                        } else if(status === '600') {
+                            swal({
+                                type: 'error',
+                                text: '订单已被取消，不能评论'
+                            });
+                        } else if(status === '700') {
+                            swal({
+                                type: 'error',
+                                text: '订单未支付，不能评论'
+                            });
+                        } else if(status === '900') {
+                            swal({
+                                type: 'error',
+                                text: '订单已被评论，不能重复评论'
+                            });
+                        } else if(status === '1024') {
+                            $state.go('login', {
+                                redirect: 'member.order'
+                            });
+                        }
+
+                    }, function(err) {
+                        cForm.submitting.stop();
+                        cForm.submitting = null;
+                        swal('', err.data, 'error');
+                    });
+                };
+
+                $scope.cancelComment = function() {
+                    modalInstance.dismiss();
+                };
             }
         });
+        modalInstance.result.then(function(){}, function(){});
     };
 
-    $scope.submitComment = function() {
-        $scope.modalInstance.close();
-    };
-
-    $scope.cancelComment = function() {
-        $scope.modalInstance.dismiss();
-    };
 
 
 }]);

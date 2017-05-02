@@ -1,0 +1,24 @@
+<div class="step1-page">
+    <form name="vForm" class="validate-form" novalidate>
+        <div class="form-group" ng-class="{
+                'has-error': vForm.userName.$touched && vForm.userName.$invalid || inputError.userName}">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon-user" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" name="userName" ng-model="user.userName" placeholder="用户名" autofocus maxlength="20" show-tips required>
+            </div>
+            <span class="help-block" ng-show="vForm.userName.$invalid">请输入用户名</span>
+            <span class="help-block" ng-show="inputError.userName">用户名不存在</span>
+        </div>
+        <div class="form-group" ng-class="{
+                'has-error': vForm.captcha.$touched && vForm.captcha.$invalid || inputError.captcha}">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon-validate" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" name="captcha" ng-model="user.captcha" placeholder="图片验证码" minlength="4" maxlength="4" show-tips required>
+                <span class="input-group-addon captcha"><img ng-src="{{captchaSrc}}" ng-click="refreshCaptcha()" uib-tooltip="点击刷新" ></span>
+            </div>
+            <span class="help-block" ng-show="vForm.captcha.$invalid">请输入4位图片验证码</span>
+            <span class="help-block" ng-show="inputError.captcha">图片验证码错误</span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="validateName(vForm)" ng-disabled="vForm.$invalid">确定</button>
+    </form>
+</div>

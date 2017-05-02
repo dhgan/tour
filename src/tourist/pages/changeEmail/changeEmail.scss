@@ -24,6 +24,11 @@
                 cursor: pointer;
                 color: #428bca;
             }
+            .input-group {
+                [class^="glyphicon-"] {
+                    font-size: 18px;
+                }
+            }
         }
     }
 }

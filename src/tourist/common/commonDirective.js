@@ -23,7 +23,7 @@ app.directive('emailValidate', function() {
             });
         }
     }
-}).directive('showTime',['$interval', 'commonService', function($interval, commonService) {
+}).directive('showTime',['$interval', '$state', 'commonService', function($interval, $state, commonService) {
     return {
         restrict: 'A',
         link: function($scope, elem, attr, ctrl) {
@@ -60,10 +60,18 @@ app.directive('emailValidate', function() {
 
                 $scope.sending = true;
 
-                var req = {
-                    email: $scope.user.email,
-                    eType: $scope.eType
-                };
+                var req = {};
+                if($scope.eType === '300') {
+                    req = {
+                        eType: $scope.eType
+                    };
+                } else {
+                    req = {
+                        email: $scope.user.email,
+                        eType: $scope.eType
+                    };
+                }
+
 
                 commonService.getECode(req).then(function(res) {
                     var data = res.data,
@@ -71,6 +79,20 @@ app.directive('emailValidate', function() {
                     if(status === '200') return ;
                     if(status === '300') {
                         form.email.$invalid = true;
+                    } else if(status === '1000') {
+                        swal({
+                            type: 'error',
+                            text: '用户名验证过期，请重新验证'
+                        }).then(function() {
+                            $state.go('forgetPassword.step1');
+                        }, function() {});
+                    } else if(status === '1024') {
+                        swal({
+                            type: 'error',
+                            text: '登录状态失效，请重新登录'
+                        }).then(function() {
+                            $state.reload();
+                        }, function() {});
                     } else {
                         swal({
                             type: 'error',

@@ -1,0 +1,25 @@
+.step1-page {
+    .validate-form {
+        margin-top: 40px;
+        .form-group {
+            margin: 20px 0;
+        }
+        .ecode-sending {
+            cursor: pointer;
+            color: #428bca;
+        }
+        .input-group {
+            [class^="glyphicon-"] {
+                font-size: 18px;
+            }
+        }
+        .captcha {
+            padding: 0;
+            height: 34px;
+            img {
+                height: 100%;
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -80,6 +80,10 @@ function ($scope, $http, $stateParams, $state, PageInfo) {
                         type: 'error',
                         text: '未知错误'
                     });
+                } else if(status === '1024') {
+                    $state.go('login', {
+                        redirect: 'member.collection'
+                    });
                 }
             }, function(error) {
                 collection.submitting.stop();
