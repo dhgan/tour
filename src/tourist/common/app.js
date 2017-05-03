@@ -1,6 +1,5 @@
 var angular = require('angular');
 
-//require('font-awesome/css/font-awesome.min.css');
 require('bootstrap-loader');
 
 window.Headroom = require('headroom.js');
