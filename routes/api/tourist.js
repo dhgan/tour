@@ -1457,6 +1457,8 @@ router.get('/packageComments/:packageId/:page', function (req, res) {
 
                 avgStar /=len;
 
+                avgStar = avgStar.toFixed(1);
+
                 if(start > len) { // page错误
                     return res.json({
                         status: '400'

@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.ttf?umsgyq') format('truetype'),
-    url('fonts/icomoon.woff?umsgyq') format('woff'),
-    url('fonts/icomoon.svg?umsgyq#icomoon') format('svg');
+    url('fonts/icomoon.ttf?a9ufv4') format('truetype'),
+    url('fonts/icomoon.woff?a9ufv4') format('woff'),
+    url('fonts/icomoon.svg?a9ufv4#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -40,9 +40,6 @@
 }
 .glyphicon-sign-in:before {
   content: "\f090";
-}
-.glyphicon-angle-up:before {
-  content: "\f106";
 }
 .glyphicon-star-empty:before {
   content: "\e90d";

@@ -1,0 +1,19 @@
+.scrollUp {
+    position: fixed;
+    width: 46px;
+    height: 46px;
+    right: 20px;
+    bottom: 100px;
+    background: #777;
+    color: #fff;
+    text-align: center;
+    line-height: 46px;
+    font-size: 40px;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+    cursor: pointer;
+    display: none;
+    &.showUp {
+        display: block;
+    }
+}

@@ -19,6 +19,8 @@ require('./common/router.js');
 require('./common/commonService.js');
 require('./common/commonDirective');
 require('./component/tourHeader/tourHeader');
+require('./component/tourFooter/tourFooter');
+require('./component/scrollUp/scrollUp');
 
 require('lodash');
 
