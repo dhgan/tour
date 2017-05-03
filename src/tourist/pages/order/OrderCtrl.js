@@ -1,7 +1,7 @@
 var app = require('../../common/app.js');
 
-app.controller('OrderCtrl', ['$scope', '$http', '$stateParams', '$state', 'PageInfo', '$uibModal',
-function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
+app.controller('OrderCtrl', ['$scope', '$http', '$stateParams', '$state', '$uibModal', 'PageInfo',
+function ($scope, $http, $stateParams, $state, $uibModal, PageInfo) {
 
     // 页面信息
     var status = PageInfo.status;
@@ -112,14 +112,13 @@ function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
         });
     };
 
-
     $scope.commentOrder = function(order) {
 
         var modalInstance =  $uibModal.open({
             ariaLabelledBy: 'modal-title',
             ariaDescribedBy: 'modal-body',
             templateUrl: 'commentBox.html',
-            controller: function($scope) {
+            controller: ['$scope', function($scope) {
                 $scope.order = order;
                 $scope.comment = {
                     star: 0,
@@ -209,7 +208,7 @@ function ($scope, $http, $stateParams, $state, PageInfo, $uibModal) {
                 $scope.cancelComment = function() {
                     modalInstance.dismiss();
                 };
-            }
+            }]
         });
         modalInstance.result.then(function(){}, function(){});
     };

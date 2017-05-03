@@ -43,7 +43,8 @@ function addConfig(arr, dir) {
                         attrs: ['img:src', 'link:href']
                     }
                 }
-            })
+            }),
+            new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(zh-cn)$/)
 
         ],
         module: {

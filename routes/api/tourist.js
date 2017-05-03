@@ -1502,7 +1502,7 @@ router.get('/user', checkLogin, function (req, res) {
                 })
             }
 
-            req.session.user = {
+            sessionUser = req.session.user = {
                 _id: user._id,
                 userName: user.userName,
                 email: user.email,
