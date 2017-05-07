@@ -44,6 +44,7 @@ setInterval(function() {
                                 choices.forEach(function(choice) {
                                     if(moment(choice.date).isSame(order.date, 'day')) {
                                         choice.left = choice.left + order.number;
+                                        package.sold -= order.number;
                                         return;
                                     }
                                 });

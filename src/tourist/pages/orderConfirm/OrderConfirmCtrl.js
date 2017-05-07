@@ -56,6 +56,10 @@ function ($scope, $http, $stateParams, $state, PageInfo) {
                 swal('', '未知错误', 'error');
             } else if(status === '600') {
                 swal('', '库存不足', 'error');
+            } else if(status === '1024') {
+                return $state.go('login', {
+                    redirect: encodeURIComponent('orderConfirm?' + JSON.stringify({packageId: $scope.package._id, date: $scope.order.date, number: $scope.order.number})),
+                });
             }
         }, function(error) {
             cForm.submitting.stop();

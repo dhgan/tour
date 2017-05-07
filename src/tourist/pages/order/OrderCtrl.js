@@ -32,7 +32,7 @@ function ($scope, $http, $stateParams, $state, $uibModal, PageInfo) {
 
         swal({
             type: 'warning',
-            text: '你确定要取消收藏吗？',
+            text: '你确定要取消订单吗？',
             showCancelButton: true,
             confirmButtonText: '确定',
             cancelButtonText: '取消',

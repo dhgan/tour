@@ -1,8 +1,18 @@
 .home-page {
     .carousel {
-        .slide-img {
-            width: 100%;
-            cursor: pointer;
+        .text-center {
+            position: relative;
+            overflow: hidden;
+            height: 550px;
+            .slide-img {
+                position: absolute;
+                cursor: pointer;
+                height: 550px;
+                width: auto;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+            }
         }
     }
 
@@ -99,17 +109,9 @@
                 display: none;
             }
             .text-center {
-                position: relative;
-                overflow: hidden;
                 height: 180px;
                 .slide-img {
-                    position: absolute;
-                    cursor: pointer;
                     height: 180px;
-                    width: auto;
-                    top: 0;
-                    left: 50%;
-                    transform: translateX(-50%);;
                 }
             }
         }
@@ -132,10 +134,30 @@
             width: 50%;
             float: left;
         }
+
+        .carousel {
+            .text-center {
+                height: 264px;
+                .slide-img {
+                    height: 264px;
+                }
+            }
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 885px) {
+        .carousel {
+            .text-center {
+                height: 352px;
+                .slide-img {
+                    height: 352px;
+                }
+            }
+        }
     }
 
 
-    @media (min-width: 886px) and (max-width: 995px) {
+    @media (min-width: 886px) and (max-width: 991px) {
         .container {
             width: 850px;
         }
@@ -143,10 +165,29 @@
             width: 33.33%;
         }
 
+        .carousel {
+            .text-center {
+                height: 406px;
+                .slide-img {
+                    height: 406px;
+                }
+            }
+        }
+
+    }
+
+    @media (min-width: 992px) and (max-width: 1199px) {
+        .carousel {
+            .text-center {
+                height: 454px;
+                .slide-img {
+                    height: 454px;
+                }
+            }
+        }
     }
 
 
     @media (min-width: 1200px) {
-
     }
 }

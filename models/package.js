@@ -29,6 +29,14 @@ var packageSchema = new mongoose.Schema({
         type: ObjectId,
         ref: 'Comment'
     }],
+    code: {
+        type: String,
+        index: true
+    },
+    sold: {
+        type: Number,
+        default: 0
+    },
     state: Number
 });
 
