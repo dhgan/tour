@@ -513,13 +513,13 @@ module.exports = {
 						
 						     <a id="day1"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>1</strong>天</span>
-                            西安<img src="http://ms.xktec.com/images/vehicle_plane.png">厦门
+                            西安<img src="/uploads/images/vehicle_plane.png">厦门
 			           </div><ul><li class="line-iti"><div class="line-item-content">西安咸阳国际机场乘飞机赴世界花园城市—厦门，接机后前往指定地点面签，如您的抵达航班较早，可以自行前往中山路自由活动（无导游陪同，无讲解），品尝地道的厦门美食。(如遇周末或当日，则面见日期往后顺延至周内进行
   今日不含三餐 敬请自理
   入住厦门
 </div><div class="line-iti-img"></div></li></ul><div class="clear"></div> <a id="day2"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>2</strong>天</span>
-                            厦门<img src="http://ms.xktec.com/images/vehicle_cruise.png">鼓浪屿<img src="http://ms.xktec.com/images/vehicle_cruise.png">厦门
+                            厦门<img src="/uploads/images/vehicle_cruise.png">鼓浪屿<img src="/uploads/images/vehicle_cruise.png">厦门
 			           </div><ul><li class="line-iti"><div class="line-item-content">07:00  早餐后根据游轮预约时间乘船前往著名的“海上花园”—【鼓浪屿】；导游陪同你一起闲逛鼓浪屿 ：
 沿途欣赏自然风光及特色建筑，感受鼓浪屿百年沧桑，沿途经过【日本领事馆】，【英国领事馆】，【西班牙领事馆】，【天主教堂】，【协和礼拜堂】，龙头路自由活动：享受完全属于自己的鹭岛之旅：
 午后的时光是属于那些街边路旁的咖啡馆的，喝咖啡、听音乐、上网、看书、翻杂志、发呆，就是这么慵懒，您也可以自由的去品尝特色小吃，到林间小路走一走，去海边吹风，去找一找岛上的老房子，去街头的小店闲逛下，享受快乐的自由时光.
@@ -533,7 +533,7 @@ module.exports = {
   入住厦门
 </div><div class="line-iti-img"></div></li></ul><div class="clear"></div> <a id="day3"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>3</strong>天</span>
-                            厦门<img src="http://ms.xktec.com/images/vehicle_cruise.png">金门<img src="http://ms.xktec.com/images/vehicle_cruise.png">厦门
+                            厦门<img src="/uploads/images/vehicle_cruise.png">金门<img src="/uploads/images/vehicle_cruise.png">厦门
 			           </div><ul><li class="line-iti"><div class="line-item-content">07:30  集合于厦门五通客运码头候船大厅，搭乘豪华客轮前往金门水头码头。
 迎接佳宾，参观气宇非凡的【莒光楼】听取多媒体简介，认识全新的金门及拍照留念(约50分钟)。
 再前往 【药妆】或者【金门贡糖】参观现场制作流程及品尝美味的金门特产。
@@ -548,7 +548,7 @@ module.exports = {
   入住厦门
 </div><div class="line-iti-img"></div></li></ul><div class="clear"></div> <a id="day4"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>4</strong>天</span>
-                            厦门<img src="http://ms.xktec.com/images/vehicle_bus.png">厦门市区
+                            厦门<img src="/uploads/images/vehicle_bus.png">厦门市区
 			           </div><ul><li class="line-iti"><div class="line-item-content">07:00  早餐后乘车前往世界上最大的古炮--【胡里山炮台】（游览地间约50分钟，导游集中讲解20分钟），
 特别赠送：【环岛路骑行】：观赏大海，沙滩，青草，绿树，雕塑构成世界桌子美的马拉松跑道，花岗岩砌成的长方形城堡东方夏威夷营--【环岛路】，尽情地享受鹭岛迷人的海滨风光（自由游览地间约60分钟，导游提闪车上讲解），
 乘车前往千年古刹-【南普陀寺】（车程约10分钟，游览地间约50分钟，导游集中讲解20分钟）祈諨平安。
@@ -564,7 +564,7 @@ module.exports = {
   入住厦门
 </div><div class="line-iti-img"></div></li></ul><div class="clear"></div> <a id="day5"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>5</strong>天</span>
-                            厦门<img src="http://ms.xktec.com/images/vehicle_plane.png">西安
+                            厦门<img src="/uploads/images/vehicle_plane.png">西安
 			           </div><ul><li class="line-iti"><div class="line-item-content">您可以睡到自然醒，但是千万不要错过用早餐的时间哦（早餐时间: 7:00~09:00）
  今日全天自由活动（无导游陪同，无讲解）根据航班时间乘机返回西安，结束愉快旅行!
   早餐：中式团餐，具体用餐时间以导游安排为准

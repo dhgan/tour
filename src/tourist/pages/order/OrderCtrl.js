@@ -6,19 +6,21 @@ function ($scope, $http, $stateParams, $state, $uibModal, PageInfo) {
     // 页面信息
     var status = PageInfo.status;
     $scope.$root.userInfo = PageInfo.userInfo;
-    if(status === '200') {
-        $scope.orderList = PageInfo.orderList;
-        $scope.totalItems = PageInfo.totalItems;
-    } else if(status === '500') {
-        return swal('', '未知错误', 'error');
-    }
 
     $scope.$parent.currentState = $state.current.name;
 
-
     $scope.currentPage = $stateParams.p || 1;
     $scope.pageSize = $stateParams.pageSize || 10;
+    $scope.orderQueryStr = $stateParams.q || '';
     $scope.maxSize = 6;
+
+    if(status === '200') {
+        $scope.orderList = PageInfo.orderList;
+        $scope.totalItems = PageInfo.totalItems;
+        if($scope.orderQueryStr) $scope.noOrderTips = '没有符合条件的订单，请尝试其他搜索条件。'
+    } else if(status === '500') {
+        return swal('', '未知错误', 'error');
+    }
 
     $scope.goPage = function() {
         $state.go('member.order', {
@@ -213,6 +215,12 @@ function ($scope, $http, $stateParams, $state, $uibModal, PageInfo) {
         modalInstance.result.then(function(){}, function(){});
     };
 
-
+    $scope.searchOrder = function() {
+        $state.go('member.order', {
+            q: $scope.orderQueryStr
+        }, {
+            reload: true
+        });
+    };
 
 }]);

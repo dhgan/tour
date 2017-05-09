@@ -517,7 +517,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>1</strong>天</span> 西安
-                                <img src="http://ms.xktec.com/images/vehicle_plane.png">三亚
+                                <img src="/uploads/images/vehicle_plane.png">三亚
                             </div>
                             <ul>
                                 <li class="line-iti">
@@ -531,7 +531,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>2</strong>天</span> 三亚
-                                <img src="http://ms.xktec.com/images/vehicle_bus.png">龙沐湾
+                                <img src="/uploads/images/vehicle_bus.png">龙沐湾
                             </div>
                             <ul>
                                 <li class="line-iti">
@@ -544,7 +544,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>3</strong>天</span> 龙沐湾
-                                <img src="http://ms.xktec.com/images/vehicle_bus.png">兴隆
+                                <img src="/uploads/images/vehicle_bus.png">兴隆
                             </div>
                             <ul>
                                 <li class="line-iti">
@@ -557,7 +557,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>4</strong>天</span> 兴隆
-                                <img src="http://ms.xktec.com/images/vehicle_bus.png">三亚
+                                <img src="/uploads/images/vehicle_bus.png">三亚
                             </div>
                             <ul>
                                 <li class="line-iti">
@@ -570,7 +570,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>5</strong>天</span>
-                                <img src="http://ms.xktec.com/images/vehicle_bus.png">三亚一地
+                                <img src="/uploads/images/vehicle_bus.png">三亚一地
                             </div>
                             <ul>
                                 <li class="line-iti">
@@ -583,7 +583,7 @@ module.exports = {
                             <div class="clear"></div>
                             <div class="iti-title">
                                 <span>第<strong>6</strong>天</span> 三亚
-                                <img src="http://ms.xktec.com/images/vehicle_plane.png">西安
+                                <img src="/uploads/images/vehicle_plane.png">西安
                             </div>
                             <ul>
                                 <li class="line-iti">

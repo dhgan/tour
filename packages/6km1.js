@@ -512,22 +512,22 @@ module.exports = {
                             <div class="clear"></div>
                             <a id="day0"></a> <div class="clear"></div> <div class="iti-title">
                             <span>第<strong>1</strong>天</span>
-                            西安乘机赴昆明长水国际机场<img src="http://ms.xktec.com/images/vehicle_plane.png">
+                            西安乘机赴昆明长水国际机场<img src="/uploads/images/vehicle_plane.png">
                             </div><ul><li class="line-iti"><div class="line-item-content">西安贵宾今日乘机抵达昆明长水国际机场，我社将安排接机人员于机场1号出口为您接机，并安排商务专车送至酒店办理入住手续。考虑您长途跋涉和进入高原地区，为避免出现身体不适应，我社今日将无行程安排，并为为您安排温泉酒店。</div><div class="line-iti-img"></div></li></ul><div class="clear"></div> <a id="day1"></a> <div class="clear"></div> <div class="iti-title">
                         <span>第<strong>2</strong>天</span>
-                        昆明<img src="http://ms.xktec.com/images/vehicle_bus.png">大理<img src="http://ms.xktec.com/images/vehicle_bus.png">丽江
+                        昆明<img src="/uploads/images/vehicle_bus.png">大理<img src="/uploads/images/vehicle_bus.png">丽江
                         </div><ul><li class="line-iti"><div class="line-item-content">早餐后，乘车前往大理，抵达后品尝午餐“白族风味餐”，用餐后游览历史文化名城【大理古城】（游览60分钟，含古城维护费，电瓶车35元/人，），游览大理经典景区【蝴蝶泉】（游览40分钟）。结束后乘车至丽江，抵达后品尝晚餐“马帮菜”，用餐后游览国家AAAAA级景区【丽江古城】（古城为开放式景区，各位贵宾请自行游览），结束后入住酒店休息。</div></li></ul><div class="clear"></div> <a id="day2"></a> <div class="clear"></div> <div class="iti-title">
                         <span>第<strong>3</strong>天</span>
-                        丽江一地<img src="http://ms.xktec.com/images/vehicle_bus.png">
+                        丽江一地<img src="/uploads/images/vehicle_bus.png">
                         </div><ul><li class="line-iti"><div class="line-item-content">早餐后，游览国家AAAAA景区【玉龙雪山】·【冰川大索道】（游览180分钟，不含排队及用餐时间），游览【蓝月谷】 （蓝月谷电瓶车自理60元/人）。结束后返回市区参观丽江康体特产【螺旋藻】，晚餐品尝“丽江火塘鸡”，用餐后游览【宋城景区】，并赠送实景演出《丽江恋歌》，观赏结束后入住酒店休息。</div></li></ul><div class="clear"></div> <a id="day3"></a> <div class="clear"></div> <div class="iti-title">
                         <span>第<strong>4</strong>天</span>
-                        丽江<img src="http://ms.xktec.com/images/vehicle_bus.png">大理<img src="http://ms.xktec.com/images/vehicle_bus.png">安宁
+                        丽江<img src="/uploads/images/vehicle_bus.png">大理<img src="/uploads/images/vehicle_bus.png">安宁
                         </div><ul><li class="line-iti"><div class="line-item-content">早餐后，乘车前往大理。抵达后参观【白族民居】（参观60分钟，含“白族三道茶“歌舞表演）。中午品尝“洱海砂锅鱼”，用餐后乘坐【洱海豪华游轮】观赏苍山洱海美景，并游览国家AAAA级景区【南诏风情岛】（乘船、游览时间150分钟）。结束后乘车前往安宁，于指定餐厅品尝晚餐，用餐后入住温泉酒店休息（赠送足疗SPA）。</div></li></ul><div class="clear"></div> <a id="day4"></a> <div class="clear"></div> <div class="iti-title">
                         <span>第<strong>5</strong>天</span>
-                        安宁<img src="http://ms.xktec.com/images/vehicle_bus.png">昆明
+                        安宁<img src="/uploads/images/vehicle_bus.png">昆明
                         </div><ul><li class="line-iti"><div class="line-item-content">早餐后，乘车返程昆明。抵达后参观【云南民族村·翡翠博物馆】（参观180分钟）。中午品尝云南特色美食“过桥米线”，用餐后参观【黄龙玉展示馆】僰银博物馆，结束后乘车至石林，游览国家AAAAA级景区【石林风景名胜区】（游览120分钟）。晚餐品尝宜良烤鸭，用餐后返回昆明市区，入住高尔夫温泉酒店（赠送高尔夫球挥杆体验，每间房120球）。</div></li></ul><div class="clear"></div> <a id="day5"></a> <div class="clear"></div> <div class="iti-title">
                         <span>第<strong>6</strong>天</span>
-                        昆明长水国际机场乘机<img src="http://ms.xktec.com/images/vehicle_plane.png">返回西安
+                        昆明长水国际机场乘机<img src="/uploads/images/vehicle_plane.png">返回西安
                         </div><ul><li class="line-iti"><div class="line-item-content">早餐后，将根据各位贵宾的返程航班时间安排参观【鲜花市场】（参观60分钟），参观后由送机人员为您送机，并预祝您一路平安！</div></li></ul><div class="clear"></div>
                 
                         <p class="p_notice">以上行程仅供参考，最终行程可能会根据实际情况进行微调，敬请以出团通知为准。</p>

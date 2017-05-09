@@ -108,7 +108,7 @@
                             </uib-accordion-heading>
                             <div ng-bind-html="package.precautions || '无'"></div>
                         </div>
-                        <div id="package-comment" uib-accordion-group class="panel-info" is-open="status.commentOpen" template-url="package-panel-template.html">
+                        <div id="package-comments" uib-accordion-group class="panel-info" is-open="status.commentOpen" template-url="package-panel-template.html">
                             <uib-accordion-heading>
                                 用户点评({{totalItems}}) <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.commentOpen, 'glyphicon-chevron-right': !status.commentOpen}"></i>
                             </uib-accordion-heading>
@@ -162,7 +162,17 @@
             </div>
         </div>
     </div>
+    <!--<div class="package-detail-nav">
+        <ul>
+            <li class="active" ng-click="gotoAnchor('package-features')">产品特色</li>
+            <li ng-click="gotoAnchor('package-tour-detail')">行程详情</li>
+            <li ng-click="gotoAnchor('package-price-detail')">费用说明</li>
+            <li ng-click="gotoAnchor('package-precautions')">注意事项</li>
+            <li ng-click="gotoAnchor('package-comments')">用户点评</li>
+        </ul>
+    </div>-->
 </div>
+<tour-footer></tour-footer>
 <script type="text/ng-template" id="package-panel-template.html">
     <div class="panel-heading" ng-click="toggleOpen()">
         <h4 class="panel-title" uib-accordion-transclude="heading">

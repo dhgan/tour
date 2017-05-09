@@ -5,6 +5,7 @@
         @media  (min-width: 1200px){
             margin-left: 8%;
         }*/
+        overflow: hidden;
         margin-left: 220px;
         @media (max-width: 767px) {
             margin-left: 0;
@@ -21,6 +22,39 @@
             overflow: hidden;
             &:hover {
                 background-color: #f9f9f9;
+            }
+        }
+    }
+    .order-search {
+        .order-search-form {
+            .form-group {
+                width: 220px;
+                position: relative;
+                .form-control {
+                    padding-right: 38px;
+                    border: 1px solid #cdcdcd;
+                    &:focus {
+                        border: 1px solid #0BC972;
+                        & + .search-btn .glyphicon-search{
+                            color: #0BC972;
+                        }
+                    }
+                }
+            }
+            .search-btn {
+                cursor: pointer;
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 30px;
+                padding: 0 10px;
+                width: 38px;
+                text-align: center;
+            }
+            .glyphicon-search {
+                font-size: 16px;
+                line-height: 30px;
+                color: gray;
             }
         }
     }

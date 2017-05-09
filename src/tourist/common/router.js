@@ -254,7 +254,7 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             abstract: true
         })
         .state('member.order', {
-            url: '/order?p&pageSize',
+            url: '/order?p&pageSize&q',
             templateUrl: './order.html',
             resolve: {
                 foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
@@ -270,14 +270,16 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
                 }],
                 PageInfo: ['$http', '$stateParams', '$state', function($http, $stateParams, $state) {
                     var page = $stateParams.p || 1,
-                        pageSize = $stateParams.pageSize || 10;
+                        pageSize = $stateParams.pageSize || 10,
+                        queryStr = $stateParams.q || '';
                     Pace.restart();
                     return $http({
                         method: 'get',
                         url: '/api/tourist/orderList/' + page,
                         params: {
                             t: Math.random(),
-                            pageSize: pageSize
+                            pageSize: pageSize,
+                            queryStr: queryStr
                         }
                     }).then(function(res) {
                         var data = res.data,

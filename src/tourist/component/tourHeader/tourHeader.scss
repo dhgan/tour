@@ -55,7 +55,6 @@
             .form-control {
                 padding-right: 38px;
                 border: 1px solid #cdcdcd;
-                transition: 0.6s ease all;
                 &:focus {
                     border: 1px solid #0BC972;
                     & + .search-btn .glyphicon-search{

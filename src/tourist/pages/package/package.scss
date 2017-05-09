@@ -168,6 +168,19 @@
 
     .panel-group {
         margin-top: 10px;
+        .line-iti {
+            list-style: none;
+        }
+        .iti-title {
+            color: #085;
+            font-size: 16px;
+            line-height: 32px;
+            margin: 10px 0 10px 5px;
+        }
+        .p_notice {
+            color: #0BC972;
+            font-size: 13px;
+        }
         .package-comment {
             .star-num {
                 float: left;
@@ -288,6 +301,32 @@
             }
             .visible-xs-block {
                 display: none !important;
+            }
+        }
+    }
+
+    .package-detail-nav {
+        position: fixed;
+        right: 20px;
+        bottom: 160px;
+        &>ul {
+            list-style: none;
+            padding: 4px 0;
+            background: #ebebeb;
+            border-radius: 2px;
+            color: #333;
+            &>li {
+                cursor: pointer;
+                font-size: 16px;
+                padding: 6px 10px;
+                &.active {
+                    color: #fff;
+                    background: #0BC972;
+                }
+                &:hover {
+                    color: #fff;
+                    background-color: #0BC972;
+                }
             }
         }
     }

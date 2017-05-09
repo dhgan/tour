@@ -189,13 +189,13 @@ module.exports = {
 							<div class="clear"></div>
 						     <a id="day0"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>1</strong>天</span>
-                            西安-拉萨<img src="http://ms.xktec.com/images/vehicle_train.png">
+                            西安-拉萨<img src="/uploads/images/vehicle_train.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">西安乘火车赴拉萨，早上8点火车站解放饭店门口集合（导游举“完美西藏”旗子）统一出发，（Z265   9：45发车  Z165次  11：24发车）</div></li></ul><div class="clear"></div> <a id="day1"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>2</strong>天</span>
-                            西安-拉萨<img src="http://ms.xktec.com/images/vehicle_train.png">
+                            西安-拉萨<img src="/uploads/images/vehicle_train.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">车上观青藏铁路全景，穿越柴达木盆地，跨越万丈盐桥，经过青海西部重镇—格尔木、跨越昆仑山，穿越可可西里无人区，经过长江第一大桥---沱沱河大桥，穿越世界上最高的铁路隧道---风火山遂道，翻越唐古拉山，欣赏藏北羌塘草原美丽风光，欣赏拉萨河谷风光，抵达拉萨。</div></li></ul><div class="clear"></div> <a id="day2"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>3</strong>天</span>
-                            拉萨—布达拉宫—大昭寺—八廓街 <img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            拉萨—布达拉宫—大昭寺—八廓街 <img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后游览西藏的标志性建筑——【布达拉宫】（1小时）；游览西藏文化重地——【大昭寺】（1小时）；【八廓街】自由活动；
 温馨提示：此日户外停留时间较长，请准备太阳帽、墨镜、防晒霜及饮用水。
 今日亮点：
@@ -204,28 +204,28 @@ module.exports = {
 【八廓街】围绕大昭寺一周的转经道，即为八廓街。汇聚了来自世界各地的朝圣者，街两旁店铺林立摊点遍布，是拉萨著名的淘宝天堂（大宗商品请注意辨别真伪，低值商品仅作纪念品留念）
 </div></li></ul><div class="clear"></div> <a id="day3"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>4</strong>天</span>
-                            拉萨—米拉山口—卡定沟—八一镇 <img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            拉萨—米拉山口—卡定沟—八一镇 <img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后乘车沿318国道东行，经达孜县、墨竹工卡县、到达拉萨市和林芝地区的分界线——【米拉山口】（10分钟），过山口沿尼洋河一路下行，西藏的江南风光顿时呈现在你面前，舒缓富饶的邦杰塘草原、绿树成荫美丽的尼洋河美景会让你不禁感叹：古老苍凉的西藏居然会有如此一块风水宝地！途中游览【卡定沟天佛瀑布】(40分钟),游览有【香巴拉秘境】之称的【鲁朗林海】位于西藏林芝地区林芝县鲁朗镇境内，距八一镇80公里左右的川藏路上，座落在深山老林之中，素有“西藏江南”美称。 “鲁朗”藏语意为“龙王谷”，是龙王爷居住的地方，也是“叫人不想家”的地方。区内树满青山、河流纵横，有规模巨大、终年碧绿苍翠、林木葱茏的原始森林和漫山遍野的杜鹃花。 傍晚时分就到达了目的地——林芝地区行署所在地八一镇。入住酒店用餐休息。</div></li></ul><div class="clear"></div> <a id="day4"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>5</strong>天</span>
-                            林芝<img src="http://ms.xktec.com/images/vehicle_bus.png">雅鲁藏布大峡谷--措木及日-林芝
+                            林芝<img src="/uploads/images/vehicle_bus.png">雅鲁藏布大峡谷--措木及日-林芝
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后，游览【雅鲁藏布江峡谷景区】（游览时间约120分钟含门票、环保车等）。有着世界第一大峡谷之称，¬¬沿途蓝天、白云、雪山、桃花、村寨与清澈的江水辉映，绵延千米的佛掌沙丘，古松迎客，全然是世界上海拔最高的江河的春天美景。到达素有“背包客圣地”之称的派镇，换乘景区观光车，游览世界最大的峡谷——雅鲁藏布大峡谷旅游区。参观大渡卡古堡遗址、惊叹爱情的神奇力量“情比石坚”，桃树从巨石中顽强地生长出来，熠熠生辉的雪山映衬得满树桃花格外美艳，这便是爱情的力量，在此闭目合掌，许下心愿，或放置一块小小的嘛呢石，为爱情祈愿铭祷。在亲水台听雅江峡谷轰鸣，在观景台看峡谷两岸村落间一簇簇盛开的桃花， 还可观高度排在世界最高峰行列第15位的—南迦巴瓦峰。之后游览【措木及日湖】（游览90分钟含门票、景区车费）“措木及日”在藏语中的意思为观音的眼泪。措木及日湖又称“冰湖”，是一座古冰碛湖。位于林芝地区八一镇西北方向24公里，海拔约3400米，是八一镇最近的一座古冰碛湖，湖区以冷杉和金竹为主的原始森林保护完好，是天然的氧吧。还有漫山的杜鹃，尤其秋季景色迷人。 从山顶湖区往下到八一电厂之间，古冰川活动遗留下来的“U”型谷、终碛垄、侧碛堤等地貌形态随处可见。沿途景色优美，风光秀丽，是理想的休闲、度假、观光的好去处。</div></li></ul><div class="clear"></div> <a id="day5"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>6</strong>天</span>
-                            林芝—民俗村—拉萨<img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            林芝—民俗村—拉萨<img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后参观【林芝民俗村】（游览时间约60分钟），走进藏民家，亲身体验藏民生活。再次翻越海拔5230米的【米拉山口】，途经巴杰塘草原，点缀其间的点点牛羊，错落有致、风格独特的藏式村寨，返回拉萨。(八一镇—拉萨，全程420公里，约8小时)  </div></li></ul><div class="clear"></div> <a id="day6"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>7</strong>天</span>
-                            拉萨—羊卓雍错—日喀则<img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            拉萨—羊卓雍错—日喀则<img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后从拉萨启程翻越海拔4990米的冈巴拉雪山，远眺冈巴拉雷达站，前往西藏三大圣湖之一、有天上圣湖之美誉的羊卓雍湖（90分钟）海拔4441米映入眼帘有700多平方公里，平均水深30多米，为西湖的70倍，宛如一条飘带挂在天地之间，清澈的湖水、巍峨的雪山、如洗的蓝天融为一体，秀美如画的风景让你陶醉。午餐后，前往【卡若拉冰川】，　巨大的冰川从山顶云雾飘缈处，一直延伸到离公路只有几百米的路边，晶莹幽蓝中，捎来几许凉嗖嗖的感觉。虽然由于长年受公路上灰尘的影响，冰川整体呈黑白分层形态，但冰川上半部在阳光的照耀下，犹如一副巨型唐卡挂在山壁上，熠熠生辉。江孜古城后前往藏重镇日喀则。</div></li></ul><div class="clear"></div> <a id="day7"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>8</strong>天</span>
-                            扎什伦布寺--拉萨  <img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            扎什伦布寺--拉萨  <img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后参观历辈班禅喇嘛的驻锡寺庙【扎什伦布寺】，该寺修建于1447年的黄教六大寺之一、历代班禅额尔德尼驻锡地—扎什伦布寺，远眺整个寺院依山坡而筑，背附高山，殿宇毗连，群楼叠叠，金顶红墙的高在主建筑群雄伟、浑厚、壮观、金碧辉煌。寺内香炉紫烟升腾供台灯火闪烁，众佛尊容各异。大殿里僧侣诵经井然；佛像前，信徒顶礼膜拜。五百多年来它强烈地吸引着国内外佛教信徒。游人在这里朝拜、观瞻。寺内供奉有高26米世界上最大的室内铜像—强巴佛。瞻仰十世班禅大师灵塔。出发前往【秀色才纳】AAA级景区（参观时间不少于60分钟），园内种植了上百种名贵的藏药材。游客可以参观到藏药的种植过程和制作过程。午餐后乘车沿雅鲁藏布江返回拉萨。</div></li></ul><div class="clear"></div> <a id="day8"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>9</strong>天</span>
-                            拉萨—纳木错--拉萨<img src="http://ms.xktec.com/images/vehicle_bus.png">
+                            拉萨—纳木错--拉萨<img src="/uploads/images/vehicle_bus.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早驱车翻越海拔5190米的—那根拉山口，前往西藏三大圣湖之一的天湖---【纳木措】（世界上海拔最高的大湖，海拔：4770M），面积约1920平方公里，遥望湖畔，水天一色、碧空蓝湖浑然一体，纳木措湖中岛屿星罗棋布、千姿百态。湖南面的扎西半岛上奇形怪状的岩石和具有众多传说中的山洞岩窟组成一道道奇特的亮丽风景线。连绵不断的念青唐古拉雪山，一望无垠的藏北草原，迎风飘扬的五彩经幡，湖面上泛起的点点波澜就如同女神身着的那袭珠玉之裙，美得如此肆意，美得如此自信，美得辉煌灿烂，美得如此震撼。沿途还可眺望海拔7717米的念青唐古拉山脉主峰，青藏铁路的列车，就在不远处驰骋。晚上返回拉萨。</div><a id="day9"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>10</strong>天</span>
-                            拉萨-西安<img src="http://ms.xktec.com/images/vehicle_train.png">
+                            拉萨-西安<img src="/uploads/images/vehicle_train.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">早餐后，自由活动，根据火车时间送火车，结束愉快的旅程。</div></li></ul><div class="clear"></div> <a id="day10"></a> <div class="clear"></div> <div class="iti-title">
 							<span>第<strong>11</strong>天</span>
-                            拉萨-西安<img src="http://ms.xktec.com/images/vehicle_train.png">
+                            拉萨-西安<img src="/uploads/images/vehicle_train.png">
 			           </div><ul><li class="line-iti"><div class="line-item-content">抵达西安结束愉快的旅程。（拉萨回程火车Z166、Z266  抵达西安时间均为晚上21点左右）</div></li></ul><div class="clear"></div>						
 						
 						<p class="p_notice">以上行程仅供参考，最终行程可能会根据实际情况进行微调，敬请以出团通知为准。</p>

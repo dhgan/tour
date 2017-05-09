@@ -387,86 +387,6 @@ router.get('/search/:query/:page', function (req, res) {
 
     })
 
-    /*res.json({
-        status: '200',
-        packages: [
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游泰国普吉岛国普吉岛6或7日游泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城，0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '1',
-                departureCity: '西安',
-                days: '3天',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            }
-        ],
-        totalItems: 1237,
-        userInfo: req.session.user
-    });*/
-
-
 });
 
 router.get('/order', checkLogin, function (req, res) {
@@ -680,9 +600,10 @@ router.post('/orderSubmit', checkLogin, function (req, res) {
 router.get('/orderList/:p', checkLogin, function (req, res) {
 
     var params = req.params,
-        page = params.page || 1,
+        page = parseInt(params.p) || 1,
         query = req.query,
-        pageSize = query.pageSize || 10;
+        pageSize = parseInt(query.pageSize) || 10,
+        queryStr = query.queryStr || '';
 
     logger.debug(params, query);
 
@@ -693,60 +614,54 @@ router.get('/orderList/:p', checkLogin, function (req, res) {
         });
     }
 
+    logger.debug(page, pageSize);
+
     var start = (page - 1) * pageSize;
     var sessionUser = req.session.user;
     var userId = sessionUser._id;
 
+    var reg = new RegExp(queryStr, 'i');
+
     logger.debug(start, pageSize);
 
-    async.parallel({
-        count: function(done) {
-            User.findById(userId, 'orders', function(err, attr) {
-                if(err) logger.error(err);
-                logger.debug('user orders ', attr.orders);
-                done(err, attr.orders.length);
-            })
-        },
-        user: function(done) {
-            User.findById(userId, 'orders')
-                .populate({
-                    path: 'orders',
-                    options: {
-                        sort: '-createDate',
-                        skip: start,
-                        limit: pageSize
-                    },
-                    populate: {
-                        path: 'package',
-                        select: 'title days departureCity',
-                    }
-                })
-                .exec(function(err, doc) {
-                    if(err) logger.error(err);
-                    done(err, doc);
-                });
-        }
-    }, function(err, results) {
-        var count = results.count,
-            orders = results.user.orders;
-        if(err) {
-            logger.error(err);
-            return res.json({
-                status: '500',
+    User.findById(userId, 'orders')
+        .populate({
+            path: 'orders',
+            options: {
+                sort: '-createDate'
+            },
+            populate: {
+                path: 'package',
+                select: 'title days departureCity',
+            }
+        })
+        .exec()
+        .then(function(user) {
+
+            var orders = user.orders;
+            orders = orders.filter(function(order) {
+                return order._id.toString().toLowerCase() === queryStr.toLowerCase() || reg.test(order.package.title) || reg.test(order.package.departureCity);
+            });
+
+            var len = orders.length,
+                orderList = orders.slice(start, start + pageSize);
+
+            res.json({
+                status: '200',
+                orderList: orderList,
+                totalItems: len,
+                page: page,
                 userInfo: sessionUser
             });
-        }
-
-        res.json({
-            status: '200',
-            orderList: orders,
-            totalItems: count,
-            page: page,
-            userInfo: sessionUser
-        })
-
-    });
-
+        }, function(err) {
+            if(err) {
+                logger.error(err);
+                return res.json({
+                    status: '500',
+                    userInfo: sessionUser
+                });
+            }
+        });
 });
 
 router.post('/cancelOrder', checkLogin, function (req, res) {
