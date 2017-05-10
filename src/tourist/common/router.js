@@ -108,6 +108,40 @@ app.config(['$stateProvider', '$locationProvider', '$urlRouterProvider', functio
             },
             controller: 'PackageCtrl'
         })
+        .state('packagePrint', {
+            url: '/packagePrint/{packageId}',
+            templateUrl: './packagePrint.html',
+            resolve: {
+                foo: ['$q', '$ocLazyLoad', function($q, $ocLazyLoad) {
+                    var deferred = $q.defer();
+                    require.ensure([], function() {
+                        var module = require('../pages/packagePrint/packagePrint.js');
+                        $ocLazyLoad.load({
+                            name: 'tour'
+                        });
+                        deferred.resolve(module);
+                    });
+                    return deferred.promise;
+                }],
+                PageInfo: ['$http', '$stateParams', function($http, $stateParams) {
+                    var packageId = $stateParams.packageId;
+                    if(!packageId) return ;
+                    Pace.restart();
+                    return $http({
+                        method: 'get',
+                        url: '/api/tourist/package/' + packageId,
+                        params: {
+                            t: Math.random()
+                        }
+                    }).then(function(res) {
+                        return res.data;
+                    }, function(error) {
+                        swal('', error.data, 'error');
+                    });
+                }]
+            },
+            controller: 'PackagePrintCtrl'
+        })
         .state('orderConfirm', {
             url: '/orderConfirm?packageId&date&number',
             templateUrl: './orderConfirm.html',

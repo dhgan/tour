@@ -1,7 +1,7 @@
 var app = require('../../common/app.js');
 
-app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$anchorScroll', 'PageInfo',
-function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
+app.controller('PackageCtrl', ['$scope', '$http', '$stateParams', '$state', '$anchorScroll', '$window', 'PageInfo',
+function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo) {
 
 
     if(!PageInfo) return;
@@ -10,6 +10,8 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
         userInfo = PageInfo.userInfo;
     $scope.$root.userInfo = userInfo;
     $scope.package = PageInfo.package;
+
+    $scope.packagePrintUrl = '/#/packagePrint/' + $scope.package._id;
 
     if(!$scope.package) return;
 
@@ -229,6 +231,10 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, PageInfo) {
 
     $scope.goPage = function() {
         getComments(false);
+    };
+
+    $scope.printPackage = function() {
+        $window.frames['printIframe'].print();
     };
 
 }]);

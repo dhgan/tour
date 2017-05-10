@@ -355,10 +355,10 @@ router.get('/search/:query/:page', function (req, res) {
     };
 
     var sortParams = {
-        createTime: -1
+        createDate: -1
     };
 
-    var select = 'title features images choices _id days departureCity';
+    var select = 'title features images choices _id days departureCity createDate';
 
     pageQuery(page, pageSize, Package, '', queryParams, select, sortParams, function(err, $page) {
         if(err) {
@@ -370,7 +370,7 @@ router.get('/search/:query/:page', function (req, res) {
         }
 
         var results = $page.results,
-            packages = [];
+            packages = []
 
         for(var i=results.length-1; i>=0; i--) {
             packages[i] = results[i].toObject();

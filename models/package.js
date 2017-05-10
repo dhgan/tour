@@ -37,6 +37,14 @@ var packageSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    createDate: {
+        type: Date,
+        default: new Date()
+    },
+    updateDate: {
+        type: Date,
+        default: new Date()
+    },
     state: Number
 });
 
