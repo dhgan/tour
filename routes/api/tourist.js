@@ -14,6 +14,9 @@ var moment = require('moment');
 var Order = require('../../models/order');
 var Comment = require('../../models/comment');
 var HomeSlide = require('../../models/homeSlides');
+var pdf = require('html-pdf');
+var path = require('path');
+var fs = require('fs');
 
 router.post('/register', function (req, res) {
     var rbody = req.body,
@@ -201,78 +204,6 @@ router.get('/homePackage', function (req, res) {
             });
         });
 
-    /*res.json({
-        status: '200',
-        slides: [
-            {
-                images: ['https://a2-q.mafengwo.net/s10/M00/76/A1/wKgBZ1j0N-SABO9sAAXHvvrSeYA45.jpeg?imageMogr2%2Finterlace%2F1'],
-                packageId: '59047ed808bef748384ce9cc'
-            },
-            {
-                images: ['https://a2-q.mafengwo.net/s10/M00/EF/F8/wKgBZ1jsuNqAY13yAAe8CqrFYNQ74.jpeg?imageMogr2%2Finterlace%2F1'],
-                packageId: '59047ed808bef748384ce9d3'
-            }
-        ],
-        packages: [
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9cc',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['http://b4-q.mafengwo.net/s9/M00/5C/56/wKgBs1hLebqAGNdpAAL8ymB_VtM64.jpeg?imageMogr2%2Fthumbnail%2F%21220x130r%2Fgravity%2FCenter%2Fcrop%2F%21220x130%2Fquality%2F100'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9d3',
-                price: '899.00'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9da',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9cc',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/74/DB/Cii-T1hbhkCINUd4AB7XBb7MUOkAAF4SQIzSywAHtcd583_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9d3',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城，0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/E6/18/Cii-TFgZvlyIGKhRAAPnIr3YkYgAAEGqgL28e8AA-c6091_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9da',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/A7/C9/Cii-TFf80PGIapBPADplLY7PuykAADRhAAuVhgAOmVF841_w640_h480_c1_t0_w640_h320_c1_t0.png'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9cc',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            },
-            {
-                images: ['https://m.tuniucdn.com/fb2/t1/G2/M00/23/89/Cii-TFiv7HWIe9lMAAUMarHWU8IAAHjjwElbhIABQyC965_w640_h480_c1_t0_w640_h320_c1_t0.jpg'],
-                title: '泰国普吉岛6或7日游',
-                packageId: '59047ed808bef748384ce9d3',
-                price: '899.00',
-                features: '0购物，15人精品小团，醉美花季骑行洱海，十里春风百亩花田，明星导游贴心服务，亲子蜜月畅游古城'
-            }
-        ],
-        userInfo: req.session.user
-    });*/
-
 });
 
 router.get('/package/:packageId', function (req, res) {
@@ -326,6 +257,82 @@ router.get('/package/:packageId', function (req, res) {
 
 });
 
+router.get('/packageDownload/:packageId', function (req, res) {
+    var params = req.params,
+        packageId = params.packageId;
+
+    logger.debug(params);
+
+    // 存在参数为空
+    if (!packageId) {
+        return res.json({
+            status: '800'
+        });
+    }
+
+    Package.findOne({_id: packageId}).exec()
+        .then(function(package) {
+            if(!package) {
+                return res.json({
+                    status: '400'
+                });
+            }
+
+            var pdfPath = path.resolve(__dirname, '../../tour_detail/' + package._id + '.pdf');
+
+            var state = fs.existsSync(pdfPath) && fs.statSync(pdfPath);
+
+            if(state && state.ctime > package.updateDate) {
+                return res.json({
+                    status: '200'
+                });
+            }
+
+            package = package.toObject();
+
+            package.tourDetail = package.tourDetail.replace(/\/uploads\/images/g, 'file:///' + path.join(__dirname, '../../uploads/images'));
+
+            var iframeHtml = `<style>
+            .package-print-page { color: #000; }
+            .package-info { max-width: 800px; margin: 30px auto; }
+            .title { margin: 0 0 10px; font-size: 20px;line-height: 22px; font-weight: bold; text-align: center; }
+            .line-iti { list-style: none; }
+            .iti-title { color: #085; font-size: 16px; line-height: 32px; margin: 10px 0 10px 5px; }
+            .p_notice { color: #0BC972; font-size: 13px;}
+            img {vertical-align: middle}
+            </style>
+            <div class="package-print-page page">
+            <div class="container"> 
+            <div class="package-info"> 
+            <h3 class="title">` + package.title + `</h3>
+            <div>` + package.tourDetail + `</div>
+            </div>
+            </div>
+            </div>`;
+
+            pdf.create(iframeHtml, {
+                format: 'A4',
+                border: {
+                    "top": "0.8in",
+                    "right": "1in",
+                    "bottom": "0.8in",
+                    "left": "1in"
+                }
+            }).toFile(pdfPath, function(err) {
+                if(err) return logger.error(err);
+                res.json({
+                    status: '200'
+                });
+            });
+
+        }, function(error){
+            logger.error(error);
+            res.json({
+                status: '500'
+            });
+        });
+});
+
 router.get('/search/:query/:page', function (req, res) {
     var params = req.params,
         page = parseInt(params.page) || 1,
@@ -370,7 +377,7 @@ router.get('/search/:query/:page', function (req, res) {
         }
 
         var results = $page.results,
-            packages = []
+            packages = [];
 
         for(var i=results.length-1; i>=0; i--) {
             packages[i] = results[i].toObject();

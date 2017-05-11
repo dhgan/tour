@@ -11,11 +11,15 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo)
     $scope.$root.userInfo = userInfo;
     $scope.package = PageInfo.package;
 
-    $scope.packagePrintUrl = '/#/packagePrint/' + $scope.package._id;
+    if(status === '500') {
+        return swal('', '未知错误', 'error');
+    }
 
     if(!$scope.package) return;
 
     var packageId = PageInfo.package._id;
+
+    $scope.packagePrintUrl = '/#/packagePrint/' + packageId;
 
     if(userInfo) {
         var collections = userInfo.collections;
@@ -25,12 +29,6 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo)
             }
         });
     }
-
-
-    if(status === '500') {
-        return swal('', '未知错误', 'error');
-    }
-
 
 
     $scope.status = {
@@ -234,7 +232,58 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo)
     };
 
     $scope.printPackage = function() {
-        $window.frames['printIframe'].print();
+        var printIframe = $window.frames['printIframe'];
+        var iframeHtml = `<style>
+            .package-print-page { color: #000; }
+            .package-info { max-width: 800px; margin: 30px auto; }
+            .title { margin: 0 0 10px; font-size: 20px;line-height: 22px; font-weight: bold; text-align: center; }
+            .line-iti { list-style: none; }
+            .iti-title { color: #085; font-size: 16px; line-height: 32px; margin: 10px 0 10px 5px; }
+            .p_notice { color: #0BC972; font-size: 13px; }
+            img {vertical-align: middle}
+            </style>
+            <div class="package-print-page page">
+            <div class="container"> 
+            <div class="package-info"> 
+            <h3 class="title">` + $scope.package.title + `</h3>
+            <div>` + $scope.package.tourDetail + `</div>
+            </div>
+            </div>
+            </div>`;
+        printIframe.document.write(iframeHtml);
+        printIframe.document.close();
+        printIframe.print();
+    };
+
+    var isDownloading = false;
+
+    $scope.downloadPackage = function() {
+        if(isDownloading) return ;
+
+        isDownloading = true;
+
+        $http({
+            method: 'get',
+            url: '/api/tourist/packageDownload/' + packageId,
+            params: {
+                t: Math.random()
+            }
+        }).then(function(req) {
+            isDownloading = false;
+            var result = req.data,
+                status = result.status;
+            if(status ===  '200') {
+                var a = document.createElement('a');
+                a.href = '/tour_detail/' + packageId + '.pdf';
+                a.download = '行程详情-' + packageId;
+                a.click();
+            } else if(status === '500') {
+                swal('', '未知错误', 'error');
+            }
+        }, function(error) {
+            isDownloading = false;
+            swal('', error.data, 'error');
+        });
     };
 
 }]);

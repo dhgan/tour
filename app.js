@@ -26,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/tour_detail', express.static(path.join(__dirname, 'tour_detail')));
 app.use(session({
     name: 'tour.sid',
     resave: true,

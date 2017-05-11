@@ -75,7 +75,7 @@ function addConfig(arr, dir) {
                     loader: 'file-loader?name=fonts/[name].[hash:8].[ext]'
                 }, {
                     test: /\.js$/,
-                    exclude: /node_modules/,
+                    exclude: [/node_modules/],
                     loader: 'babel-loader'
                 }
             ]

@@ -19,7 +19,7 @@
                 <li ng-repeat="package in packages track by $index" class="col-lg-3 col-md-4 col-sm-6">
                     <a class="thumbnail" ui-sref="package({packageId: package._id})">
                         <div class="package-top">
-                            <img ng-src="{{package.images[0]}}" class="package-img" alt="">0
+                            <img ng-src="{{package.images[0]}}" class="package-img" alt="">
                         </div>
                         <div class="caption">
                             <h3 ng-bind="package.title" class="package-title"></h3>

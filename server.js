@@ -63,7 +63,7 @@ if(ENV == 'dev') {
         env: env
     });
 
-	var cmdStr = 'webpack --progress';
+	var cmdStr = 'webpack --progress --color';
 	exec(cmdStr, function(err, stdout, stderr) {
 		if(err) {
 			console.error(err);

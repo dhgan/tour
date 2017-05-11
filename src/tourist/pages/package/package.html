@@ -94,7 +94,10 @@
                             <uib-accordion-heading>
                                 行程详情 <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.detailOpen, 'glyphicon-chevron-right': !status.detailOpen}"></i>
                             </uib-accordion-heading>
-                            <a class="package-print" href="javascript:" ng-click="printPackage()">下载行程</a>
+                            <div class="clearfix">
+                                <a class="package-print" href="javascript:" ng-click="downloadPackage()">下载行程</a>
+                                <a class="package-print" href="javascript:" ng-click="printPackage()">打印行程</a>
+                            </div>
                             <div ng-bind-html="package.tourDetail || '无'"></div>
                         </div>
                         <div id="package-price-detail" uib-accordion-group class="panel-info" is-open="status.priceDetailOpen" template-url="package-panel-template.html">
@@ -172,7 +175,7 @@
             <li ng-click="gotoAnchor('package-comments')">用户点评</li>
         </ul>
     </div>-->
-    <iframe style="display:none" name="printIframe" ng-src="{{packagePrintUrl}}"></iframe>
+    <iframe name="printIframe" class="print-iframe" ng-src="{{packagePrintUrl}}"></iframe>
 </div>
 <tour-footer></tour-footer>
 <script type="text/ng-template" id="package-panel-template.html">
