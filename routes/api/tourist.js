@@ -319,7 +319,12 @@ router.get('/packageDownload/:packageId', function (req, res) {
                     "left": "1in"
                 }
             }).toFile(pdfPath, function(err) {
-                if(err) return logger.error(err);
+                if(err) {
+                    logger.error(err);
+                    return res.json({
+                        status: '500'
+                    });
+                }
                 res.json({
                     status: '200'
                 });
