@@ -231,8 +231,8 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo)
         getComments(false);
     };
 
-    $scope.printPackage = function() {
-        var printIframe = $window.frames['printIframe'];
+
+    var printIframe = $window.frames['printIframe'];
         var iframeHtml = `<style>
             .package-print-page { color: #000; }
             .package-info { max-width: 800px; margin: 30px auto; }
@@ -252,6 +252,8 @@ function ($scope, $http, $stateParams, $state, $anchorScroll, $window, PageInfo)
             </div>`;
         printIframe.document.write(iframeHtml);
         printIframe.document.close();
+
+    $scope.printPackage = function() {
         printIframe.print();
     };
 

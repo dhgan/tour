@@ -313,9 +313,9 @@ router.get('/packageDownload/:packageId', function (req, res) {
             pdf.create(iframeHtml, {
                 format: 'A4',
                 border: {
-                    "top": "0.8in",
+                    "top": "1in",
                     "right": "1in",
-                    "bottom": "0.8in",
+                    "bottom": "1in",
                     "left": "1in"
                 }
             }).toFile(pdfPath, function(err) {

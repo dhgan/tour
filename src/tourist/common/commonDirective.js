@@ -113,7 +113,6 @@ app.directive('emailValidate', function() {
                 timer = $interval(function() {
                     leftTime--;
                     if(0 == leftTime) {
-                        clearInterval(timer);
                         $scope.sending = false;
                     } else {
                         $scope.leftTime = leftTime + '秒';

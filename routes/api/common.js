@@ -12,7 +12,7 @@ var _ = require('lodash');
 router.get('/captcha', function (req, res) {
     var captcha = svgCaptcha.create({
         size: 4,
-        ignoreChars: '01o1iIOLl',
+        ignoreChars: '01oiIOLl',
         color: true,
         noise: 2,
         background: '#eee'
